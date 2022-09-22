@@ -22,6 +22,7 @@
         <nav>
             <ul>
                 <li>Options</li>
+                <li><a href=""><img alt="icon" src="./icons8-playlist-48.png"> Playlists</a></li>
                 <li><a href=""><img alt="icon" src="./icons8-search-40.png"> Explore</a></li>
                 <li><a href=""><img alt="icon" src="./icons8-sos-48.png"> Help</a></li>
             </ul>
@@ -39,7 +40,10 @@
             <h1>You might be interested in...</h1>
             <div class="card-container">
                 <div class="music-card shadow2">
-                    <img  alt="album image" src="./71ZgMvfWOML._SL1200_.jpg">
+                    <div class="mini">
+                        <img  alt="album image" src="./71ZgMvfWOML._SL1200_.jpg">
+                        <img alt="play button" src="./icons8-play-80.png">
+                    </div>
                     <div class="description">
                         <h6>Ramble On - Led Zeppelin</h6>
                         <p>
@@ -57,6 +61,11 @@
         </div>
         <div class="playlist">
             <h1>Recently played...</h1>
+            <div class="card-container">
+            </div>
+        </div>
+        <div class="playlist">
+            <h1>Hits of the year</h1>
             <div class="card-container">
             </div>
         </div>
@@ -80,8 +89,9 @@
         const card_containers = document.querySelectorAll("div.card-container");
         const sample_card = card_containers[0].querySelector(".music-card");
 
-        for (const cc of card_containers)
+        for (const cc of card_containers) {
             rep_n_nodes(cc, sample_card, CARDS_PER_CONTAINER - cc.childElementCount);
+        }
     </script>
 </body>
 </html>

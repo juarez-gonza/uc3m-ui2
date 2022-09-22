@@ -103,6 +103,8 @@ body {
 
 .playlist {
     margin-top: 3%;
+    width: 100%;
+    padding-left: 35%;
 }
 
 .playlist:last-of-type {
@@ -110,7 +112,7 @@ body {
 }
 
 .playlist h1 {
-    width: 100%;
+    width: 80%;
     margin-bottom: 5%;
 
     font-size: 2rem;
@@ -151,12 +153,32 @@ body {
     left: 50px;
 }
 
-.music-card img {
+.music-card .mini {
     height: 60%;
+    width: 100%;
+
+    overflow: hidden
+}
+
+.music-card .mini img {
+    width: 100%;
+    height: 100%;
+}
+
+.music-card .mini img:last-of-type {
+    position: relative;
+    top: -100%;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.25s ease-out;
+}
+
+.music-card .mini img:last-of-type:hover {
+    opacity: 1.0;
 }
 
 .music-card .description {
-    height: 40%;
+    height: 30%;
 }
 
 .music-card .description h6 {
@@ -340,10 +362,22 @@ body {
     }
 
     /* main content stuff */
+    .playlist {
+        padding-left: 45%;
+    }
+
     .music-card {
         height: 200px;
         width: 140px;
         margin-left: -40px;
+    }
+
+    .music-card .description p {
+        display: none;
+    }
+
+    .music-card:hover ~ .music-card { /* animation on siblings of the hovered card */
+        left: 40px;
     }
 
     /* main sidebar stuff */
@@ -366,9 +400,19 @@ body {
         margin: 0;
         font-size: 1.4rem;
     }
+
+    /* main nav stuff */
+    .main-nav .home-section {
+        margin-left: 2.5%;
+        font-size: 1rem;
+    }
 }
 
 @media (max-width: 1024px) {
+    /* main content stuff */
+    .playlist {
+        padding-left: 27.5%;
+    }
     /* main sidebar stuff */
     .main-sidebar ul li:not(:first-of-type) {
         width: 125%;
@@ -380,6 +424,7 @@ body {
     .main-nav .home-section h1 {
         font-size: 1rem;
     }
+
 }
 
 
@@ -402,12 +447,8 @@ body {
         margin-left: -30px;
     }
 
-    .music-card .description p {
-        display: none;
-    }
-
-    .playlist {
-        margin-left: 12.5%;
+    .music-card:hover ~ .music-card { /* animation on siblings of the hovered card */
+        left: 30px;
     }
 
     /* main sidebar stuff */
@@ -420,14 +461,31 @@ body {
         position: relative;
         left: -25%;
     }
+
+    /* main nav stuff */
+    .main-nav .home-section {
+        margin-left: 2.5%;
+    }
+
+    .main-nav .home-section h2 {
+        display: none;
+    }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 648px) {
     /* main content stuff */
+    .playlist {
+        padding-left: 15%;
+    }
+
     .music-card {
         height: 160px;
         width: 100px;
         margin-left: -20px;
+    }
+
+    .music-card:hover ~ .music-card { /* animation on siblings of the hovered card */
+        left: 20px;
     }
 
     /* main sidebar stuff */
@@ -444,15 +502,6 @@ body {
 }
 
 @media (max-width: 548px) {
-    /* main nav stuff */
-    .main-nav .home-section {
-        margin-left: 2.5%;
-    }
-
-    .main-nav .home-section h1 {
-        display: none;
-    }
-
     /* main sidebar stuff */
     .main-sidebar ul li:not(:first-of-type) {
         width: 130%;
