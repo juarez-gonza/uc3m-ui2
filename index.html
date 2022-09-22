@@ -41,53 +41,47 @@
                 <div class="music-card shadow2">
                     <img src="./71ZgMvfWOML._SL1200_.jpg" alt="Album image" >
                     <div class="description">
-                        <h6>Descripcion</h6>
-                        <p>AsdasdasdasdasdasdasdasdasaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</p>
+                        <h6>Ramble On - Led Zeppelin</h6>
+                        <p>
+                            "Ramble On" is a song by English rock band Led Zeppelin from their 1969 album Led Zeppelin II.
+                            It was co-written by Jimmy Page and Robert Plant, and was recorded in 1969 at
+                            Juggy Sound Studio, New York City, during the band's second concert tour of North America.
+                        </p>
                     </div>
                     <audio controls>
-                        <source src="horse.ogg" type="audio/ogg">
-                        <source src="horse.mp3" type="audio/mpeg">
+                        <source src="./led-zeppelin-ramble-on.mp3" type="audio/mpeg">
                     Your browser does not support the audio element.
                     </audio>
-                </div>
-                <div class="music-card shadow2">
-                </div>
-                <div class="music-card shadow2">
-                </div>
-                <div class="music-card shadow2">
-                </div>
-                <div class="music-card shadow2">
                 </div>
             </div>
         </div>
         <div class="playlist">
             <h1>Recently played...</h1>
             <div class="card-container">
-                <div class="music-card shadow2">
-                    <img src="./71ZgMvfWOML._SL1200_.jpg" alt="Album image" >
-                    <div class="description">
-                        <h6>Descripcion</h6>
-                        <p>Asdasdasdasdasdasdasdasdas</p>
-                    </div>
-                    <audio controls>
-                        <source src="horse.ogg" type="audio/ogg">
-                        <source src="horse.mp3" type="audio/mpeg">
-                    Your browser does not support the audio element.
-                    </audio>
-                </div>
-                <div class="music-card shadow2">
-                </div>
-                <div class="music-card shadow2">
-                </div>
-                <div class="music-card shadow2">
-                </div>
-                <div class="music-card shadow2">
-                </div>
             </div>
         </div>
     </main>
     <footer class="main-footer gradient1-bg">
         <span>Subscribe now and invite 2 friends for free!</span>
     </footer>
+    <script defer>
+        const CARDS_PER_CONTAINER = 5;
+
+        function deep_copy_node(node) {
+            return document.importNode(node, true)
+        }
+        function rep_n_nodes(container, sample_node, rep_count) {
+            for (let cpy = deep_copy_node(sample_node);
+                    rep_count != 0;
+                    cpy=deep_copy_node(sample_node), rep_count--)
+                container.appendChild(cpy);
+        }
+
+        const card_containers = document.querySelectorAll("div.card-container");
+        const sample_card = card_containers[0].querySelector(".music-card");
+
+        for (const cc of card_containers)
+            rep_n_nodes(cc, sample_card, CARDS_PER_CONTAINER - cc.childElementCount);
+    </script>
 </body>
 </html>
