@@ -34,7 +34,11 @@
 }
 
 .shadow1 {
-    box-shadow: 0 0 3rem 0 #000;
+    box-shadow: 0 0 24px 0 #000;
+}
+
+.shadow2 {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 /* misc stuff */
@@ -128,7 +132,7 @@ body {
     align-items: stretch;
 
     background-color: var(--orangish);
-    border-radius: 0px;
+    border-radius: 4px;
 
     position: relative;
     transition: 0.25s ease-out;
@@ -156,20 +160,26 @@ body {
     width: 100%;
 }
 
+.music-card .description h6 {
+    top: 0;
+    margin: 0;
+
+    font-style: italic;
+    font-size: 1rem;
+}
+
 .music-card .description p {
     display: inline-block;
-    margin: 0.2rem;
+    margin: 0;
+
+    font-size: 0.8rem;
 }
 
 .music-card audio {
     width: 100%;
     bottom: 0;
-}
-
-.music-card .description h6 {
     margin: 0;
-    top: 0;
-    font-style: italic;
+    margin-top: 0.2rem;
 }
 
 /* main nav stuff */
