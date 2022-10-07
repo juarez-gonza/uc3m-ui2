@@ -87,15 +87,19 @@ class User extends Rec {
     * @param {string} userId 
     * @return {User}
     */
-    static findUser(userId) {
+    static find(userId) {
         return new User(super.findRec(userId));
+    }
+
+    remove() {
+        for (const playlistId of this.playlists)
+            removeLS(playlistId);
+        removeLS(this._id);
     }
 };
 
 /** @typedef {string} ArtistId */
 class Artist extends Rec {
-   /** @type {ArtistId} */
-   _id;
    /** @type {string} */
    name;
    /** @type {SongId[]} */
@@ -121,19 +125,52 @@ class Artist extends Rec {
     * @param {SongId} songId 
     * @return {Artist}
     */
-    addSingle(songId) {
+    _addSingle(songId) {
+        if (this.songs.some(s => s === songId))
+            throw new RepetitionError(`Song ${songId} already exists for artist ${this._id}`);
         this.songs.unshift(songId);
         return this;
     }
 
     /**
+     * Añade un single a un artista (un single es una canción sin album correspondiente)
+     *  
+     * @param {string} title 
+     * @param {string} songPath
+     * @param {string} coverPath
+     * @return {Song}
+     */
+    addSingle(title, songPath, coverPath) {
+        const newSong = new Song(title, this._id, songPath, undefined, coverPath);
+        this._addSingle(newSong._id);
+        return newSong;
+    }
+
+    /**
+     * 
      * 
      * @param {AlbumId} albumId
      * @return {Artist}
      */
-    addAlbum(albumId) {
+    _addAlbum(albumId) {
+        if (this.albums.some(a => a === albumId))
+            throw new RepetitionError(`Album ${albumId} already exists for artist ${this._id}`);
         this.albums.unshift(albumId);
         return this;
+    }
+
+    /**
+     * Añade un album a un artista (un album contiene una lista de canciones)
+     * 
+     * @param {string} title 
+     * @param {SongId[]} songs 
+     * @param {string} coverPath 
+     * @return {Album}
+     */
+    addAlbum(title, songs, coverPath) {
+        const newAlbum = new Album(title, this._id, songs, coverPath);
+        this._addAlbum(newAlbum._id);
+        return newAlbum;
     }
 
     /**
@@ -141,19 +178,25 @@ class Artist extends Rec {
      * @param {string} artistId
      * @return {Artist}
      */
-    static findArtist(artistId) {
+    static find(artistId) {
         const rec = super.findRec(artistId);
         const name = rec.name;
         const songs = rec.songs;
         const albums = rec.albums;
         return new Artist(name, songs, albums);
     }
+
+    remove() {
+        for (const albumId of this.albums)
+            Album.find(albumId).remove();
+        for (const songId of this.songs)
+            removeLS(songId);
+        removeLS(this._id);
+    }
 };
 
 /** @typedef {string} AlbumId */
 class Album extends Rec {
-    /**  @type {AlbumId} */
-    _id;
     /**  @type {string} */
     title;
     /**  @type {ArtistId} */
@@ -168,7 +211,7 @@ class Album extends Rec {
      * @param {string} title 
      * @param {ArtistId} artist 
      * @param {SongId[]} songs 
-     * @param {string} coverPath 
+     * @param {string} coverPath
      */
     constructor(title, artist, songs, coverPath) {
         super(`${title}.${artist}`);
@@ -183,20 +226,28 @@ class Album extends Rec {
      * @param {string} albumId
      * @return {Album}
      */
-    static findAlbum(albumId) {
+    static find(albumId) {
         const rec = super.findRec(albumId)
+        /** @type {string} */
         const title = rec.title;
+        /** @type {ArtistId} */
         const artist = rec.artist;
-        const songs = rec.songs;
+        /** @type {SongId[]} */
+        const songs = rec.songs || [];
+        /** @type {string} */
         const coverPath = rec.coverPath;
         return new Album(title, artist, songs, coverPath);
+    }
+
+    remove() {
+        for (const songId of this.songs)
+            removeLS(songId);
+        removeLS(this._id);
     }
 };
 
 /** @typedef {string} SongId */
 class Song extends Rec {
-    /**  @type {SongId} */
-    _id;
     /**  @type {string} */
     title;
     /**  @type {ArtistId} */
@@ -208,34 +259,46 @@ class Song extends Rec {
      * 
      * @param {string} title 
      * @param {ArtistId} artist 
+     * @param {string} songPath
      * @param {AlbumId | undefined} [album=undefined]
+     * @param {string} [coverPath=""]
      */
-    constructor(title, artist, album=undefined) {
-        super(`${title}.${artist}`);
+    constructor(title, artist, songPath, album=undefined, coverPath="") {
+        super(`${title}.${artist}${album || ""}`);
         this.title = title;
         this.artist = artist;
+        this.songPath = songPath;
         this.album = album;
+        this.coverPath = coverPath;
     }
 
-    static findSong(songId) {
+    /**
+     * 
+     * @param {SongId} songId 
+     * @return {Song}
+     */
+    static find(songId) {
         const rec = super.findRec(songId);
+        /** @type {string} */
         const title = rec.title;
+        /** @type {ArtistId} */
         const artist = rec.artist;
+        /** @type {string} */
+        const songPath = rec.songPath;
+        /** @type {AlbumId} */
         const album = rec.album || undefined;
-        return new Song(title, artist, album);
+        /** @type {string} */
+        const coverPath = rec.coverPath || "";
+        return new Song(title, artist, songPath, album, coverPath);
     }
-}
+
+    remove() {
+        removeLS(this._id);
+    }
+};
 
 /** @typedef {string} PlaylistId */
-/** @typedef {Object} Playlistx
- *  @property {PlaylistId} _id
- *  @property {SongId[]} songs
- *  @property {UserId} author
- *  @property {string} name
-*/
 class Playlist extends Rec {
-    /**  @type {PlaylistId} */
-    _id;
     /**  @type {string} */
     name;
     /**  @type {UserId} */
@@ -252,7 +315,45 @@ class Playlist extends Rec {
     constructor(name, author, songs=[]) {
         super(`${name}.${author}`);
         this.name = name;
-        this.songs = songs;
         this.author = author;
+        this.songs = songs;
+    }
+
+    /**
+     * 
+     * @param {PlaylistId} playlistId 
+     * @return {Playlist}
+     */
+    static find(playlistId) {
+        const rec = super.findRec(playlistId);
+        /** @type {string} */
+        const name = rec.name;
+        /** @type {SongId[]} */
+        const songs = rec.songs;
+        /** @type {UserId} */
+        const author = rec.author || [];
+        return new Playlist(name, author, songs);
     }
 };
+
+class ConstructorError extends Error {
+    /**
+     * 
+     * @param {string} message 
+     */
+    constructor(message) {
+        super(message);
+        this.name = "ConstructorError";
+    }
+};
+
+class RepetitionError extends Error {
+    /**
+     * 
+     * @param {string} message 
+     */
+    constructor(message) {
+        super(message);
+        this.name = "RepetitionError";
+    }
+}

@@ -11,13 +11,13 @@ class LSNotFoundException extends Error {
       super(message);
       this.name = "MyNotFoundException";
    }
-}
+};
 
 /**
  * @param {string} key
  * @param {string} value
  */
-function save(key, value) {
+function saveLS(key, value) {
    window.localStorage.setItem(key, value);
 }
 
@@ -25,11 +25,18 @@ function save(key, value) {
  * @param {string} key
  * @return {string}
  */
-function find(key) {
+function findLS(key) {
    const item = window.localStorage.getItem(key);
    if (item === null)
       throw new LSNotFoundException(`${key} is not present in localStorage`);
    return item;
+}
+
+/**
+ * @param {string} key
+ */
+function removeLS(key) {
+   window.localStorage.removeItem(key);
 }
 
 class Rec {
@@ -45,13 +52,14 @@ class Rec {
    }
 
    saveRec() {
-      save(this._id, JSON.stringify({...this}));
+      saveLS(this._id, JSON.stringify({...this}));
+      return this;
    }
 
    /**
     * @param {string} key
     */
    static findRec(key) {
-      return JSON.parse(find(key));
+      return JSON.parse(findLS(key));
    }
 };
