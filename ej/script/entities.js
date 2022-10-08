@@ -54,6 +54,28 @@ class User {
         this.recentArtists = recentArtists;
     }
 
+    /**
+     * 
+     * @param {Playlist} playlist 
+     * @return {Playlist}
+     */
+    _addPlaylist(playlist) {
+        if (this.playlists.some(p => p._id === playlist._id))
+            throw new RepetitionError(`Playlist ${playlist._id} already exists for user ${this._id}`);
+        this.playlists.unshift(playlist);
+        return playlist
+    }
+
+    /**
+     * 
+     * @param {string} name 
+     * @param {Song[]} songs 
+     * @return {Playlist}
+     */
+    addPlaylist(name, songs) {
+        return this._addPlaylist(new Playlist(name, this._id, songs));
+    }
+
    /**
     * @param {Artist} artist
     * @return {User}
@@ -81,6 +103,14 @@ class User {
         return this;
     }
 
+    /**
+     * 
+     * @param {UserId} userId 
+     */
+    followUser(userId) {
+        this.following.push(userId);
+    }
+
    /**
     * 
     * @param {string} userId 
@@ -96,7 +126,7 @@ class User {
             email: rec.email,
             birth: rec.birth,
             profilePicB64: rec.profilePicB64 || undefined,
-            following: rec.following.map(findInstanceFromId(User)),
+            following: rec.following,
             playlists: rec.playlists.map(findInstanceFromId(Playlist)),
             favSongs: rec.favSongs.map(findInstanceFromId(Song)),
             recentSongs: rec.recentSongs.map(findInstanceFromId(Song)),
@@ -116,6 +146,7 @@ class User {
             recentSongs: this.recentSongs.map(s => s._id),
             recentArtists: this.recentArtists.map(a => a._id)
         };
+        saveRec(this._id, rec);
         return this;
     }
 
@@ -439,7 +470,7 @@ class Playlist {
  * @return {function(U): T}
  */
 function findInstanceFromId(C) {
-   return id => C.find(id);
+    return id => C.find(id);
 }
 
 class ConstructorError extends Error {
