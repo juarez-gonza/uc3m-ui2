@@ -36,16 +36,10 @@ function initAlbums(artists, albumData) {
       const albumTitle = aData.title;
       const coverPath = aData.coverPath;
 
-      // acumular ids de Song pero mantener referencia a instancias compeltas de Song
-      // porque guardar en LocalStorage se puede hacer una vez la creación del album
-      // tenga éxito.
-      /** @type {SongId[]} */
-      let songIds = [];
       const songs = iota(5).map(j => {
          const songTitle = `${i}.${albumTitle}.${artist.name}`
          const songPath = `./audios/${(i*j) % 15 + 1}.mp4`;
          const newSong = new Song(songTitle, artist._id, songPath);
-         songIds.push(newSong._id);
          return newSong;
       });
 
