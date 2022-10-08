@@ -23,15 +23,13 @@ class User {
     profilePicB64;
     /** @type {UserId[]} */
     following;
-    /** @type {UserId[]} */
-    followers;
-    /** @type {PlaylistId[]} */
+    /** @type {Playlist[]} */
     playlists;
-    /** @type {SongId[]} */
+    /** @type {Song[]} */
     favSongs;
-    /** @type {ArtistId[]} */
+    /** @type {Artist[]} */
     recentArtists;
-    /** @type {SongId[]} */
+    /** @type {Song[]} */
     recentSongs;
 
     /**
@@ -39,8 +37,8 @@ class User {
     * @param {Object} user
     */
     constructor({username, password, firstName, lastName, email, birth,
-        profilePicB64=undefined, following=[], followers=[],
-        playlists=[], favSongs=[], recentArtists=[], recentSongs=[]}) {
+        profilePicB64=undefined, following=[], playlists=[],
+        favSongs=[], recentArtists=[], recentSongs=[]}) {
         this._id = username;
         this.username = username;
         this.password = password;
@@ -50,7 +48,6 @@ class User {
         this.birth = birth;
         this.profilePicB64 = profilePicB64;
         this.following = following;
-        this.followers = followers;
         this.playlists = playlists;
         this.favSongs = favSongs;
         this.recentSongs = recentSongs;
@@ -58,29 +55,29 @@ class User {
     }
 
    /**
-    * @param {ArtistId} artistId
+    * @param {Artist} artist
     * @return {User}
     */
-    addRecentArtist(artistId) {
-        this.recentArtists.push(artistId);
+    addRecentArtist(artist) {
+        this.recentArtists.push(artist);
         return this;
     }
 
    /**
-    * @param {SongId} songId
+    * @param {Song} song
     * @return {User}
     */
-    addRecentSong(songId) {
-        this.recentSongs.push(songId);
+    addRecentSong(song) {
+        this.recentSongs.push(song);
         return this;
     }
 
    /**
-    * @param {SongId} songId
+    * @param {Song} song
     * @return {User}
     */
-    addFavSong(songId) {
-        this.favSongs.push(songId);
+    addFavSong(song) {
+        this.favSongs.push(song);
         return this;
     }
 
@@ -90,12 +87,41 @@ class User {
     * @return {User}
     */
     static find(userId) {
-        return new User(findRec(userId));
+        const rec = findRec(userId);
+        return new User({
+            username: rec.username,
+            password: rec.password,
+            firstName: rec.firstName,
+            lastName: rec.lastName,
+            email: rec.email,
+            birth: rec.birth,
+            profilePicB64: rec.profilePicB64 || undefined,
+            following: rec.following.map(findInstanceFromId(User)),
+            playlists: rec.playlists.map(findInstanceFromId(Playlist)),
+            favSongs: rec.favSongs.map(findInstanceFromId(Song)),
+            recentSongs: rec.recentSongs.map(findInstanceFromId(Song)),
+            recentArtists: rec.recentArtists.map(findInstanceFromId(Artist)),
+        });
+    }
+
+    /**
+     * @return {User}
+     */
+    save() {
+        for (const p of this.playlists)
+            p.save();
+        const rec = {...this,
+            playlists: this.playlists.map(p => p._id),
+            favSongs: this.favSongs.map(s => s._id),
+            recentSongs: this.recentSongs.map(s => s._id),
+            recentArtists: this.recentArtists.map(a => a._id)
+        };
+        return this;
     }
 
     remove() {
-        for (const playlistId of this.playlists)
-            removeLS(playlistId);
+        for (const p of this.playlists)
+            p.remove();
         removeLS(this._id);
     }
 };
@@ -221,9 +247,7 @@ class Album {
         const artist = rec.artist;
 
         /** @type {Song[]} */
-        const songs = rec.songs.length !== 0 ? // restaurar instancias de Song a partir de los SongId guardados
-                        rec.songs.map(restoreFromId(Song))
-                        : [];
+        const songs = rec.songs.map(findInstanceFromId(Song))
 
         /** @type {string} */
         const coverPath = rec.coverPath;
@@ -254,6 +278,7 @@ class Artist {
         this.songs = songs;
         this.albums = albums;
     }
+
     /**
     * 
     * @param {Song} song 
@@ -265,6 +290,7 @@ class Artist {
         this.songs.unshift(song);
         return this;
     }
+
     /**
      * Añade un single a un artista (un single es una canción sin album correspondiente)
      *  
@@ -278,6 +304,7 @@ class Artist {
         this._addSingle(newSong);
         return newSong;
     }
+
     /**
      * 
      * 
@@ -290,6 +317,7 @@ class Artist {
         this.albums.unshift(album);
         return album;
     }
+
     /**
      * Añade un album a un artista (un album contiene una lista de canciones)
      * 
@@ -301,6 +329,7 @@ class Artist {
     addAlbum(title, songs, coverPath) {
         return this._addAlbum(new Album(title, this._id, songs, coverPath));
     }
+
     /**
      * 
      * @param {Album} album 
@@ -343,14 +372,10 @@ class Artist {
         const rec = findRec(artistId);
         const name = rec.name;
         /** @type {Song[]} */
-        const songs = rec.songs.length !== 0 ? // restaurar instancias de Song a partir de los SongId guardados
-                        rec.songs.map(restoreFromId(Song))
-                        : [];
+        const songs = rec.songs.map(findInstanceFromId(Song));
 
         /** @type {Album[]} */
-        const albums = rec.albums.length !== 0 ? // restaurar instancias de Album a partir de los AlbumId guardados
-                        rec.albums.map(restoreFromId(Album))
-                        : [];
+        const albums = rec.albums.map(findInstanceFromId(Album));
 
         return new Artist(name, songs, albums);
     }
@@ -364,14 +389,14 @@ class Playlist {
     name;
     /**  @type {UserId} */
     author;
-    /**  @type {SongId[]} */
+    /**  @type {Song[]} */
     songs;
 
     /**
      * 
      * @param {string} name 
      * @param {UserId} author 
-     * @param {SongId[]} [songs=[]]
+     * @param {Song[]} [songs=[]]
      */
     constructor(name, author, songs=[]) {
         this._id = `${name}.${author}`;
@@ -389,13 +414,33 @@ class Playlist {
         const rec = findRec(playlistId);
         /** @type {string} */
         const name = rec.name;
-        /** @type {SongId[]} */
-        const songs = rec.songs;
+        /** @type {Song[]} */
+        const songs = rec.songs.map(findInstanceFromId(Song));
         /** @type {UserId} */
         const author = rec.author || [];
         return new Playlist(name, author, songs);
     }
+
+    save() {
+        const rec = {...this, songs: this.songs.map(s => s._id)};
+        saveRec(this._id, rec);
+    }
+
+    remove() {
+        removeLS(this._id);
+    }
 };
+
+/**
+ * 
+ * @template T
+ * @template U
+ * @param {{find: (id: U) => T}} C - Tipo que tiene una función find, la cual toma un parametro id de tipo U y retorna una instancia de tipo T
+ * @return {function(U): T}
+ */
+function findInstanceFromId(C) {
+   return id => C.find(id);
+}
 
 class ConstructorError extends Error {
     /**

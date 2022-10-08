@@ -1,4 +1,8 @@
 /**
+ * @module main.js
+ * @requires ./entities.js
+ */
+/**
  * @param {Object[]} artistData
  * @return {Artist[]}
  */
