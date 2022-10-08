@@ -39,27 +39,20 @@ function removeLS(key) {
    window.localStorage.removeItem(key);
 }
 
-class Rec {
-   /** @type {string} */
-   _id;
+/**
+ * 
+ * @param {string} key 
+ * @return  {Object}
+ */
+function findRec(key) {
+   return JSON.parse(findLS(key));
+}
 
-   /**
-    * 
-    * @param {string} _id 
-    */
-   constructor(_id) {
-      this._id = _id;
-   }
-
-   saveRec() {
-      saveLS(this._id, JSON.stringify({...this}));
-      return this;
-   }
-
-   /**
-    * @param {string} key
-    */
-   static findRec(key) {
-      return JSON.parse(findLS(key));
-   }
-};
+/**
+ * 
+ * @param {string} key 
+ * @param {Object} obj 
+ */
+function saveRec(key, obj) {
+   saveLS(key, JSON.stringify(obj));
+}

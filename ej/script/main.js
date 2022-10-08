@@ -4,33 +4,34 @@
  */
 function initArtists(artistData) {
    return artistData.map(a => {
-      const newArtist = new Artist(a.name)
-      return newArtist.saveRec();
+      return new Artist(a.name);
    });
 }
 
 /**
  * @param {Artist[]} artists
  * @param {Object[]} songData
- * @return {Song[]}
+ * @return {[Song[], Artist[]]}
  */
 function initSingles(artists, songData) {
-   return songData.map((v, i) => {
+   const songs = songData.map((v, i) => {
       const artist = artists[i % artists.length];
       const title = `${i}.${artist.name}`
-      const newSong = artist.addSingle(title, v.songPath, "./images/15.jpeg"); // todos los singles creados aquí tienen de imagen 15.jpeg
-      return newSong.saveRec();
+      const song = artist.addSingle(title, v.songPath, "./images/15.jpeg"); // todos los singles creados aquí tienen de imagen 15.jpeg
+      return song;
    });
+
+   return [songs, artists];
 }
 
 /**
  * 
  * @param {Artist[]} artists
  * @param {Object[]} albumData
- * @return {Album[]}
+ * @return {[Album[], Artist[]]}
  */
 function initAlbums(artists, albumData) {
-   return albumData.map((aData, i) => {
+   const albums = albumData.map((aData, i) => {
       const artist = artists[i % artists.length];
       const albumTitle = aData.title;
       const coverPath = aData.coverPath;
@@ -38,6 +39,7 @@ function initAlbums(artists, albumData) {
       // acumular ids de Song pero mantener referencia a instancias compeltas de Song
       // porque guardar en LocalStorage se puede hacer una vez la creación del album
       // tenga éxito.
+      /** @type {SongId[]} */
       let songIds = [];
       const songs = iota(5).map(j => {
          const songTitle = `${i}.${albumTitle}.${artist.name}`
@@ -47,26 +49,22 @@ function initAlbums(artists, albumData) {
          return newSong;
       });
 
-      const newAlbum = artist.addAlbum(albumTitle, songIds, coverPath);
-
-      // save songs now that album creation succeeded
-      for (const s of songs)
-         s.saveRec();
-      newAlbum.saveRec();
-      artist.saveRec();
-
-      return newAlbum;
+      const album = artist.addAlbum(albumTitle, songs, coverPath);
+      return album;
    });
+
+   return [albums, artists];
 }
 
 /**
  * 
  * @param {Artist[]} artists 
  * @param {Song[]} songs 
+ * @param {Album[]} albums
  * @param {Object[]} userData
  * @return {User[]}
  */
-function initUsers(artists, songs, userData) {
+function initUsers(artists, songs, albums, userData) {
    return [];
 }
 
@@ -87,10 +85,14 @@ const INIT_ALBUMS_DATA = iota(10).map(i => ({
 
 function init() {
    window.localStorage.clear();
-   const artists = initArtists(INIT_ARTISTS_DATA);
-   const songs = initSingles(artists, INIT_SONGS_DATA);
-   const albums = initAlbums(artists, INIT_ALBUMS_DATA);
-   return initUsers(artists, songs, []);
+   const a1 = initArtists(INIT_ARTISTS_DATA);
+   const [songs, a2] = initSingles(a1, INIT_SONGS_DATA);
+   const [albums, a3] = initAlbums(a2, INIT_ALBUMS_DATA);
+
+   initUsers(a3, songs, albums, []);
+
+   for (const a of a3)
+      a.save(); // propaga save a canciones y albumes del artista
 }
 
 init();
