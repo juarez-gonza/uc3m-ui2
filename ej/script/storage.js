@@ -56,3 +56,14 @@ function findRec(key) {
 function saveRec(key, obj) {
    saveLS(key, JSON.stringify(obj));
 }
+
+/**
+ * 
+ * @template T
+ * @template U
+ * @param {{find: (id: U) => T}} C - Parametro que tiene una función find que toma un parametro id
+ * @return {function(U): T}
+ */
+function restoreFromId(C) {
+   return id => C.find(id);
+}

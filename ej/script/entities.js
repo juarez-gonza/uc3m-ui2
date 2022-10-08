@@ -222,7 +222,7 @@ class Album {
 
         /** @type {Song[]} */
         const songs = rec.songs.length !== 0 ? // restaurar instancias de Song a partir de los SongId guardados
-                        rec.songs.map((/** @type {SongId} */ songId) => Song.find(songId))
+                        rec.songs.map(restoreFromId(Song))
                         : [];
 
         /** @type {string} */
@@ -344,12 +344,12 @@ class Artist {
         const name = rec.name;
         /** @type {Song[]} */
         const songs = rec.songs.length !== 0 ? // restaurar instancias de Song a partir de los SongId guardados
-                        rec.songs.map((/** @type {SongId} */ songId) => Song.find(songId))
+                        rec.songs.map(restoreFromId(Song))
                         : [];
 
         /** @type {Album[]} */
         const albums = rec.albums.length !== 0 ? // restaurar instancias de Album a partir de los AlbumId guardados
-                        rec.albums.map((/** @type {AlbumId} */ songId) => Album.find(songId))
+                        rec.albums.map(restoreFromId(Album))
                         : [];
 
         return new Artist(name, songs, albums);
