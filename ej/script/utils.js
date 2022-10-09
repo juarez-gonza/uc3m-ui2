@@ -28,7 +28,7 @@ function intToChar(n) {
  * @template T
  * @param {T[]} arr
  * @param {function(T): boolean} pred
- * @return {[T[], T]} - Tupla con la lista modificada y el objeto removido o null si ningun item satisface el predicado
+ * @return {[T[], T | null]} - Tupla con la lista modificada y el objeto removido o null si ningun item satisface el predicado
  */
 function removeFirstWhere(arr, pred) {
     const idx = arr.findIndex(pred);
