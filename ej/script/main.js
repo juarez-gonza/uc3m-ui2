@@ -23,7 +23,8 @@ function initSingles(artists, songData) {
    const songs = songData.map((v, i) => {
       const artist = artists[i % artists.length];
       const title = `${i}.${artist.name}`
-      const song = artist.addSingle(title, v.songPath, "./images/15.jpeg"); // todos los singles creados aquí tienen de imagen 15.jpeg
+      const description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ";
+      const song = artist.addSingle(title, v.songPath, description, "./images/15.jpg"); // todos los singles creados aquí tienen de imagen 15.jpeg
       return song;
    });
 
@@ -45,8 +46,9 @@ function initAlbums(artists, albumData) {
 
       const songs = iota(5).map(j => {
          const songTitle = `${i}.${albumTitle}.${artist.name}`
-         const songPath = `./audios/${(i*j) % 15 + 1}.mp4`;
-         const newSong = new Song(songTitle, artist._id, songPath);
+         const songPath = `./audios/${(i*j) % 15 + 1}.mp3`;
+         const description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ";
+         const newSong = new Song(songTitle, artist._id, songPath, description);
          return newSong;
       });
 
@@ -127,7 +129,7 @@ const INIT_SONGS_DATA = iota(20).map(i => ({songPath: `./audios/${(i%15) + 1}.mp
 
 // generar 5 albumes para cada artista
 const INIT_ALBUMS_DATA = iota(10).map(i => ({
-   coverPath: `./images/${(i % 15) + 1}.${i === 4 ? "webp" : "jpeg"}`,
+   coverPath: `./images/${(i % 15) + 1}.${i === 4 ? "webp" : "jpg"}`,
    title: `${intToChar(i)}`
 }));
 
@@ -166,3 +168,27 @@ function init() {
 }
 
 init();
+
+function getAllSongs() {
+   const ret = [];
+   const lS = window.localStorage;
+   for (const key in lS) {
+      if (!lS.hasOwnProperty(key))
+         continue;
+
+      const item  = JSON.parse(lS.getItem(key));
+      if (/^Song-.*/.test(item._id))
+         ret.push(item);
+   }
+   return ret;
+}
+
+function generateP1() {
+   const allSongs = getAllSongs();
+   const p1 = take(allSongs, 5);
+   return decoratedCardContainer("Random!", p1);
+}
+
+
+//const mainContent = document.querySelector("main");
+//mainContent.insertBefore(generateP1(), mainContent.querySelector(".main-title").nextSibling);

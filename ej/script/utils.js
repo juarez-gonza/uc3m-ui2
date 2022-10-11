@@ -47,3 +47,52 @@ function removeFirstWhere(arr, pred) {
 function removeIndex(arr, idx) {
     return [[arr.slice(0, idx), arr.slice(idx + 1)].flat(), arr[idx]];
 }
+
+/**
+ * Toma elementos mientras se cumpla el predicado. No modifica input
+ * @template T
+ * @param {T[]} arr
+ * @param {function(T): boolean} pred
+ * @return {T[]}
+ */
+function takeWhile(arr, pred) {
+    const idx = arr.findIndex(x => !pred(x));
+    if (idx < 0)
+        return [...arr];
+    return take(arr, idx);
+}
+
+/**
+ * Toma los primeros n items. No modifica el input
+ * @template T
+ * @param {T[]} arr
+ * @param {number} n
+ * @return {T[]}
+ */
+function take(arr, n) {
+    return [...arr].splice(0, n);
+}
+
+/**
+ * @template T
+ * @template B
+ * @param {function(B, T): B} f 
+ * @param {T[]} arr 
+ * @param {B} base 
+ * @return {B}
+ */
+function foldl(f, arr, base) {
+    return arr.reduce(f, base);
+}
+
+/**
+ * @template T
+ * @template B
+ * @param {function(B, T): B} f 
+ * @param {T[]} arr 
+ * @param {B} base 
+ * @return {B}
+ */
+function foldr(f, arr, base) {
+    return arr.reduceRight(f, base);
+}

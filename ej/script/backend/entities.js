@@ -39,7 +39,7 @@ class User {
     constructor({username, password, firstName, lastName, email, birth,
         profilePicB64=undefined, following=[], playlists=[],
         favSongs=[], recentArtists=[], recentSongs=[]}) {
-        this._id = username;
+        this._id = `User-${username}`;
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -167,20 +167,26 @@ class Song {
     artist;
     /**  @type {AlbumId | undefined} */
     album;
+    /** @type {string} */
+    coverPath;
+    /** @type {string} */
+    description;
 
     /**
      * 
      * @param {string} title 
      * @param {ArtistId} artist 
      * @param {string} songPath
+     * @param {string} description
      * @param {AlbumId | undefined} [album=undefined]
      * @param {string} [coverPath=""]
      */
-    constructor(title, artist, songPath, album=undefined, coverPath="") {
-        this._id = `${title}.${artist}${album || ""}`;
+    constructor(title, artist, songPath, description, album=undefined, coverPath="") {
+        this._id = `Song-${title}.${artist}${album || ""}`;
         this.title = title;
         this.artist = artist;
         this.songPath = songPath;
+        this.description = description;
         this.album = album;
         this.coverPath = coverPath;
     }
@@ -211,11 +217,13 @@ class Song {
         const artist = rec.artist;
         /** @type {string} */
         const songPath = rec.songPath;
+        /** @type {string} */
+        const description = rec.description;
         /** @type {AlbumId} */
         const album = rec.album || undefined;
         /** @type {string} */
         const coverPath = rec.coverPath || "";
-        return new Song(title, artist, songPath, album, coverPath);
+        return new Song(title, artist, songPath, description, album, coverPath);
     }
 };
 
@@ -240,10 +248,11 @@ class Album {
      * @param {string} coverPath
      */
     constructor(title, artist, songs, coverPath) {
-        this._id = `${title}.${artist}`;
+        this._id = `Album-${title}.${artist}`;
         this.title = title;
         this.artist = artist;
         this.songs = songs;
+        songs.forEach(s => s.album = this._id);
         this.coverPath = coverPath;
     }
 
@@ -304,7 +313,7 @@ class Artist {
      * @param {Album[]} [albums=[]]
      */
     constructor(name, songs=[], albums=[]) {
-        this._id = name;
+        this._id = `Artist-${name}`;
         this.name = name;
         this.songs = songs;
         this.albums = albums;
@@ -327,11 +336,12 @@ class Artist {
      *  
      * @param {string} title 
      * @param {string} songPath
+     * @param {string} description
      * @param {string} coverPath
      * @return {Song}
      */
-    addSingle(title, songPath, coverPath) {
-        const newSong = new Song(title, this._id, songPath, undefined, coverPath);
+    addSingle(title, songPath, description, coverPath) {
+        const newSong = new Song(title, this._id, songPath, description, undefined, coverPath);
         this._addSingle(newSong);
         return newSong;
     }
@@ -430,7 +440,7 @@ class Playlist {
      * @param {Song[]} [songs=[]]
      */
     constructor(name, author, songs=[]) {
-        this._id = `${name}.${author}`;
+        this._id = `Playlist-${name}.${author}`;
         this.name = name;
         this.author = author;
         this.songs = songs;
