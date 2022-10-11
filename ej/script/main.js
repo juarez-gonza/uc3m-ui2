@@ -186,9 +186,9 @@ function getAllSongs() {
 function generateP1() {
    const allSongs = getAllSongs();
    const p1 = take(allSongs, 5);
-   return decoratedCardContainer("Random!", p1);
+   return CardContainer("Random!", p1);
 }
 
 
-//const mainContent = document.querySelector("main");
-//mainContent.insertBefore(generateP1(), mainContent.querySelector(".main-title").nextSibling);
+const mainContent = document.querySelector("main");
+mainContent.insertBefore(generateP1(), mainContent.querySelector(".main-title").nextSibling);

@@ -10,7 +10,7 @@
  * @param {Song[]} cardInfo
  * @return {HTMLElement}
  */
-function decoratedCardContainer(title, cardInfo) {
+function CardContainer(title, cardInfo) {
     const wrapper = document.createElement("div");
     wrapper.classList.add("playlist");
 
@@ -18,7 +18,7 @@ function decoratedCardContainer(title, cardInfo) {
     h1Title.textContent = title;
 
     wrapper.appendChild(h1Title);
-    wrapper.appendChild(cardContainer(cardInfo))
+    wrapper.appendChild(_CardContainer(cardInfo))
 
     return wrapper;
 }
@@ -27,9 +27,9 @@ function decoratedCardContainer(title, cardInfo) {
  * @param {Song[]} cardInfo
  * @return {HTMLElement}
  */
-function cardContainer(cardInfo) {
+function _CardContainer(cardInfo) {
     const container = foldl((container, cInfo) => {
-        const c = card(cInfo);
+        const c = Card(cInfo);
         container.appendChild(c);
         return container;
     }, cardInfo, document.createElement("div"));
@@ -42,7 +42,7 @@ function cardContainer(cardInfo) {
  * @param {Song} cardInfo 
  * @return {HTMLElement}
  */
-function card(cardInfo) {
+function Card(cardInfo) {
     const ret = document.createElement("div");
 
     ret.classList.add("music-card");
