@@ -96,3 +96,14 @@ function foldl(f, arr, base) {
 function foldr(f, arr, base) {
     return arr.reduceRight(f, base);
 }
+
+/**
+ * 
+ * @param {EventTarget} target 
+ * @param {ChildNode} root 
+ * @return {boolean}
+ */
+function isInDOMTree(target, root) {
+    return target === root ||
+        Array.from(root.childNodes).some(v => isInDOMTree(target, v));
+}

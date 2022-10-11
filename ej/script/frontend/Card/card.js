@@ -29,10 +29,11 @@ function CardContainer(title, cardInfo) {
  */
 function _CardContainer(cardInfo) {
     const container = foldl((container, cInfo) => {
-        const c = Card(cInfo);
-        container.appendChild(c);
-        return container;
-    }, cardInfo, document.createElement("div"));
+            container.appendChild(cInfo);
+            return container;
+        },
+        cardInfo.map(c => Card(c)),
+        document.createElement("div"));
     container.classList.add("card-container");
     return container;
 }
