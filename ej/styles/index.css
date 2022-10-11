@@ -9,6 +9,7 @@
     --light-purple: #845ec2;
     --pinkish: #d65db1;
 
+    --white-ish: #edeef6;
     --main-font-color: #fff;
 }
 
@@ -78,6 +79,101 @@ body {
     "footer  footer";
 
     overflow: hidden;
+}
+
+/* modal stuff */
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease-out;
+
+    background-color: rgba(0, 0, 0, 0.35);
+}
+
+.modal-container.modal-open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-container .modal {
+    width: 60%;
+    height: 40%;
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-rows: 2fr 6.5fr 1.5fr;
+    grid-template-areas:
+    "modal-header"
+    "modal-content"
+    "modal-footer";
+
+    border-radius:10px;
+}
+
+.modal-container .modal .modal-header {
+    grid-area: modal-header;
+    padding-left: 10%;
+
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: var(--light-purple);
+
+    font-style: italic;
+    color: var(--main-font-color);
+}
+
+.modal-container .modal .modal-content {
+    grid-area: modal-content;
+    background-color: var(--white-ish);
+}
+
+.modal-container .modal .modal-footer {
+    grid-area: modal-footer;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: var(--light-purple);
+
+    display: flex;
+    flex-direction: row-reverse;
+    align-content: center;
+    padding-right: 10%;
+}
+
+.modal-button {
+    padding-left: 5%;
+    padding-right: 5%;
+
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+    border: none;
+    border-radius: 10px;
+
+    background-color: var(--orangish);
+    color: var(--main-font-color);
+    font-size: 1rem;
+
+    transition: box-shadow 0.3s ease-out;
+}
+
+.modal-button:hover {
+    box-shadow: rgba(0, 0, 0, 0.6) 0px 5px 15px;
+}
+
+.modal-container .modal .modal-footer .modal-button {
+    height: 80%;
+    margin-top: 5px;
 }
 
 /* main content stuff */
