@@ -58,6 +58,24 @@ ul {
     list-style-type: none;
 }
 
+.button {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+    border: none;
+    border-radius: 10px;
+
+    font-size: 1rem;
+
+    transition: box-shadow 0.3s ease-out;
+
+    padding: 10px;
+}
+
+.button:hover, .button:focus {
+    outline: none;
+    box-shadow: rgba(0, 0, 0, 0.6) 0px 5px 15px;
+}
+
 /* general layout stuff */
 html, body {
     padding: 0;
@@ -109,21 +127,17 @@ body {
 
 .modal-container .modal {
     width: 60%;
-    height: auto;
     margin: 0 auto;
 
-    display: grid;
-    grid-template-rows: 2fr 6.5fr 1.5fr;
-    grid-template-areas:
-    "modal-header"
-    "modal-content"
-    "modal-footer";
+    display: flex;
+    flex-direction: column;
 
     border-radius:10px;
 }
 
 .modal-container .modal .modal-header {
     grid-area: modal-header;
+    flex: 2 2 80px;
     padding-left: 10%;
 
     border-top-left-radius: 10px;
@@ -136,63 +150,58 @@ body {
 
 .modal-container .modal .modal-content {
     grid-area: modal-content;
+    flex: 6 6;
+    max-height: 600px;
+    overflow-y: scroll;
+
     display: flex;
     align-content: center;
     justify-content: center;
 
     background-color: var(--white-ish);
+
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
+/*
 .modal-container .modal .modal-footer {
     grid-area: modal-footer;
+    flex: 2 2 70px;
+    padding-right: 10%;
+
     display: flex;
     flex-direction: row-reverse;
     align-content: center;
-    padding-right: 10%;
 
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     background-color: var(--light-purple);
 }
 
-.modal-button {
-    padding-left: 5%;
-    padding-right: 5%;
-
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-
-    border: none;
-    border-radius: 10px;
-
-    background-color: var(--orangish);
-    color: var(--main-font-color);
-    font-size: 1rem;
-
-    transition: box-shadow 0.3s ease-out;
-}
-
-.modal-button:hover, .modal-button:focus {
-    outline: none;
-    box-shadow: rgba(0, 0, 0, 0.6) 0px 5px 15px;
-}
-
 .modal-container .modal .modal-footer .modal-button {
     height: 80%;
     margin-top: 5px;
 }
+*/
 
 .form {
     height: 100%;
     width: 80%;
+    display: flex;
+
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .form .input {
     width: 40%;
 
-    display: flex;
-    flex-direction: column;
     margin-top: 2.5%;
 
+    display: flex;
+    flex-direction: column;
 }
 
 .form .input input {
@@ -211,6 +220,29 @@ body {
 .form .input input:focus {
     outline: none;
     box-shadow: 0 1.2px rgba(0, 0, 0, 0.6);
+}
+
+.form .form-buttons-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 5%;
+}
+
+.form .form-buttons-section .button {
+    width: 40%;
+    margin-bottom: 2.5%;
+}
+
+.form .form-icons-list {
+    text-align: center;
+}
+
+.form .form-icons-list ul {
+    display: flex;
+    justify-content: space-between;
+    padding: 0;
 }
 
 /* main content stuff */

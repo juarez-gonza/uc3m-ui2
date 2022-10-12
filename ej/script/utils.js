@@ -99,11 +99,51 @@ function foldr(f, arr, base) {
 
 /**
  * 
+ * @template T
+ * @param {T} y 
+ * @param {T[]} xs 
+ * @return {T[]}
+ */
+function intersperse(y, xs) {
+    return xs.map((x, i) => i === xs.length-1 ? [x] : [x, y]).flat();
+}
+
+/**
+ * @param {string} s
+ * @param {string[]} xs
+ */
+function intercalateStr(s, xs) {
+    return foldl((acc, x) => acc.concat(x), intersperse(s, xs), "");
+}
+
+/**
+ * 
+ * @template T
+ * @param {T[]} xs 
+ * @param {T[][]} xss
+ * @return {T[]}
+ */
+function intercalate(xs, xss) {
+    return intersperse(xs, xss).flat();
+}
+
+/**
+ * 
  * @param {EventTarget} target 
- * @param {ChildNode} root 
+ * @param {Element | ChildNode} root 
  * @return {boolean}
  */
 function isInDOMTree(target, root) {
     return target === root ||
         Array.from(root.childNodes).some(v => isInDOMTree(target, v));
+}
+
+/**
+ * @param {Element} root
+ * @return {Element | ChildNode}
+ */
+function removeAllChildren(root) {
+    for (let e = root.lastElementChild; e !== null; e = root.lastElementChild)
+        e.remove();
+    return root;
 }

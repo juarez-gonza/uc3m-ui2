@@ -13,7 +13,6 @@ const CloseModal = { TRUE: 1, FALSE: 0 };
  * @typedef {Object} ModalData
  * @property {string} title
  * @property {HTMLElement[] | HTMLElement} content
- * @property {{onSubmit: function(Event): CloseModal, text: string}} buttonInfo
  */
 
 /**
@@ -49,17 +48,15 @@ function backdropClickHandler(e) {
  * @return {function({preventDefault()})}
  */
 function setOpenModalHandler(modalData) {
-    const {title, content, buttonInfo: {onSubmit, text}} = modalData;
-
-    closeButton.addEventListener("click", (e) => {
-        if (onSubmit(e) === CloseModal.TRUE)
-            closeModalClickHandler(e);
-    });
+    const {title, content} = modalData;
 
     return e => {
         modal.querySelector(".modal-header h1").textContent = title;
 
         const container = modal.querySelector(".modal-content");
+        // limpiar contenido de modal previo (no se hace en cierre de modal porque
+        // la animación de fade-out requiriría setTimeout mayor al tiempo de fade-out para remover el contenido)
+        removeAllChildren(container);
         // llenar contenido
         if (Array.isArray(content))
             foldl((container, c) => {
@@ -69,7 +66,6 @@ function setOpenModalHandler(modalData) {
         else
             container.appendChild(content);
 
-        closeButton.textContent = text;
         openModalClickHandler(e);
     };
 }
