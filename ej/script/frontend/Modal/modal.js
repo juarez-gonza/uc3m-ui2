@@ -1,7 +1,5 @@
-const [logIn, signIn] = document.querySelectorAll(".main-nav ul li a");
 const modalContainer = document.querySelector(".modal-container");
 const modal = modalContainer.querySelector(".modal")
-const closeButton = modal.querySelector(".modal-footer .modal-button");
 
 /**
  * @readonly
