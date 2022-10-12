@@ -164,27 +164,6 @@ body {
     border-bottom-right-radius: 10px;
 }
 
-/*
-.modal-container .modal .modal-footer {
-    grid-area: modal-footer;
-    flex: 2 2 70px;
-    padding-right: 10%;
-
-    display: flex;
-    flex-direction: row-reverse;
-    align-content: center;
-
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    background-color: var(--light-purple);
-}
-
-.modal-container .modal .modal-footer .modal-button {
-    height: 80%;
-    margin-top: 5px;
-}
-*/
-
 .form {
     height: 100%;
     width: 80%;
@@ -222,6 +201,24 @@ body {
     box-shadow: 0 1.2px rgba(0, 0, 0, 0.6);
 }
 
+.form .input .input-error-message {
+    color: var(--orangish);
+    display: none;
+}
+
+.form .input input:placeholder-shown:not(:focus):invalid {
+    box-shadow: 0 1.2px var(--light-orange);
+}
+
+
+.form .input input:not(:placeholder-shown):not(:focus):invalid + .input-error-message{
+    display: block;
+}
+
+.form .input input:not(:placeholder-shown):not(:focus):invalid {
+    box-shadow: 0 1.2px var(--orangish);
+}
+
 .form .form-buttons-section {
     display: flex;
     flex-direction: column;
@@ -244,6 +241,12 @@ body {
     justify-content: space-between;
     padding: 0;
 }
+
+form:invalid.form button[type="submit"] {
+    background-color: var(--grey);
+    color: #ccc;
+    cursor: not-allowed;
+  }
 
 /* main content stuff */
 .main-content {

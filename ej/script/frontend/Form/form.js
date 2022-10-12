@@ -2,7 +2,8 @@
  *  @property {string} id
  *  @property {string} label
  *  @property {string} type
- *  @property {undefined|Object} extraAttributes
+ *  @property {undefined|{attributes: Object, errorMsg: string}} inputValidation
+ *  @property {Object|undefined} extraAttributes
  */
 
 /** @typedef {Object} ButtonData
@@ -23,7 +24,7 @@
  */
 function objToAttrStr(attrObj) {
     return intercalateStr(" ",
-                Object.entries(attrObj).map(([k, v]) => v !== undefined ? `${k}=${attrObj[k]}` : k
+                Object.entries(attrObj).map(([k, v]) => v !== true ? `${k}=${attrObj[k]}` : k
             ));
 }
 
@@ -34,7 +35,8 @@ function objToAttrStr(attrObj) {
  */
 function setAttributes(element, attributes) {
     for (const [k, v] of Object.entries(attributes))
-        element.setAttribute(k, v);
+        if (v)
+            element.setAttribute(k, v);
     return element;
 }
 
@@ -49,20 +51,26 @@ function setClasses(element, classes) {
     return element;
 }
 
-
 /**
  * @param {InputData} fields
  * @return {HTMLElement}
  */
 function Input(fields) {
-    const {id, label, type, extraAttributes} = fields;
+    const {id, label, type, inputValidation, extraAttributes} = fields;
+    const validationStr = inputValidation === undefined ? "" : objToAttrStr(inputValidation.attributes);
     const extraAttrStr = extraAttributes === undefined ? "" : objToAttrStr(extraAttributes);
-
-    const ret = document.createElement("form");
+    const ret = document.createElement("div");
     ret.classList.add("input");
     ret.innerHTML = `
         <label for="${id}">${label}</label>
-        <input type="${type}" id="${id}" name="${id}" ${extraAttrStr}>
+        <input type="${type}" id="${id}" name="${id}" ${validationStr} ${extraAttrStr}>
+        ${
+            inputValidation === undefined ? 
+            ""
+            : `
+            <span class="input-error-message">${inputValidation.errorMsg}</span>
+            `
+        }
     `;
     return ret;
 }
@@ -103,7 +111,6 @@ function IconList(iconsPath) {
         return list;
     }, listItems, document.createElement("ul"));
 }
-
 
 /**
  * 
@@ -164,6 +171,7 @@ function ButtonSection(btnsData) {
     ret.classList.add("form-buttons-section");
     return ret;
 }
+
 /**
  * 
  * @param {InputData[]} fieldsData 
@@ -179,7 +187,7 @@ function Form(fieldsData, btnsData, iconPaths, formId) {
     const ret = foldl((container, item) => {
         container.appendChild(item);
         return container;
-    }, [...inputs, buttons, iconsList], document.createElement("div"));
+    }, [...inputs, buttons, iconsList], document.createElement("form"));
 
     ret.classList.add("form");
     ret.id = formId;
@@ -191,13 +199,86 @@ const OAuthIcons = ["./icons/icons8-facebook-100.png", "./icons/icons8-google-10
 
 /** @readonly @type {InputData[]} */
 const SignInFieldsData = [
-    {id: "username", label: "Choose a username", type: "text", extraAttributes: {required: true}},
-    {id: "password", label: "Choose a password (max 8 chars. use only lowercase and numbers)", type: "password", extraAttributes: undefined},
-    {id: "firstName", label: "What's your first name?", type: "text", extraAttributes: undefined},
-    {id: "lastName", label: "What's your last name?", type: "text", extraAttributes: undefined},
-    {id: "email", label: "What's your email?", type: "email", extraAttributes: undefined},
-    {id: "birth", label: "Date of birth", type: "date", extraAttributes: undefined},
-    {id: "profilePic", label: "Upload a profile picture", type: "file", extraAttributes: undefined},
+    {
+        id: "username", label: "Choose a username", type: "text",
+        inputValidation: {
+            errorMsg: "This field is mandatory.",
+            attributes: {
+                required: true
+            }
+        },
+        extraAttributes: {
+            placeholder: "sounsound-user00"
+        }
+    },
+    {
+        id: "password", label: "Choose a password (max 8 chars., lowercase or numbers)", type: "password",
+        inputValidation: {
+            errorMsg: "Write a password of at least 8 characters.",
+            attributes: {
+                required: true,
+                maxlength: 8,
+                pattern: "[a-z0-9A-Z]+"
+            }
+        },
+        extraAttributes: {
+            placeholder: "secret"
+        }
+    },
+    {
+        id: "firstName", label: "What's your first name?", type: "text",
+        inputValidation: {
+            errorMsg: "Enter your name (letters, dashes and upper commas).",
+            attributes: {
+                required: true,
+                pattern: "([a-zA-Z]|\-|')+"
+            }
+        },
+        extraAttributes: {
+            placeholder: "Leonardo"
+        }
+    },
+    {
+        id: "lastName", label: "What's your last name?", type: "text",
+        inputValidation: {
+            errorMsg: "Enter your last name (letters, dashes and upper commas).",
+            attributes: {
+                required: true,
+                pattern: "([a-zA-Z]|\-|')+"
+            }
+        },
+        extraAttributes: {
+            placeholder: "DiCaprio"
+        }
+    },
+    {
+        id: "email", label: "What's your email?", type: "email",
+        inputValidation: {
+            errorMsg: "Enter a mail (ex.: me@mail.com)",
+            attributes: {
+                required: true,
+                pattern: "[a-zA-Z0-9_.+-]+@[a-zA-Z0-9_.+-](.[a-z0-9]+)+"
+            }
+        },
+        extraAttributes: {
+            placeholder: "leodc@mail.com"
+        }
+    },
+    {
+        id: "birth", label: "Date of birth", type: "date",
+        inputValidation: {
+            errorMsg: "Please select a date",
+            attributes: {
+                required: true,
+            }
+        },
+        extraAttributes: undefined
+    },
+    {
+        id: "profilePic", label: "Upload a profile picture", type: "file",
+        inputValidation: undefined,
+        extraAttributes: undefined,
+    },
 ];
 
 /** @readonly @type {string} */
@@ -208,13 +289,13 @@ const SignInButtons = [
     {
         text: "Sign In!",
         classes: ["secondary-light-bg-color", "button"],
-        extraAttributes: {type: "submit", id: SignInFormID},
+        extraAttributes: {type: "submit"},
         onClickHandler: undefined,
     },
     {
         text: "Clear Fields",
         classes: ["main-light-bg-color", "button"],
-        extraAttributes: undefined,
+        extraAttributes: {type: "reset"},
         onClickHandler: undefined,
     },
 ];
@@ -227,8 +308,32 @@ const LogInFormID = "LogIn";
 
 /** @readonly @type {InputData[]} */
 const LogInFieldsData = [
-    {id: "username", label: "Your username", type: "text", extraAttributes: undefined},
-    {id: "password", label: "Your password", type: "password", extraAttributes: undefined},
+    {
+        id: "username", label: "Your username", type: "text",
+        inputValidation: {
+            errorMsg: "This field is mandatory",
+            attributes: {
+                required: true,
+            }
+        },
+        extraAttributes: {
+            placeholder: "sounsound-user00"
+        }
+    },
+    {
+        id: "password", label: "Your password", type: "password",
+        inputValidation: {
+            errorMsg: "This field is mandatory",
+            attributes: {
+                required: true,
+                maxlength: 8,
+                pattern: "[a-z0-9A-Z]+"
+            }
+        },
+        extraAttributes: {
+            placeholder: "secret"
+        }
+    },
 ];
 
 /** @readonly @type {ButtonData[]} */
@@ -236,13 +341,17 @@ const LogInButtons = [
     {
         text: "Log In!",
         classes: ["secondary-light-bg-color", "button"],
-        extraAttributes: {type: "submit", id: LogInFormID},
-        onClickHandler: onSubmitLogInHandler(closeModalClickHandler),
+        extraAttributes: {
+            type: "submit",
+        },
+        onClickHandler: undefined
     },
     {
         text: "Clear Fields",
         classes: ["main-light-bg-color", "button"],
-        extraAttributes: undefined,
+        extraAttributes: {
+            type: "reset",
+        },
         onClickHandler: undefined,
     },
 ];
@@ -261,12 +370,18 @@ function onSubmitLogInHandler(onSuccess) {
     };
 }
 
+const logInForm = Form(LogInFieldsData, LogInButtons, LogInIcons, LogInFormID);
+const signInForm = Form(SignInFieldsData, SignInButtons, SignInIcons, SignInFormID);
+
+logInForm.addEventListener("submit", onSubmitLogInHandler(closeModalClickHandler));
+signInForm.addEventListener("submit", onSubmitLogInHandler(closeModalClickHandler));
+
 logIn.addEventListener("click", setOpenModalHandler({
     title: "Enter your credentials:",
-    content: Form(LogInFieldsData, LogInButtons, LogInIcons, LogInFormID),
+    content: logInForm,
 }));
 
 signIn.addEventListener("click", setOpenModalHandler({
     title: "Register",
-    content: Form(SignInFieldsData, SignInButtons, SignInIcons, SignInFormID),
+    content: signInForm,
 }));
