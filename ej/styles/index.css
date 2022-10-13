@@ -202,17 +202,34 @@ body {
 }
 
 .form .input .input-error-message {
-    color: var(--orangish);
-    display: none;
+    height: 0;
+    opacity: 0.0;
+    transition: 0.3s ease-out;
 }
 
-.form .input input:placeholder-shown:not(:focus):invalid {
-    box-shadow: 0 1.2px var(--light-orange);
+/* error colors when user is interacting  with the form */
+.form .input input:focus:invalid {
+    box-shadow: 0 1.2px var(--yellow1); 
+}
+
+.form .input input:focus:invalid + .input-error-message {
+    height: 2rem;
+
+    opacity: 1.0;
+    color: var(--yellow1);
+}
+
+.form .input input:focus:invalid {
+    box-shadow: 0 1.2px var(--yellow1);
 }
 
 
+/* error colors when user has already interacted with the form */
 .form .input input:not(:placeholder-shown):not(:focus):invalid + .input-error-message{
-    display: block;
+    height: 2rem;
+
+    opacity: 1.0;
+    color: var(--orangish);
 }
 
 .form .input input:not(:placeholder-shown):not(:focus):invalid {
