@@ -65,11 +65,11 @@ const LogInButtons = [
 /** @readonly @type {IconsListData} */
 const LogInIcons = {upperText: "or, log-in with ", iconsPath: [...OAuthIcons]};
 
-const logInForm = Form(LogInFieldsData, LogInButtons, LogInIcons, LogInFormID);
-logInForm.addEventListener("submit", onSubmitLogInHandler(closeModalClickHandler));
+const __logInForm = Form(LogInFieldsData, LogInButtons, LogInIcons, LogInFormID);
+__logInForm.addEventListener("submit", onSubmitLogInHandler(closeModalClickHandler));
 
-const [logIn,] = document.querySelectorAll(".main-nav ul li a");
-logIn.addEventListener("click", setOpenModalHandler({
+const [__logIn,] = document.querySelectorAll(".main-nav ul li a");
+__logIn.addEventListener("click", setOpenModalHandler({
     title: "Enter your credentials:",
-    content: logInForm,
+    content: __logInForm,
 }));

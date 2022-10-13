@@ -1,5 +1,5 @@
-const modalContainer = document.querySelector(".modal-container");
-const modal = modalContainer.querySelector(".modal")
+const __modalContainer = document.querySelector(".modal-container");
+const __modal = __modalContainer.querySelector(".modal")
 
 /**
  * @readonly
@@ -18,7 +18,7 @@ const CloseModal = { TRUE: 1, FALSE: 0 };
  * @param {{preventDefault()}} e 
  */
 function openModalClickHandler(e) {
-    modalContainer.classList.add("modal-open");
+    __modalContainer.classList.add("modal-open");
     e.preventDefault();
 }
 
@@ -28,7 +28,7 @@ function openModalClickHandler(e) {
  */
 function closeModalClickHandler(e) {
     e.preventDefault();
-    modalContainer.classList.remove("modal-open");
+    __modalContainer.classList.remove("modal-open");
 }
 
 /**
@@ -36,7 +36,7 @@ function closeModalClickHandler(e) {
  * @param {Event} e 
  */
 function backdropClickHandler(e) {
-    if (!isInDOMTree(e.target, modal))
+    if (!isInDOMTree(e.target, __modal))
         closeModalClickHandler(e);
 }
 
@@ -49,9 +49,9 @@ function setOpenModalHandler(modalData) {
     const {title, content} = modalData;
 
     return e => {
-        modal.querySelector(".modal-header h1").textContent = title;
+        __modal.querySelector(".modal-header h1").textContent = title;
 
-        const container = modal.querySelector(".modal-content");
+        const container = __modal.querySelector(".modal-content");
         // limpiar contenido de modal previo (no se hace en cierre de modal porque
         // la animación de fade-out requiriría setTimeout mayor al tiempo de fade-out para remover el contenido)
         removeAllChildren(container);
@@ -68,4 +68,4 @@ function setOpenModalHandler(modalData) {
     };
 }
 
-modalContainer.addEventListener("click", backdropClickHandler);
+__modalContainer.addEventListener("click", backdropClickHandler);

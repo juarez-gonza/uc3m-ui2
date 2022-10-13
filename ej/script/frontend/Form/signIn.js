@@ -115,11 +115,11 @@ const SignInButtons = [
 /** @readonly @type {IconsListData} */
 const SignInIcons = {upperText: "or, sign-in with ", iconsPath: [...OAuthIcons]};
 
-const signInForm = Form(SignInFieldsData, SignInButtons, SignInIcons, SignInFormID);
-signInForm.addEventListener("submit", onSubmitSignInHandler(closeModalClickHandler));
+const __signInForm = Form(SignInFieldsData, SignInButtons, SignInIcons, SignInFormID);
+__signInForm.addEventListener("submit", onSubmitSignInHandler(closeModalClickHandler));
 
-const [, signIn] = document.querySelectorAll(".main-nav ul li a");
-signIn.addEventListener("click", setOpenModalHandler({
+const [, __signIn] = document.querySelectorAll(".main-nav ul li a");
+__signIn.addEventListener("click", setOpenModalHandler({
     title: "Register",
-    content: signInForm,
+    content: __signInForm,
 }));
