@@ -3,8 +3,7 @@
  * @return {function(Event): any}
  */
 function onSubmitSignInHandler(onSuccess) {
-    return (e) => {
-        e.preventDefault();
+    return e => {
         onSuccess(e);
     };
 }
@@ -106,7 +105,7 @@ const SignInButtons = [
     },
     {
         text: "Clear Fields",
-        classes: ["main-light-bg-color", "button"],
+        classes: ["pinkish-bg-color", "button"],
         extraAttributes: {type: "reset"},
         onClickHandler: undefined,
     },
@@ -115,11 +114,11 @@ const SignInButtons = [
 /** @readonly @type {IconsListData} */
 const SignInIcons = {upperText: "or, sign-in with ", iconsPath: [...OAuthIcons]};
 
-const __signInForm = Form(SignInFieldsData, SignInButtons, SignInIcons, SignInFormID);
-__signInForm.addEventListener("submit", onSubmitSignInHandler(closeModalClickHandler));
+function SignInForm() {
+    const signInForm = Form(SignInFieldsData, SignInButtons, SignInIcons, SignInFormID);
+    signInForm.addEventListener("submit", onSubmitSignInHandler(closeModalClickHandler));
+    return signInForm;
+}
 
 const [, __signIn] = document.querySelectorAll(".main-nav ul li a");
-__signIn.addEventListener("click", setOpenModalHandler({
-    title: "Register",
-    content: __signInForm,
-}));
+__signIn.addEventListener("click", setOpenModalHandler("Register", SignInForm));

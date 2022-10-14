@@ -10,7 +10,7 @@ const CloseModal = { TRUE: 1, FALSE: 0 };
 /**
  * @typedef {Object} ModalData
  * @property {string} title
- * @property {HTMLElement[] | HTMLElement} content
+ * @property {} content
  */
 
 /**
@@ -42,20 +42,23 @@ function backdropClickHandler(e) {
 
 /**
  * 
- * @param {ModalData} modalData 
- * @return {function({preventDefault()})}
+ * @param {string} title
+ * @param {function(Event): HTMLElement[] | HTMLElement} createContent
+ * @return {function(Event)}
  */
-function setOpenModalHandler(modalData) {
-    const {title, content} = modalData;
+function setOpenModalHandler(title, createContent) {
 
     return e => {
         __modal.querySelector(".modal-header h1").textContent = title;
-
         const container = __modal.querySelector(".modal-content");
         // limpiar contenido de modal previo (no se hace en cierre de modal porque
         // la animación de fade-out requiriría setTimeout mayor al tiempo de fade-out para remover el contenido)
         removeAllChildren(container);
-        // llenar contenido
+
+        // crear contenido aquí porque de pasarse el contenido directamente como parámetro, entonces el estado
+        // del componente se compartiría entre distintos modales (por ejemplo, los mensajes de error
+        // de un formulario nuevo serían los que quedaron en el anterior).
+        const content = createContent(e);
         if (Array.isArray(content))
             foldl((container, c) => {
                 container.appendChild(c);

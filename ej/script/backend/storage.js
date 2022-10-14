@@ -9,7 +9,7 @@ class LSNotFoundException extends Error {
     */
    constructor(message) {
       super(message);
-      this.name = "MyNotFoundException";
+      this.name = "LSNotFoundException";
    }
 };
 

@@ -41,9 +41,9 @@ function setAttributes(element, attributes) {
 }
 
 /**
- * @param {HTMLElement} element
+ * @param {Element} element
  * @param {string[]} classes
- * @return {HTMLElement}
+ * @return {Element}
  */
 function setClasses(element, classes) {
     for (const c of classes)
@@ -173,6 +173,17 @@ function ButtonSection(btnsData) {
 }
 
 /**
+ * @return {HTMLDivElement}
+ */
+function BigFormError() {
+    const errorMsg = document.createElement("div");
+    errorMsg.innerHTML = `<h3>Some Error</h3>`;
+    setClasses(errorMsg, ["big-form-msg", "main-light-bg-color", "shadow2"]);
+    errorMsg.classList.add("big-form-msg");
+    return errorMsg
+}
+
+/**
  * 
  * @param {InputData[]} fieldsData 
  * @param {ButtonData[]} btnsData 
@@ -187,11 +198,25 @@ function Form(fieldsData, btnsData, iconPaths, formId) {
     const ret = foldl((container, item) => {
         container.appendChild(item);
         return container;
-    }, [...inputs, buttons, iconsList], document.createElement("form"));
+    }, [BigFormError(), ...inputs, buttons, iconsList],
+    document.createElement("form"));
 
     ret.classList.add("form");
     ret.id = formId;
     return ret;
+}
+
+/**
+ * 
+ * @param {Event} e 
+ * @param {string} msg 
+ */
+function formError(e, msg) {
+    e.preventDefault();
+
+    const formError = document.querySelector("form.form .big-form-msg");
+    formError.querySelector("h3").textContent = msg;
+    formError.classList.add("show");
 }
 
 /** @readonly @type {string[]} */

@@ -1,11 +1,33 @@
+/** @typedef {Object} LogInSubmitedData
+ *  @property {string} username
+ *  @property {string} password
+ */
+
 /**
  * @param {function(Event): any}  onSuccess
+ * @param {function(Event, string): any}  onError
  * @return {function(Event): any}
  */
-function onSubmitLogInHandler(onSuccess) {
-    return (e) => {
-        e.preventDefault();
-        onSuccess(e);
+function onSubmitLogInHandler(onSuccess, onError) {
+    return e => {
+        const inputNodes = Array.from(document.querySelectorAll(".modal .modal-content form .input input"));
+
+        /** @type {LogInSubmitedData} */
+        const fieldsData = foldl((obj, field) => {
+                obj[field.id] = field.value;
+                return obj;
+            },
+            inputNodes.map((/** @type{HTMLInputElement} */ field) => ({id: field.id, value: field.value})),
+            {username: "", password: ""});
+
+        try {
+            const user = User.find(fieldsData.username);
+            console.log(user);
+        } catch (err) {
+            return onError(e, "Wrong username or password");
+        }
+
+        return onSuccess(e);
     };
 }
 
@@ -54,7 +76,7 @@ const LogInButtons = [
     },
     {
         text: "Clear Fields",
-        classes: ["main-light-bg-color", "button"],
+        classes: ["pinkish-bg-color", "button"],
         extraAttributes: {
             type: "reset",
         },
@@ -65,11 +87,14 @@ const LogInButtons = [
 /** @readonly @type {IconsListData} */
 const LogInIcons = {upperText: "or, log-in with ", iconsPath: [...OAuthIcons]};
 
-const __logInForm = Form(LogInFieldsData, LogInButtons, LogInIcons, LogInFormID);
-__logInForm.addEventListener("submit", onSubmitLogInHandler(closeModalClickHandler));
+/**
+ * @return {HTMLFormElement}
+ */
+function LogInForm() {
+    const logInForm = Form(LogInFieldsData, LogInButtons, LogInIcons, LogInFormID);
+    logInForm.addEventListener("submit", onSubmitLogInHandler(closeModalClickHandler, formError));
+    return logInForm;
+}
 
 const [__logIn,] = document.querySelectorAll(".main-nav ul li a");
-__logIn.addEventListener("click", setOpenModalHandler({
-    title: "Enter your credentials:",
-    content: __logInForm,
-}));
+__logIn.addEventListener("click", setOpenModalHandler("Enter your credentials:", LogInForm));

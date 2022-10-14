@@ -23,6 +23,11 @@
     color: var(--main-font-color);
 }
 
+.pinkish-bg-color {
+    background-color: var(--pinkish);
+    color: var(--main-font-color);
+}
+
 .main-dark-bg-color {
     background-color: var(--light-purple);
     color: var(--main-font-color);
@@ -100,6 +105,7 @@ body {
 }
 
 /* modal stuff */
+
 .modal-container {
     position: fixed;
     top: 0;
@@ -164,6 +170,8 @@ body {
     border-bottom-right-radius: 10px;
 }
 
+/* form stuff */
+
 .form {
     height: 100%;
     width: 80%;
@@ -173,6 +181,28 @@ body {
     justify-content: space-around;
     align-items: center;
 }
+
+/* big error message stuff */
+.big-form-msg {
+    height: 0;
+    opacity: 0.0;
+    transition: 0.2s ease-out;
+
+    border-radius: 5px;
+}
+
+.big-form-msg h3 {
+    margin: 0;
+}
+
+.big-form-msg.show {
+    margin-top: 3.5%;
+    opacity: 1.0;
+    height: 2rem;
+    padding: 1rem;
+}
+
+/* field stuff */
 
 .form .input {
     width: 40%;
@@ -198,21 +228,23 @@ body {
 
 .form .input input:focus {
     outline: none;
-    box-shadow: 0 1.2px rgba(0, 0, 0, 0.6);
 }
 
-.form .input input:focus:valid {
-    outline: none;
-    box-shadow: 0 1.2px rgba(0, 255, 0, 0.6);
-}
+/* field error stuff */
 
 .form .input .input-error-message {
     height: 0;
     opacity: 0.0;
-    transition: 0.3s ease-out;
+    transition: 0.2s ease-out;
 }
 
-/* error colors when user is interacting  with the form */
+
+/* field errors when user is interacting  with the form */
+
+.form .input input:focus:valid {
+    box-shadow: 0 1.2px rgba(0, 255, 0, 0.6);
+}
+
 .form .input input:focus:invalid {
     box-shadow: 0 1.2px var(--yellow1); 
 }
@@ -229,7 +261,8 @@ body {
 }
 
 
-/* error colors when user has already interacted with the form */
+/* field errors when user has already interacted with the form */
+
 .form .input input:not(:placeholder-shown):not(:focus):invalid + .input-error-message{
     height: 2rem;
 
@@ -240,6 +273,8 @@ body {
 .form .input input:not(:placeholder-shown):not(:focus):invalid {
     box-shadow: 0 1.2px var(--orangish);
 }
+
+/* form buttons section stuff */
 
 .form .form-buttons-section {
     display: flex;
@@ -253,6 +288,8 @@ body {
     width: 40%;
     margin-bottom: 2.5%;
 }
+
+/* form icons section stuff */
 
 .form .form-icons-list {
     text-align: center;
