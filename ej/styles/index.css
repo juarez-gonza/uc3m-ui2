@@ -201,6 +201,11 @@ body {
     box-shadow: 0 1.2px rgba(0, 0, 0, 0.6);
 }
 
+.form .input input:focus:valid {
+    outline: none;
+    box-shadow: 0 1.2px rgba(0, 255, 0, 0.6);
+}
+
 .form .input .input-error-message {
     height: 0;
     opacity: 0.0;
