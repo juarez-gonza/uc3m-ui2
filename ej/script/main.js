@@ -189,6 +189,5 @@ function generateP1() {
    return CardContainer("Random!", p1);
 }
 
-
 const mainContent = document.querySelector("main");
 mainContent.insertBefore(generateP1(), mainContent.querySelector(".main-title").nextSibling);
