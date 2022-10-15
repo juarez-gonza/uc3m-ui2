@@ -141,24 +141,3 @@ function intercalateStr(s, xs) {
 function intercalate(xs, xss) {
     return intersperse(xs, xss).flat();
 }
-
-/**
- * 
- * @param {EventTarget} target 
- * @param {Element | ChildNode} root 
- * @return {boolean}
- */
-function isInDOMTree(target, root) {
-    return target === root ||
-        Array.from(root.childNodes).some(v => isInDOMTree(target, v));
-}
-
-/**
- * @param {Element} root
- * @return {Element | ChildNode}
- */
-function removeAllChildren(root) {
-    for (let e = root.lastElementChild; e !== null; e = root.lastElementChild)
-        e.remove();
-    return root;
-}
