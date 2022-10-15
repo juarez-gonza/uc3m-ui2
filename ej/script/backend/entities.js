@@ -125,7 +125,6 @@ class User {
     * @return {User}
     */
     static find(userId) {
-        console.log(userId);
         const rec = findRec(userId);
         return new User({
             username: rec.username,
