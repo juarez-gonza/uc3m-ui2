@@ -2,18 +2,6 @@ const __modalContainer = document.querySelector(".modal-container");
 const __modal = __modalContainer.querySelector(".modal")
 
 /**
- * @readonly
- * @enum {number}
- */
-const CloseModal = { TRUE: 1, FALSE: 0 };
-
-/**
- * @typedef {Object} ModalData
- * @property {string} title
- * @property {} content
- */
-
-/**
  * 
  * @param {{preventDefault()}} e 
  */

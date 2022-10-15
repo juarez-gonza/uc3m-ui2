@@ -4,7 +4,7 @@
  */
 
 /**
- * @param {function(Event): any}  onSuccess
+ * @param {function(Event, User): any}  onSuccess
  * @param {function(Event, string): any}  onError
  * @return {function(Event): any}
  */
@@ -13,7 +13,7 @@ function onSubmitLogInHandler(onSuccess, onError) {
         const inputNodes = Array.from(document.querySelectorAll(".modal .modal-content form .input input"));
 
         /** @type {LogInSubmitedData} */
-        const fieldsData = foldl((obj, field) => {
+        const {username, password} = foldl((obj, field) => {
                 obj[field.id] = field.value;
                 return obj;
             },
@@ -21,14 +21,21 @@ function onSubmitLogInHandler(onSuccess, onError) {
             {username: "", password: ""});
 
         try {
-            const user = User.find(fieldsData.username);
-            console.log(user);
+            const user = logInUserReq(username, password);
+            return onSuccess(e, user);
         } catch (err) {
             return onError(e, "Wrong username or password");
         }
-
-        return onSuccess(e);
     };
+}
+
+/**
+ * 
+ * @param {Event} e
+ * @param {User} user
+ */
+function onLogInSuccess(e, user) {
+    closeModalClickHandler(e);
 }
 
 /** @readonly @type {string} */
@@ -39,7 +46,7 @@ const LogInFieldsData = [
     {
         id: "username", label: "Your username", type: "text",
         inputValidation: {
-            errorMsg: "This field is mandatory",
+            errorMsg: "A username is required",
             attributes: {
                 required: true,
             }
@@ -51,7 +58,7 @@ const LogInFieldsData = [
     {
         id: "password", label: "Your password", type: "password",
         inputValidation: {
-            errorMsg: "This field is mandatory",
+            errorMsg: "A password is required",
             attributes: {
                 required: true,
                 maxlength: 8,
@@ -92,7 +99,7 @@ const LogInIcons = {upperText: "or, log-in with ", iconsPath: [...OAuthIcons]};
  */
 function LogInForm() {
     const logInForm = Form(LogInFieldsData, LogInButtons, LogInIcons, LogInFormID);
-    logInForm.addEventListener("submit", onSubmitLogInHandler(closeModalClickHandler, formError));
+    logInForm.addEventListener("submit", onSubmitLogInHandler(onLogInSuccess, formError));
     return logInForm;
 }
 

@@ -59,10 +59,13 @@ function Input(fields) {
     const {id, label, type, inputValidation, extraAttributes} = fields;
     const validationStr = inputValidation === undefined ? "" : objToAttrStr(inputValidation.attributes);
     const extraAttrStr = extraAttributes === undefined ? "" : objToAttrStr(extraAttributes);
+
     const ret = document.createElement("div");
-    ret.classList.add("input");
     ret.innerHTML = `
-        <label for="${id}">${label}</label>
+        <label for="${id}">
+            ${label}
+            ${validationStr.length > 0 && "required" in inputValidation.attributes ? `<span style="color: red"> *</span>` : ""}
+        </label>
         <input type="${type}" id="${id}" name="${id}" ${validationStr} ${extraAttrStr}>
         ${
             inputValidation === undefined ? 
@@ -72,6 +75,7 @@ function Input(fields) {
             `
         }
     `;
+    ret.classList.add("input");
     return ret;
 }
 

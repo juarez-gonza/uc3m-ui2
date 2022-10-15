@@ -4,6 +4,21 @@
  */
 
 /**
+ * Composición de funciones
+ * @template A
+ * @template B
+ * @template C
+ * @param {function(B): C} f
+ * @param {function(A): B} g
+ * @return {function(A): C}
+ */
+function compose(f, g) {
+    return x => {
+        return f(g(x));
+    };
+}
+
+/**
  * Crea una secuencia desde 0 hasta n-1
  * 
  * @param {number} n 

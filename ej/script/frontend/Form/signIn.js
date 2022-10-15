@@ -13,7 +13,7 @@ const SignInFieldsData = [
     {
         id: "username", label: "Choose a username", type: "text",
         inputValidation: {
-            errorMsg: "This field is mandatory.",
+            errorMsg: "A username is required",
             attributes: {
                 required: true
             }

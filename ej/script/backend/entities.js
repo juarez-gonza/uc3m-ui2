@@ -3,6 +3,14 @@
  *  @requires ./storage.js
  */
 
+/**
+ * @param {...string} args;
+ * @return {string}
+ */
+function genId(...args) {
+    return foldl((acc, str) => acc.concat(str), args, "");
+}
+
 /** @typedef {string} UserId */
 class User {
     /** @type {UserId} */
@@ -39,7 +47,7 @@ class User {
     constructor({username, password, firstName, lastName, email, birth,
         profilePicB64=undefined, following=[], playlists=[],
         favSongs=[], recentArtists=[], recentSongs=[]}) {
-        this._id = `User-${username}`;
+        this._id = User.genUserId(username);
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -117,6 +125,7 @@ class User {
     * @return {User}
     */
     static find(userId) {
+        console.log(userId);
         const rec = findRec(userId);
         return new User({
             username: rec.username,
@@ -154,6 +163,14 @@ class User {
         for (const p of this.playlists)
             p.remove();
         removeLS(this._id);
+    }
+
+    /**
+     * @param {string} username 
+     * @return {string}
+     */
+    static genUserId(username) {
+        return genId("User-", username);
     }
 };
 
