@@ -47,7 +47,7 @@ function isInDOMTree(target, root) {
  * @return {Element | ChildNode}
  */
 function removeAllChildren(root) {
-    for (let e = root.lastElementChild; e !== null; e = root.lastElementChild)
-        e.remove();
+    while (root.firstElementChild)
+        root.firstElementChild.remove();
     return root;
 }
