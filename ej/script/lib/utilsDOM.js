@@ -4,7 +4,7 @@
  */
 function objToAttrStr(attrObj) {
     return intercalateStr(" ",
-                Object.entries(attrObj).map(([k, v]) => `${k}=${attrObj[k]}`
+                Object.entries(attrObj).map(([k, v]) => `${k}=${v}`
             ));
 }
 

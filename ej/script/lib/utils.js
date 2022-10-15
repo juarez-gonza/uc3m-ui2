@@ -13,9 +13,7 @@
  * @return {function(A): C}
  */
 function compose(f, g) {
-    return x => {
-        return f(g(x));
-    };
+    return x => f(g(x));
 }
 
 /**

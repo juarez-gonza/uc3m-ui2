@@ -18,4 +18,4 @@ const __mutations = {
 };
 
 // @ts-ignore segunda violación al sistema de tipado. mala deducción de tipo :(
-const __Store = new SimpleStore(__initalStoreState, __mutations);
+const __Store = new SyncStore(__initalStoreState, __mutations);

@@ -1,13 +1,11 @@
 /**
  * @template T
  */
-class SimpleStore {
+class SyncStore {
     /** @type {Object<string, function(T, Object): T>} */
     mutations;
-
     /** @type {Subscriber} */
     events;
-
     /** @type {T} */
     state;
 
@@ -18,7 +16,6 @@ class SimpleStore {
     constructor(state, mutations) {
         this.mutations = mutations;
         this.events = new Subscriber();
-
         this.state = state;
     }
 
