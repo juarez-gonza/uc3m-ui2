@@ -260,7 +260,6 @@ body {
     box-shadow: 0 1.2px var(--yellow1);
 }
 
-
 /* field errors when user has already interacted with the form */
 
 .form .input input:not(:placeholder-shown):not(:focus):invalid + .input-error-message{
@@ -634,11 +633,16 @@ form:invalid.form button[type="submit"] {
     }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1096px) {
     /* main content stuff */
     .playlist {
         padding-left: 27.5%;
     }
+
+    .playlist .card-container .music-card {
+        flex: 0 0 25%;
+    }
+
     /* main sidebar stuff */
     .main-sidebar ul li:not(:first-of-type) {
         width: 125%;
@@ -698,10 +702,14 @@ form:invalid.form button[type="submit"] {
     }
 }
 
-@media (max-width: 648px) {
+@media (max-width: 696px) {
     /* main content stuff */
     .playlist {
-        padding-left: 15%;
+        padding-left: 22.5%;
+    }
+
+    .playlist .card-container .music-card {
+        flex: 0 0 25%;
     }
 
     .music-card {
@@ -716,9 +724,9 @@ form:invalid.form button[type="submit"] {
 
     /* main sidebar stuff */
     .main-sidebar ul li:not(:first-of-type) {
-        width: 135%;
+        width: 130%;
         position: relative;
-        left: -35%;
+        left: -30%;
     }
 
     .main-sidebar ul li img {
@@ -728,15 +736,31 @@ form:invalid.form button[type="submit"] {
 }
 
 @media (max-width: 548px) {
-    /* main sidebar stuff */
-    .main-sidebar ul li:not(:first-of-type) {
-        width: 130%;
-        position: relative;
-        left: -30%;
+    /* main content stuff */
+    .playlist {
+        padding-left: 25%;
     }
 
+    /* main sidebar stuff */
     .main-sidebar ul li img {
         width: 18px;
         height: 18px;
+    }
+}
+
+@media (max-width: 499px) {
+    /* main content stuff */
+    .playlist {
+        padding-left: 30%;
+    }
+
+    /* main sidebar stuff */
+    .main-sidebar ul li:not(:first-of-type) {
+        position: relative;
+        left: 0%;
+    }
+
+    .main-sidebar ul li img {
+        display: none;
     }
 }
