@@ -186,7 +186,7 @@ function getAllSongs() {
 function generateP1() {
    const allSongs = getAllSongs();
    const p1 = take(allSongs, 5);
-   return CardContainer("Random!", p1);
+   return CardContainer({title: "Random!", songs: p1});
 }
 
 const mainContent = document.querySelector("main");

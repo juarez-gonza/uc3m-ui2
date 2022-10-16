@@ -1,16 +1,13 @@
-/** @typedef {Object} CardInfo
- *  @property {string} img
- *  @property {string} audio
- *  @property {string} songTitle
- *  @property {string} songDescription 
+/** @typedef {Object} CardContainerData
+ *  @property {string} title
+ *  @property {Song[]} songs
  */
 
 /**
- * @param {string} title
- * @param {Song[]} cardInfo
+ * @param {CardContainerData} cards
  * @return {HTMLElement}
  */
-function CardContainer(title, cardInfo) {
+function CardContainer({title, songs}) {
     const wrapper = document.createElement("div");
     wrapper.classList.add("playlist");
 
@@ -18,21 +15,21 @@ function CardContainer(title, cardInfo) {
     h1Title.textContent = title;
 
     wrapper.appendChild(h1Title);
-    wrapper.appendChild(_CardContainer(cardInfo))
+    wrapper.appendChild(_CardContainer(songs))
 
     return wrapper;
 }
 
 /**
- * @param {Song[]} cardInfo
+ * @param {Song[]} songsData
  * @return {HTMLElement}
  */
-function _CardContainer(cardInfo) {
-    const container = foldl((container, cInfo) => {
-            container.appendChild(cInfo);
+function _CardContainer(songsData) {
+    const container = foldl((container, cData) => {
+            container.appendChild(cData);
             return container;
         },
-        cardInfo.map(c => Card(c)),
+        songsData.map(c => Card(c)),
         document.createElement("div"));
     container.classList.add("card-container");
     return container;
@@ -40,20 +37,20 @@ function _CardContainer(cardInfo) {
 
 /**
  * 
- * @param {Song} cardInfo 
+ * @param {Song} songData 
  * @return {HTMLElement}
  */
-function Card(cardInfo) {
+function Card(songData) {
     const ret = document.createElement("div");
 
     ret.classList.add("music-card");
     ret.classList.add("shadow2");
 
-    const title = cardInfo.title;
-    const artist = cardInfo.artist;
-    const coverPath = cardInfo.coverPath.length === 0 ? Album.find(cardInfo.album).coverPath : cardInfo.coverPath;
-    const songPath = cardInfo.songPath;
-    const description = cardInfo.description;
+    const title = songData.title;
+    const artist = songData.artist;
+    const coverPath = songData.coverPath.length === 0 ? Album.find(songData.album).coverPath : songData.coverPath;
+    const songPath = songData.songPath;
+    const description = songData.description;
 
     ret.innerHTML = `
         <div class="thumbnail">

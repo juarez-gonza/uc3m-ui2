@@ -35,6 +35,7 @@ function onSubmitLogInHandler(onSuccess, onError) {
  * @param {User} user
  */
 function onLogInSuccess(e, user) {
+    __Store.commit("logIn", user);
     closeModalClickHandler(e);
 }
 
