@@ -348,11 +348,17 @@ form:invalid.form button[type="submit"] {
 
 .playlist .card-container {
     display: flex;
+    flex-wrap: wrap;
     width: 80%;
+    max-width: 80%;
+}
+
+.playlist .card-container .music-card {
+    flex: 0 0 22.5%;
 }
 
 .music-card {
-    height: 280px;
+    height: 340px;
     width: 200px;
     margin-left: -50px;
 

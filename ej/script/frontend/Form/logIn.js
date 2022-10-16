@@ -24,7 +24,9 @@ function onSubmitLogInHandler(onSuccess, onError) {
             const user = logInUserReq(username, password);
             return onSuccess(e, user);
         } catch (err) {
-            return onError(e, "Wrong username or password");
+            if (err.name === "LSNotFoundException" || err.name === "RepetitionError" || err.name === "ValidationError")
+                return onError(e, "Wrong username or password");
+            throw err;
         }
     };
 }

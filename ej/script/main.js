@@ -129,7 +129,7 @@ const INIT_SONGS_DATA = iota(20).map(i => ({songPath: `./audios/${(i%15) + 1}.mp
 
 // generar 5 albumes para cada artista
 const INIT_ALBUMS_DATA = iota(10).map(i => ({
-   coverPath: `./images/${(i % 15) + 1}.${i === 4 ? "webp" : "jpg"}`,
+   coverPath: `./images/${(i % 15) + 1}.${i === 3 ? "webp" : "jpg"}`,
    title: `${intToChar(i)}`
 }));
 
@@ -169,25 +169,5 @@ function init() {
 
 init();
 
-function getAllSongs() {
-   const ret = [];
-   const lS = window.localStorage;
-   for (const key in lS) {
-      if (!lS.hasOwnProperty(key))
-         continue;
-
-      const item  = JSON.parse(lS.getItem(key));
-      if (/^Song-.*/.test(item._id))
-         ret.push(item);
-   }
-   return ret;
-}
-
-function generateP1() {
-   const allSongs = getAllSongs();
-   const p1 = take(allSongs, 5);
-   return CardContainer({title: "Random!", songs: p1});
-}
-
-const mainContent = document.querySelector("main");
-mainContent.insertBefore(generateP1(), mainContent.querySelector(".main-title").nextSibling);
+const __mainContent = new Content();
+__mainContent.render();

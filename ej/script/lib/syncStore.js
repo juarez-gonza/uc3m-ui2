@@ -22,15 +22,15 @@ class SyncStore {
     /**
      *
      * @param {string} mKey
-     * @param {Object} payload
+     * @param {Object} data
      * @return {boolean}
      */
-    commit(mKey, payload) {
-        this.state = this.mutations[mKey](this.state, payload);
+    commit(mKey, data) {
+        this.state = this.mutations[mKey](this.state, data);
         this.events.publish('stateChange', this.state);
         return true;
     }
-}
+};
 
 /**
  * @template Data
@@ -60,4 +60,4 @@ class Subscriber {
             for (const cb of this.events[e])
                 cb(data);
     }
-}
+};

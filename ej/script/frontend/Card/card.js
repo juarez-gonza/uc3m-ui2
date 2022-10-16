@@ -4,6 +4,14 @@
  */
 
 /**
+ * @param {CardContainerData[]} containerData
+ * @return {HTMLElement[]}
+ */
+function CardContainerSection(containerData) {
+    return containerData.map(c => CardContainer(c));
+}
+
+/**
  * @param {CardContainerData} cards
  * @return {HTMLElement}
  */

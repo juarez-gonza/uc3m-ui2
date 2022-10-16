@@ -139,3 +139,39 @@ function intercalateStr(s, xs) {
 function intercalate(xs, xss) {
     return intersperse(xs, xss).flat();
 }
+
+/**
+ * @template T
+ * @param {T[]} xs 
+ * @return {T[]}
+ */
+function tail(xs) {
+    const [, ...xs_] = xs;
+    return xs_;
+}
+
+/**
+ * Implementación tail-recursive de algoritmo sliding window. Hecha para uso interno en utils.js
+ * @template T
+ * @param {T[]} xs 
+ * @param {number} n 
+ * @param {T[][]} acc
+ * @return {T[][]}
+ */
+function _slide_impl(xs, n, acc) {
+    if (xs.length === 0)
+        return acc;
+    acc.push(take(xs, n));
+    return _slide_impl(tail(xs), n, acc);
+}
+
+/**
+ * Algoritmo sliding-window
+ * @template T
+ * @param {T[]} xs 
+ * @param {number} n 
+ * @return {T[][]}
+ */
+function slide(xs, n) {
+   return _slide_impl(xs, n, []);
+}
