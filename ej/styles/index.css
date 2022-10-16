@@ -52,6 +52,7 @@ a, a:visited, a:active {
     color: inherit;
     text-decoration: underline solid transparent;
     transition: text-decoration 0.3s ease-out;
+    cursor: pointer;
 }
 
 a:hover {

@@ -171,3 +171,6 @@ init();
 
 const __mainContent = new Content();
 __mainContent.render();
+
+const __mainNavbar = new MainNavbar();
+__mainNavbar.render();

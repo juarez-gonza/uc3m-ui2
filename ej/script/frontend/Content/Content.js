@@ -19,10 +19,13 @@ class Content {
                 this.element = HomeContent(this.element, __Store.state.loggedIn);
                 return this.element;
             case CurrentPage.ARTIST:
+                console.warn("Artist content not developed yet!!")
                 return this.element;
             case CurrentPage.OTHER_USER:
+                console.warn("Other user page not developed yet!!")
                 return this.element;
             case CurrentPage.PLAYLIST_CREATOR:
+                console.warn("Playlist creator not developed yet!!")
                 return this.element;
         }
     }
