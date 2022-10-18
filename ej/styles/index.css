@@ -458,23 +458,8 @@ form:invalid.form button[type="submit"] {
     display: inline;
 }
 
-.main-nav .searchbar {
-    transition: 0.2s ease-out;
-}
-
-.main-nav .searchbar:focus,
-.main-nav .searchbar:active,
-.main-nav .searchbar:hover {
-    box-shadow: 0 0 24px rgb(132, 94, 194, 0.6);
-    transform: scale(1.05);
-}
-
 .main-nav .searchbar input {
-    box-shadow: 0 0 12px rgb(132, 94, 194, 0.6);
-    border-radius: 10px;
-    padding: 0.6rem;
-    border: none;
-    outline: none;
+    width: 300px;
 }
 
 .main-nav .home-section {
@@ -568,6 +553,28 @@ ul.dropdown li:not(:last-of-type) {
 ul.dropdown li:last-of-type {
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
+}
+
+/* searchbar stuff */
+
+.searchbar {
+    transition: 0.2s ease-out;
+}
+
+.searchbar:focus,
+.searchbar:active,
+.searchbar:hover {
+    box-shadow: 0 0 24px rgb(132, 94, 194, 0.6);
+    transform: scale(1.05);
+}
+
+.searchbar input {
+    box-shadow: 0 0 12px rgb(132, 94, 194, 0.6);
+    border-radius: 10px;
+    padding: 0.8rem;
+    text-align: center;
+    border: none;
+    outline: none;
 }
 
 /* main footer stuff */
