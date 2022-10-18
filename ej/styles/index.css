@@ -499,7 +499,7 @@ form:invalid.form button[type="submit"] {
     cursor: pointer;
 }
 
-.main-nav ul li img {
+.main-nav ul li img.profile-img {
     box-shadow: 0 0 12px rgb(132, 94, 194, 0.6);
     transition: 0.2s ease-out;
     height: 48px;
@@ -507,11 +507,70 @@ form:invalid.form button[type="submit"] {
     border-radius: 50%;
 }
 
-.main-nav ul li img:hover,
-.main-nav ul li img:focus,
-.main-nav ul li img:active {
+.main-nav ul li img.profile-img:hover,
+.main-nav ul li img.profile-img:focus,
+.main-nav ul li img.profile-img:active {
     box-shadow: 0 0 24px rgb(132, 94, 194, 0.6);
     transform: scale(1.05);
+}
+
+.main-nav ul.dropdown {
+    position: absolute;
+
+    right: 2%;
+    top: 0%;
+
+    display: flex;
+    align-content: stretch;
+    flex-wrap: wrap;
+
+    height: 140px;
+    width: 120px;
+
+    padding: 0;
+    margin: 0;
+
+    background-color: var(--white-ish);
+    border-radius: 10px;
+}
+
+.main-nav ul.dropdown li {
+    width: 100%;
+
+    padding: 0px;
+    padding-top: 12px;
+    padding-bottom: 6px;
+
+    margin: 0;
+
+    text-align: center;
+    font-size: 1rem;
+
+    transition: 0.2s ease-out;
+    background-color: var(--white-ish);
+    color: black;
+}
+
+.main-nav ul.dropdown li:hover {
+    background-color: var(--light-purple);
+    color: var(--main-font-color);
+}
+
+.main-nav ul.dropdown li:not(:last-of-type) {
+    border: none;
+    box-shadow: 0 1.2px rgba(0, 0, 0, 0.35);
+}
+
+/*
+.main-nav ul li .profile-img ul li:first-of-type {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+*/
+
+.main-nav ul.dropdown li:last-of-type {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
 /* main footer stuff */

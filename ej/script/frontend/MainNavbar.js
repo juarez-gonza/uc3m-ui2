@@ -23,14 +23,14 @@ class MainNavbar {
  * @param {HTMLElement} root 
  */
 function defaultOpts(root) {
-    const rightside = document.createElement("div");
-    rightside.classList.add("home-section");
-    rightside.innerHTML = `
+    const leftside = document.createElement("div");
+    leftside.classList.add("home-section");
+    leftside.innerHTML = `
         <img alt="app image" src="./icons/icons8-video-playlist-40.png">
         <h2>SoundSound</h2>
     `;
 
-    const leftside = document.createElement("ul");
+    const rightside = document.createElement("ul");
 
     const logIn = document.createElement("li");
     const logInRef = document.createElement("a");
@@ -43,11 +43,11 @@ function defaultOpts(root) {
     signInRef.textContent = "Sign In";
     signInRef.addEventListener("click", setOpenModalHandler("Register", SignInForm));
 
-    leftside.appendChild(logIn).appendChild(logInRef);
-    leftside.appendChild(signIn).appendChild(signInRef);
+    rightside.appendChild(logIn).appendChild(logInRef);
+    rightside.appendChild(signIn).appendChild(signInRef);
 
-    root.appendChild(rightside);
     root.appendChild(leftside);
+    root.appendChild(rightside);
 
     return root;
 }
@@ -59,28 +59,36 @@ function defaultOpts(root) {
  * @return {HTMLElement}
  */
 function userOpts(root, user) {
-    const rightside = document.createElement("div");
-    rightside.classList.add("home-section");
-    rightside.innerHTML = `
+    const leftside = document.createElement("div");
+    leftside.classList.add("home-section");
+    leftside.innerHTML = `
         <img alt="app image" src="./icons/icons8-video-playlist-40.png">
         <h2>SoundSound</h2>
     `;
 
     const center = Searchbar();
 
-    const leftside = document.createElement("ul");
+    const rightside = document.createElement("ul");
     const userMenu = document.createElement("li");
+
     const userImg = document.createElement("img");
 
     // TODO: handle user image user.profilePicB64
     userImg.src = "./icons/icons8-user-64.png";
-    userImg.addEventListener("click", () => {console.warn("Dropdown not implemented yet!!")})
+    userImg.addEventListener("click", e => {
+        const dropdown = Dropdown([
+            {text: "Account", clickHandler: undefined},
+            {text: "Profile", clickHandler: undefined},
+            {text: "Log out", clickHandler: undefined}
+        ]);
+        document.querySelector(".main-nav").appendChild(dropdown);
+    })
 
-    leftside.appendChild(userMenu).appendChild(userImg);
+    rightside.appendChild(userMenu).appendChild(userImg);
 
-    root.appendChild(rightside);
-    root.appendChild(center);
     root.appendChild(leftside);
+    root.appendChild(center);
+    root.appendChild(rightside);
 
     return root;
 }
@@ -99,4 +107,51 @@ function Searchbar() {
     ret.appendChild(searchInput);
 
     return ret;
+}
+
+/** @typedef {Object} DropdownItemData
+ *  @property {string} text
+ *  @property {undefined|function(MouseEvent): any} clickHandler
+ */
+
+/**
+ * @param {DropdownItemData} item
+ */
+function DropdownItem(item) {
+    const {text, clickHandler} = item
+    const ret = document.createElement("li");
+    ret.textContent = text;
+    if (clickHandler)
+        ret.addEventListener("click", clickHandler);
+    return ret;
+}
+
+/**
+ * @param {DropdownItemData[]} items
+ */
+function DropdownItems(items) {
+    return items.map(iData => DropdownItem(iData));
+}
+
+/**
+ * @param {DropdownItemData[]} items
+ * @return {HTMLElement}
+ */
+function Dropdown(items) {
+    const dropdown = foldl((container, element) => {
+        container.appendChild(element);
+        return container;
+    }, DropdownItems(items), document.createElement("ul"));
+    dropdown.classList.add("dropdown");
+
+    // TODO: check why this setTimeout is needed for the dropdown to show up in the first place
+    setTimeout(() => {
+        document.addEventListener("click", e => {
+            const clicked = isInDOMTree(e.target, dropdown);
+            if (!clicked)
+                dropdown.remove();
+        });
+    }, 0);
+
+    return dropdown;
 }

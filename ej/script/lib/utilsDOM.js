@@ -51,3 +51,15 @@ function removeAllChildren(root) {
         root.firstElementChild.remove();
     return root;
 }
+
+/**
+ * @param {(Element|Node)[]} elements
+ * @param {Node|Element} root
+ * @return {Node}
+ */
+function appendChildren(elements, root) {
+    return foldl((c, e) => {
+        c.appendChild(e);
+        return c;
+    }, elements, root);
+}
