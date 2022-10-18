@@ -35,8 +35,7 @@ function defaultOpts(root) {
     const logIn = document.createElement("li");
     const logInRef = document.createElement("a");
     logInRef.textContent = "Log In";
-    logInRef.addEventListener("click",
-        setOpenModalHandler("Enter your credentials:", LogInForm));
+    logInRef.addEventListener("click", setOpenModalHandler("Enter your credentials:", LogInForm));
 
     const signIn = document.createElement("li");
     const signInRef = document.createElement("a");
@@ -46,10 +45,7 @@ function defaultOpts(root) {
     rightside.appendChild(logIn).appendChild(logInRef);
     rightside.appendChild(signIn).appendChild(signInRef);
 
-    root.appendChild(leftside);
-    root.appendChild(rightside);
-
-    return root;
+    return appendChildren([leftside, rightside], root);
 }
 
 /**
@@ -68,29 +64,24 @@ function userOpts(root, user) {
 
     const center = Searchbar();
 
+    // TODO: handle user image user.profilePicB64
     const rightside = document.createElement("ul");
     const userMenu = document.createElement("li");
-
     const userImg = document.createElement("img");
-
-    // TODO: handle user image user.profilePicB64
     userImg.src = "./icons/icons8-user-64.png";
     userImg.addEventListener("click", e => {
-        const dropdown = Dropdown([
+        // if the dropdown is not overlapped with the userImg, then
+        // a conditional to check that the same dropdown is not opened
+        // twice would be needed. Not the case here
+        document.querySelector(".main-nav").appendChild(Dropdown([
             {text: "Account", clickHandler: undefined},
             {text: "Profile", clickHandler: undefined},
-            {text: "Log out", clickHandler: undefined}
-        ]);
-        document.querySelector(".main-nav").appendChild(dropdown);
-    })
+            {text: "Log out", clickHandler: undefined}]));
+    });
 
     rightside.appendChild(userMenu).appendChild(userImg);
 
-    root.appendChild(leftside);
-    root.appendChild(center);
-    root.appendChild(rightside);
-
-    return root;
+    return appendChildren([leftside, center, rightside], root);
 }
 
 /**
@@ -140,6 +131,7 @@ function DropdownItems(items) {
 function Dropdown(items) {
     const dropdown = appendChildren(DropdownItems(items), document.createElement("ul"));
     dropdown.classList.add("dropdown");
+    dropdown.classList.add("shadow1");
 
     // TODO: check why this setTimeout is needed for the dropdown to show up in the first place
     setTimeout(() => {
