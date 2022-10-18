@@ -504,10 +504,17 @@ form:invalid.form button[type="submit"] {
     position: absolute;
 
     right: 2.2%;
-    top: 0%;
+    top: -100%;
 
-    height: 140px;
+    height: 0px;
     width: 180px;
+
+    transition: 0.2s ease-out;
+}
+
+.main-nav ul.dropdown.show {
+    top: 0%;
+    height: 140px;
 }
 
 /* dropdown stuff */
@@ -613,35 +620,35 @@ ul.dropdown li:last-of-type {
     justify-content: space-between;
 }
 
-.main-sidebar ul:first-of-type {
+.main-sidebar ul {
     height: 50%;
     width: 100%;
 
     display: flex;
     flex-wrap: wrap;
-    align-content: flex-start;
+    justify-content: flex-start;
 
     padding: 0;
     margin: 0;
+}
+
+.main-sidebar ul:first-of-type {
+    align-content: flex-start;
 }
 
 .main-sidebar ul:last-of-type {
-    height: 50%;
-    width: 100%;
-
-    display: flex;
-    flex-wrap: wrap;
     align-content: flex-end;
-
-    padding: 0;
-    margin: 0;
 }
 
 .main-sidebar ul li {
-    margin-bottom: 8%;
+    margin-bottom: 0%;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
 }
 
 .main-sidebar ul li:first-of-type {
+    display: inline-block;
     width: 100%;
     padding-top: 5%;
     padding-bottom: 5%;
@@ -650,10 +657,6 @@ ul.dropdown li:last-of-type {
 }
 
 .main-sidebar ul li:not(:first-of-type) {
-    width: 113%;
-    
-    position: relative;
-    left: -13%;
     text-align: left;
     transition: left 0.25s ease-out;
 }
@@ -663,14 +666,20 @@ ul.dropdown li:last-of-type {
 }
 
 .main-sidebar ul li img {
+    display: block;
+    flex-basis: 1;
+
     width: 40px;
     height: 40px;
 
-    margin-right: auto;
-    margin-left: auto;
-    vertical-align: middle;
-    margin-top: -2px;
     margin-right: 20px;
+    padding: 0%;
+}
+
+.main-sidebar ul li a {
+    display: block;
+    flex-basis: 4;
+    padding-top: 12px;
 }
 
 @media (max-width: 1366px) {
@@ -709,12 +718,6 @@ ul.dropdown li:last-of-type {
         margin-bottom: 10%;
     }
 
-    .main-sidebar ul li:not(:first-of-type) {
-        width: 125%;
-        position: relative;
-        left: -20%;
-    }
-
     /* main nav stuff */
     .main-nav .home-section {
         margin-left: 1.5%;
@@ -740,13 +743,6 @@ ul.dropdown li:last-of-type {
 
     .playlist .card-container .music-card {
         flex: 0 0 25%;
-    }
-
-    /* main sidebar stuff */
-    .main-sidebar ul li:not(:first-of-type) {
-        width: 125%;
-        position: relative;
-        left: -25%;
     }
 
     /* main nav stuff */
@@ -785,12 +781,6 @@ ul.dropdown li:last-of-type {
         margin-bottom: 15%;
     }
 
-    .main-sidebar ul li:not(:first-of-type) {
-        width: 125%;
-        position: relative;
-        left: -25%;
-    }
-
     /* main nav stuff */
     .main-nav .home-section {
         margin-left: 2.5%;
@@ -820,18 +810,6 @@ ul.dropdown li:last-of-type {
     .music-card:hover ~ .music-card { /* animation on siblings of the hovered card */
         left: 20px;
     }
-
-    /* main sidebar stuff */
-    .main-sidebar ul li:not(:first-of-type) {
-        width: 130%;
-        position: relative;
-        left: -30%;
-    }
-
-    .main-sidebar ul li img {
-        width: 30px;
-        height: 30px;
-    }
 }
 
 @media (max-width: 548px) {
@@ -839,27 +817,11 @@ ul.dropdown li:last-of-type {
     .playlist {
         padding-left: 25%;
     }
-
-    /* main sidebar stuff */
-    .main-sidebar ul li img {
-        width: 18px;
-        height: 18px;
-    }
 }
 
 @media (max-width: 499px) {
     /* main content stuff */
     .playlist {
         padding-left: 30%;
-    }
-
-    /* main sidebar stuff */
-    .main-sidebar ul li:not(:first-of-type) {
-        position: relative;
-        left: 0%;
-    }
-
-    .main-sidebar ul li img {
-        display: none;
     }
 }

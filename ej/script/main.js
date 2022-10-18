@@ -174,3 +174,6 @@ __mainContent.render();
 
 const __mainNavbar = new MainNavbar();
 __mainNavbar.render();
+
+const __sidebar = new Sidebar();
+__sidebar.render();

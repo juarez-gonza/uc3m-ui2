@@ -24,9 +24,10 @@ function DropdownItems(items) {
 
 /**
  * @param {DropdownItemData[]} items
+ * @param {(function(MouseEvent, HTMLUListElement): any | undefined)} clickOutsideHandler
  * @return {HTMLElement}
  */
-function Dropdown(items) {
+function Dropdown(items, clickOutsideHandler) {
     const dropdown = appendChildren(DropdownItems(items), document.createElement("ul"));
     dropdown.classList.add("dropdown");
     dropdown.classList.add("shadow1");
@@ -35,10 +36,12 @@ function Dropdown(items) {
     setTimeout(() => {
         document.addEventListener("click", e => {
             const clicked = isInDOMTree(e.target, dropdown);
-            if (!clicked)
-                dropdown.remove();
+            if (!clicked && clickOutsideHandler !== undefined) {
+                console.log("what the fuck")
+                clickOutsideHandler(e, dropdown);
+            }
         });
-    }, 0);
+    }, 200);
 
     return dropdown;
 }
