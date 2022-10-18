@@ -31,12 +31,9 @@ function songNCollections(n) {
  * @return {HTMLElement}
  */
 function DefaultContent(root) {
-    const title = document.createElement("h1");
-    title.textContent = "Explore new songs!";
-    title.classList.add("main-title");
-
-    const fillerContent = songNCollections(5).map((songs, idx) => ({title: `Playlist ${idx}`, songs: songs}));
-
-    root.appendChild(title);
-    return appendChildren(CardContainerSection(fillerContent), root);
+   const title = document.createElement("h1");
+   title.textContent = "Explore new songs!";
+   title.classList.add("main-title");
+   const content = CardContainerSection(songNCollections(5).map((songs, idx) => ({title: `Playlist ${idx}`, songs: songs})));
+   return appendChildren([title, ...content], root);
 }

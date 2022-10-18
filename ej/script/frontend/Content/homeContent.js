@@ -37,9 +37,6 @@ function HomeContent(root, user) {
     const title = document.createElement("h1");
     title.textContent = "Your Home Section";
     title.classList.add("main-title");
-    root.appendChild(title);
-
-    const content = [...allPlaylistsData(user.playlists), favSongsData(user.favSongs)];
-
-    return appendChildren(CardContainerSection(content), root);
+    const content = CardContainerSection([...allPlaylistsData(user.playlists), favSongsData(user.favSongs)]);
+    return appendChildren([title, ...content], root);
 }
