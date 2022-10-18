@@ -53,9 +53,10 @@ function removeAllChildren(root) {
 }
 
 /**
- * @param {(Element|Node)[]} elements
- * @param {Node|Element} root
- * @return {Node}
+ * @template {HTMLElement} T
+ * @param {HTMLElement[]} elements
+ * @param {T} root
+ * @return {T}
  */
 function appendChildren(elements, root) {
     return foldl((c, e) => {

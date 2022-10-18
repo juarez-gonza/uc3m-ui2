@@ -41,8 +41,5 @@ function HomeContent(root, user) {
 
     const content = [...allPlaylistsData(user.playlists), favSongsData(user.favSongs)];
 
-    return foldl((container, c) => {
-        root.appendChild(c);
-        return container
-    }, CardContainerSection(content), root);
+    return appendChildren(CardContainerSection(content), root);
 }

@@ -38,7 +38,9 @@ function setOpenModalHandler(title, createContent) {
 
     return e => {
         __modal.querySelector(".modal-header h1").textContent = title;
+        /** @type {HTMLElement} */
         const container = __modal.querySelector(".modal-content");
+
         // limpiar contenido de modal previo (no se hace en cierre de modal porque
         // la animación de fade-out requiriría setTimeout mayor al tiempo de fade-out para remover el contenido)
         removeAllChildren(container);
@@ -48,10 +50,7 @@ function setOpenModalHandler(title, createContent) {
         // de un formulario nuevo serían los que quedaron en el anterior).
         const content = createContent(e);
         if (Array.isArray(content))
-            foldl((container, c) => {
-                container.appendChild(c);
-                return  container;
-            }, content, container);
+            appendChildren(content, container);
         else
             container.appendChild(content);
 

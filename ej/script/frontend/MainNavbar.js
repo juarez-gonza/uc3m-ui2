@@ -138,10 +138,7 @@ function DropdownItems(items) {
  * @return {HTMLElement}
  */
 function Dropdown(items) {
-    const dropdown = foldl((container, element) => {
-        container.appendChild(element);
-        return container;
-    }, DropdownItems(items), document.createElement("ul"));
+    const dropdown = appendChildren(DropdownItems(items), document.createElement("ul"));
     dropdown.classList.add("dropdown");
 
     // TODO: check why this setTimeout is needed for the dropdown to show up in the first place

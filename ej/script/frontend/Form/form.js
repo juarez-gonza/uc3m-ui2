@@ -77,10 +77,7 @@ function IconList(iconsPath) {
         return li;
     });
 
-    return foldl((list, item) => {
-        list.appendChild(item);
-        return list;
-    }, listItems, document.createElement("ul"));
+    return appendChildren(listItems, document.createElement("ul"));
 }
 
 /**
@@ -132,13 +129,7 @@ function FormButtons(btnsData) {
  * @return {HTMLElement}
  */
 function ButtonSection(btnsData) {
-    const ret = foldl((container, btn) => {
-            container.appendChild(btn);
-            return container;
-        },
-        FormButtons(btnsData),
-        document.createElement("div")
-    );
+    const ret = appendChildren(FormButtons(btnsData), document.createElement("div"));
     ret.classList.add("form-buttons-section");
     return ret;
 }
@@ -166,11 +157,7 @@ function Form(fieldsData, btnsData, iconPaths, formId) {
     const inputs = InputFields(fieldsData);
     const iconsList = IconListSection(iconPaths);
     const buttons = ButtonSection(btnsData);
-    const ret = foldl((container, item) => {
-        container.appendChild(item);
-        return container;
-    }, [BigFormError(), ...inputs, buttons, iconsList],
-    document.createElement("form"));
+    const ret = appendChildren([BigFormError(), ...inputs, buttons, iconsList], document.createElement("form"));
 
     ret.classList.add("form");
     ret.id = formId;

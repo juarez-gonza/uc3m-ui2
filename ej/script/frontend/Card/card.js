@@ -33,12 +33,7 @@ function CardContainer({title, songs}) {
  * @return {HTMLElement}
  */
 function _CardContainer(songsData) {
-    const container = foldl((container, cData) => {
-            container.appendChild(cData);
-            return container;
-        },
-        songsData.map(c => Card(c)),
-        document.createElement("div"));
+    const container = appendChildren(songsData.map(c => Card(c)), document.createElement("div"));
     container.classList.add("card-container");
     return container;
 }

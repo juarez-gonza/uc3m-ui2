@@ -38,8 +38,5 @@ function DefaultContent(root) {
     const fillerContent = songNCollections(5).map((songs, idx) => ({title: `Playlist ${idx}`, songs: songs}));
 
     root.appendChild(title);
-    return foldl((container, c) => {
-        root.appendChild(c);
-        return container
-    }, CardContainerSection(fillerContent), root);
+    return appendChildren(CardContainerSection(fillerContent), root);
 }
