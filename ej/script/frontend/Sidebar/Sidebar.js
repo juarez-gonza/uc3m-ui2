@@ -12,11 +12,21 @@ class Sidebar {
      */
     render() {
         removeAllChildren(this.element);
+        console.log(__Store.state.loggedIn);
         if (__Store.state.loggedIn === null)
             return SidebarDefault(this.element);
-        else
-            return SidebarLoggedIn(this.element, __Store.state.loggedIn);
+        return SidebarLoggedIn(this.element, __Store.state.loggedIn);
     }
+}
+
+/**
+ * 
+ * @param {HTMLElement} root 
+ * @param {User} user
+ * @return {HTMLElement}
+ */
+function SidebarLoggedIn(root, user) {
+    return SidebarDefault(root);
 }
 
 /**
@@ -62,15 +72,6 @@ function SidebarDefault(root) {
     ]);
 
     return appendChildren([upper, lower], root);
-}
-
-/**
- * @param {HTMLElement} root 
- * @param {User} user 
- * @return {HTMLElement}
- */
-function SidebarLoggedIn(root, user) {
-    return root;
 }
 
 /** @typedef {Object} SidebarItemData

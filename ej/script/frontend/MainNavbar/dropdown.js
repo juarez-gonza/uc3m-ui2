@@ -28,8 +28,6 @@ function DropdownItems(items) {
  */
 function Dropdown(items) {
     const dropdown = appendChildren(DropdownItems(items), document.createElement("ul"));
-    dropdown.classList.add("dropdown");
-    dropdown.classList.add("shadow1");
-
+    setClasses(dropdown, ["dropdown", "shadow1"]);
     return dropdown;
 }

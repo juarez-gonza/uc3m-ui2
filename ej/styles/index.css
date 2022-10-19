@@ -599,9 +599,7 @@ ul.dropdown li:last-of-type {
     display: flex;
     align-items: center;
     justify-content: center;
-}
 
-.main-footer span {
     font-style: italic;
 }
 

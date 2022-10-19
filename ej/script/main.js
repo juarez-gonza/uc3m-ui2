@@ -177,3 +177,6 @@ __mainNavbar.render();
 
 const __sidebar = new Sidebar();
 __sidebar.render();
+
+const __footer = new Footer();
+__footer.render();

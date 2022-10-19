@@ -14,8 +14,7 @@ class MainNavbar {
         removeAllChildren(this.element);
         if (__Store.state.loggedIn === null)
             return MainNavbarDefault(this.element);
-        else
-            return MainNavbarProfile(this.element, __Store.state.loggedIn);
+        return MainNavbarProfile(this.element, __Store.state.loggedIn);
     }
 };
 
