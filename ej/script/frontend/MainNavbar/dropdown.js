@@ -24,24 +24,12 @@ function DropdownItems(items) {
 
 /**
  * @param {DropdownItemData[]} items
- * @param {(function(MouseEvent, HTMLUListElement): any | undefined)} clickOutsideHandler
  * @return {HTMLElement}
  */
-function Dropdown(items, clickOutsideHandler) {
+function Dropdown(items) {
     const dropdown = appendChildren(DropdownItems(items), document.createElement("ul"));
     dropdown.classList.add("dropdown");
     dropdown.classList.add("shadow1");
-
-    // TODO: check why this setTimeout is needed for the dropdown to show up in the first place
-    setTimeout(() => {
-        document.addEventListener("click", e => {
-            const clicked = isInDOMTree(e.target, dropdown);
-            if (!clicked && clickOutsideHandler !== undefined) {
-                console.log("what the fuck")
-                clickOutsideHandler(e, dropdown);
-            }
-        });
-    }, 200);
 
     return dropdown;
 }

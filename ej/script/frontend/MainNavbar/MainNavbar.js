@@ -73,19 +73,25 @@ function MainNavbarProfile(root, user) {
     const dropdown = root.appendChild(Dropdown([
             {text: "Account", clickHandler: undefined},
             {text: "Profile", clickHandler: undefined},
-            {text: "Log out", clickHandler: undefined}],
-            (e, dropdown) => {
-                dropdown.classList.remove("show");
-            }));
-    console.log(dropdown);
-    userImg.addEventListener("click", e => {
-        //document.querySelector(".main-nav ul.dropdown").classList.add("show");
+            {text: "Log out", clickHandler: undefined}]));
+
+    userImg.addEventListener("click", outerE => {
         // if the dropdown is not overlapped with the userImg, then
         // a conditional to check that the same dropdown is not opened
         // twice would be needed. Not the case here
-        console.log(dropdown.classList);
         dropdown.classList.add("show");
+        document.addEventListener("click", function _handler(innerE) {
+            if (innerE === outerE)
+                return;
+
+            if (isInDOMTree(innerE.target, dropdown) || !dropdown.classList.contains("show"))
+                return;
+
+            dropdown.classList.remove("show");
+            document.removeEventListener("click", _handler);
+        });
     });
+
     rightside.appendChild(userMenu).appendChild(userImg);
 
     return appendChildren([leftside, center, rightside], root);

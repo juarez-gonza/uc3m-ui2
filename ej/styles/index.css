@@ -504,10 +504,12 @@ form:invalid.form button[type="submit"] {
     position: absolute;
 
     right: 2.2%;
-    top: -100%;
+    top: -150%;
 
     height: 0px;
     width: 180px;
+
+    opacity: 0.0;
 
     transition: 0.2s ease-out;
 }
@@ -515,6 +517,7 @@ form:invalid.form button[type="submit"] {
 .main-nav ul.dropdown.show {
     top: 0%;
     height: 140px;
+    opacity: 1.0;
 }
 
 /* dropdown stuff */
@@ -641,7 +644,7 @@ ul.dropdown li:last-of-type {
 }
 
 .main-sidebar ul li {
-    margin-bottom: 0%;
+    margin-bottom: 8%;
     width: 100%;
     display: flex;
     justify-content: flex-start;
