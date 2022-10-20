@@ -1,6 +1,17 @@
+/**
+ * @readonly
+ * @enum {number}
+ */
+ const CardType = {
+    ArtistCard: 0,
+    SongCard: 1,
+};
+
+
 /** @typedef {Object} CardContainerData
  *  @property {string} title
- *  @property {Song[]} songs
+ *  @property {CardType} cardType
+ *  @property {(Song|Artist)[]} data
  */
 
 /**
@@ -15,7 +26,8 @@ function CardContainerSection(containerData) {
  * @param {CardContainerData} cards
  * @return {HTMLElement}
  */
-function CardContainer({title, songs}) {
+function CardContainer(cards) {
+    const {title, data, cardType}  = cards;
     const wrapper = document.createElement("div");
     wrapper.classList.add("playlist");
 
@@ -23,19 +35,34 @@ function CardContainer({title, songs}) {
     h1Title.textContent = title;
 
     wrapper.appendChild(h1Title);
-    wrapper.appendChild(_CardContainer(songs))
+    wrapper.appendChild(_CardContainer(cards));
 
     return wrapper;
 }
 
 /**
- * @param {Song[]} songsData
+ * @param {CardContainerData} cards
  * @return {HTMLElement}
  */
-function _CardContainer(songsData) {
-    const container = appendChildren(songsData.map(c => Card(c)), document.createElement("div"));
+function _CardContainer(cards) {
+    const {data, cardType} = cards;
+    const container = appendChildren(data.map(c => Card(c, cardType)), document.createElement("div"));
     container.classList.add("card-container");
     return container;
+}
+
+/**
+ * 
+ * @param {Song|Artist} data 
+ * @param {CardType} cardType
+ * @return {HTMLElement}
+ */
+function Card(data, cardType) {
+    if (cardType === CardType.ArtistCard)
+        // @ts-ignore no soporte para dynamic dispatch en jsdoc
+        return ArtistCard(data);
+    // @ts-ignore no soporte para dynamic dispatch en jsdoc
+    return SongCard(data) ;
 }
 
 /**
@@ -43,17 +70,12 @@ function _CardContainer(songsData) {
  * @param {Song} songData 
  * @return {HTMLElement}
  */
-function Card(songData) {
-    const ret = document.createElement("div");
+function SongCard(songData) {
+    /** @type {HTMLElement} */
+    const ret = setClasses(document.createElement("div"), ["music-card", "shadow2"]);
+    const {title, artist, songPath, description} = songData;
 
-    ret.classList.add("music-card");
-    ret.classList.add("shadow2");
-
-    const title = songData.title;
-    const artist = songData.artist;
     const coverPath = songData.coverPath.length === 0 ? Album.find(songData.album).coverPath : songData.coverPath;
-    const songPath = songData.songPath;
-    const description = songData.description;
 
     ret.innerHTML = `
         <div class="thumbnail">
@@ -70,4 +92,27 @@ function Card(songData) {
     `;
 
     return ret;
+}
+
+/**
+ * 
+ * @param {Artist} artistData 
+ */
+function ArtistCard(artistData) {
+    /** @type {HTMLElement} */
+    const ret = setClasses(document.createElement("div"), ["artist-card", "shadow2"]);
+    const img = document.createElement("img");
+    img.src = findSomeArtistImg(artistData);
+    ret.appendChild(img);
+    return ret;
+}
+
+/**
+ * @param {Artist} artistData
+ * @return {string}
+ */
+function findSomeArtistImg(artistData) {
+    if (artistData.albums.length > 0)
+        return artistData.albums[0].coverPath;
+    return artistData.songs.find(s => s.coverPath.length > 0).coverPath;
 }

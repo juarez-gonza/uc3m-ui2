@@ -21,9 +21,10 @@ function setAttributes(element, attributes) {
 }
 
 /**
- * @param {Element} element
+ * @template {Element} T
+ * @param {T} element
  * @param {string[]} classes
- * @return {Element}
+ * @return {T}
  */
 function setClasses(element, classes) {
     for (const c of classes)

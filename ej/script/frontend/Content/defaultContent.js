@@ -34,6 +34,10 @@ function DefaultContent(root) {
    const title = document.createElement("h1");
    title.textContent = "Explore new songs!";
    title.classList.add("main-title");
-   const content = CardContainerSection(songNCollections(5).map((songs, idx) => ({title: `Playlist ${idx}`, songs: songs})));
+   const content = CardContainerSection(songNCollections(5).map((songs, idx) => ({
+      title: `Playlist ${idx}`,
+      data: songs,
+      cardType: CardType.SongCard
+   })));
    return appendChildren([title, ...content], root);
 }

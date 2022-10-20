@@ -1,22 +1,13 @@
 /**
- * @param {Song[]} favSongs
+ * @param {string} title
+ * @param {Song[]} songs
  * @return {CardContainerData}
  */
-function favSongsData(favSongs) {
+function songsCardData(title, songs) {
     return {
-        title: "Your favourite songs",
-        songs: favSongs
-    };
-}
-
-/**
- * @param {Playlist} playlist
- * @return {CardContainerData}
- */
-function playlistData(playlist) {
-    return {
-        title: `Playlist: ${playlist.name}`,
-        songs: playlist.songs
+        title: title,
+        cardType: CardType.SongCard,
+        data: songs
     };
 }
 
@@ -25,7 +16,20 @@ function playlistData(playlist) {
  * @return {CardContainerData[]}
  */
 function allPlaylistsData(playlists) {
-    return playlists.map(p => playlistData(p));
+    return playlists.map(p => songsCardData(`Playlist: ${p.name}`, p.songs));
+}
+
+/**
+ * @param {string} title
+ * @param {Artist[]} recentArtists
+ * @return {CardContainerData} 
+ */
+function artistsCardData(title, recentArtists) {
+    return {
+        title: title,
+        cardType: CardType.ArtistCard,
+        data: recentArtists
+    };
 }
 
 /**
@@ -37,6 +41,10 @@ function HomeContent(root, user) {
     const title = document.createElement("h1");
     title.textContent = "Your Home Section";
     title.classList.add("main-title");
-    const content = CardContainerSection([...allPlaylistsData(user.playlists), favSongsData(user.favSongs)]);
-    return appendChildren([title, ...content], root);
+    const songsContent = CardContainerSection([
+        artistsCardData("Recently heard artists", user.recentArtists),
+        songsCardData("Recently heard songs", user.recentSongs),
+        songsCardData("Your favourite songs", user.favSongs),
+        ...allPlaylistsData(user.playlists)]);
+    return appendChildren([title, ...songsContent], root);
 }

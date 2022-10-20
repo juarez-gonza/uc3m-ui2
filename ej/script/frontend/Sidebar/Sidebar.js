@@ -12,7 +12,6 @@ class Sidebar {
      */
     render() {
         removeAllChildren(this.element);
-        console.log(__Store.state.loggedIn);
         if (__Store.state.loggedIn === null)
             return SidebarDefault(this.element);
         return SidebarLoggedIn(this.element, __Store.state.loggedIn);
