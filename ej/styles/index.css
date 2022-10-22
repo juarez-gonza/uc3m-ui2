@@ -111,7 +111,7 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 1;
+    z-index: 5;
 
     height: 100%;
     width: 100%;
@@ -440,6 +440,19 @@ form:invalid.form button[type="submit"] {
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+}
+
+.music-card .badge-msg {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    padding: 1.2rem;
+    transform: scale(1.2);
+
+    font-size: 1.2rem;
+    font-style: italic;
+    text-align:center;
 }
 
 .artist-card img {

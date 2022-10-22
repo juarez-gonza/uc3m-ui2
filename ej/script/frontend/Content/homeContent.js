@@ -6,8 +6,14 @@
 function songsCardData(title, songs) {
     return {
         title: title,
-        cardType: CardType.SongCard,
-        data: songs
+        containerType: CardContainerType.SongCard,
+        data: songs.map(s => ({
+            song: s,
+            clickHandler: undefined,
+            intervalUpdate: undefined,
+            badgeMessage: undefined,
+            playable: true
+        }))
     };
 }
 
@@ -27,8 +33,8 @@ function allPlaylistsData(playlists) {
 function artistsCardData(title, recentArtists) {
     return {
         title: title,
-        cardType: CardType.ArtistCard,
-        data: recentArtists
+        containerType: CardContainerType.ArtistCard,
+        data: recentArtists.map(a => ({artist: a, clickHandler: () => {console.log(a)}}))
     };
 }
 
