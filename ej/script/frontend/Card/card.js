@@ -5,26 +5,39 @@
  const CardContainerType = {
     ArtistCard: 0,
     SongCard: 1,
+    AlbumCard: 2,
 };
+
+/**
+ * @typedef {Object} CommonCardData
+ * @property {function(MouseEvent): any | undefined} clickHandler
+ * @property {{period: number, handler: function(HTMLElement): boolean} | undefined} intervalUpdate
+ * @property {string|undefined} badgeMessage
+ */
 
 /**
  * @typedef {Object} ArtistCardData
  * @property {Artist} artist
- * @property {function(MouseEvent): any | undefined} clickHandler
+ * @property {CommonCardData|undefined} commonProperties
+ */
+
+/**
+ * @typedef {Object} AlbumCardData
+ * @property {Album} album
+ * @property {CommonCardData} commonProperties
  */
 
 /**
  * @typedef {Object} SongCardData
  * @property {Song} song
- * @property {function(MouseEvent): any | undefined} clickHandler
- * @property {{period: number, handler: function(HTMLElement): boolean} | undefined} intervalUpdate
- * @property {string|undefined} badgeMessage
  * @property {boolean} playable
+ * @property {CommonCardData} commonProperties
+ */
 
 /** @typedef {Object} CardContainerData
  *  @property {string} title
  *  @property {CardContainerType} containerType
- *  @property {(SongCardData|ArtistCardData)[]} data
+ *  @property {(SongCardData|ArtistCardData|AlbumCardData)[]} data
  */
 
 /**
@@ -68,6 +81,9 @@ function _CardContainer(containerData) {
         case CardContainerType.SongCard:
             CardConstructor = SongCard;
             break;
+        case CardContainerType.AlbumCard:
+            CardConstructor = AlbumCard;
+            break;
         default:
             throw new Error(`No card constructor for card type ${containerType}`)
     }
@@ -86,7 +102,7 @@ function _CardContainer(containerData) {
  * @return {HTMLElement}
  */
 function SongCard(songData) {
-    const {song, clickHandler, intervalUpdate, badgeMessage, playable} = songData;
+    const {song, playable, commonProperties} = songData;
     const {title, artist, songPath, description, coverPath, album} = song;
 
     /** @type {HTMLElement} */
@@ -109,20 +125,9 @@ function SongCard(songData) {
             <h6>${title}</h6>
             <p>${description}</p>
         </div>
-        ${badgeMessage === undefined ? "" :
-        `<div class="badge-msg main-dark-bg-color shadow1">
-            ${badgeMessage}
-        </div>`
-        }
     `;
 
-    if (clickHandler !== undefined)
-        ret.addEventListener("click", clickHandler);
-
-    if (intervalUpdate !== undefined)
-        setIntervalUntil(intervalUpdate.handler, intervalUpdate.period, ret);
-
-    return ret;
+    return addCommonProperties(ret, commonProperties);
 }
 
 /**
@@ -130,15 +135,66 @@ function SongCard(songData) {
  * @param {ArtistCardData} artistData 
  */
 function ArtistCard(artistData) {
-    const {artist, clickHandler} = artistData;
+    const {artist, commonProperties} = artistData;
     /** @type {HTMLElement} */
     const ret = setClasses(document.createElement("div"), ["artist-card", "shadow2"]);
 
-    const img = document.createElement("img");
-    img.src = findSomeArtistImg(artistData.artist);
+    ret.innerHTML = `
+        <img src=${findSomeArtistImg(artist)}>
+        <div class="description">${artist.name}</div>
+    `;
+    return addCommonProperties(ret, commonProperties);
+}
+
+/**
+ * @param {AlbumCardData} albumData
+ */
+function AlbumCard(albumData) {
+    const {album, commonProperties} = albumData;
+    const ret = setClasses(document.createElement("div"), ["music-card", "shadow2"]);
+    ret.innerHTML = `
+        <div class="thumbnail">
+            <img src="${album.coverPath}" alt="${album.title}">
+        </div>
+        <div class="description">
+            <h6>${album.title}</h6>
+            <p>${album.artist}</p>
+        </div>
+    `;
+    return addCommonProperties(ret, commonProperties);
+}
+
+/**
+ * @param {HTMLElement} card
+ * @param {CommonCardData} commonProperties 
+ * @return {HTMLElement}
+ */
+function addCommonProperties(card, commonProperties) {
+    if (commonProperties === undefined)
+        return card;
+
+    const {clickHandler, badgeMessage, intervalUpdate} = commonProperties
+
+    if (badgeMessage !== undefined)
+        card.appendChild(BadgeMessage(badgeMessage));
+
     if (clickHandler !== undefined)
-        img.addEventListener("click", clickHandler);
-    ret.appendChild(img);
+        card.addEventListener("click", clickHandler);
+
+    if (intervalUpdate !== undefined)
+        setIntervalUntil(intervalUpdate.handler, intervalUpdate.period, card);
+
+    return card;
+}
+
+/**
+ * @param {string} message
+ * @return {HTMLElement}
+ */
+function BadgeMessage(message) {
+    const ret = setClasses(document.createElement("div"),
+                            ["badge-msg", "main-dark-bg-color", "shadow1"]);
+    ret.innerText = message;
     return ret;
 }
 

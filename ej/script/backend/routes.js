@@ -52,3 +52,17 @@ function signInUserReq(userData) {
     const newUser = new User(userData);
     return newUser.save();
 }
+
+/**
+ * @return {Song[]}
+ */
+function getAllSongs() {
+   return getWithPattern(/^Song-.*/);
+}
+
+/**
+ * @return {Album[]}
+ */
+function getAllAlbums() {
+   return getWithPattern(/^Album-.*/);
+}

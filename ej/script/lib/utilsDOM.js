@@ -76,7 +76,6 @@ function appendChildren(elements, root) {
  * @param  {...T} handlerArg 
  */
 function setIntervalUntil(handler, period, ...handlerArg) {
-    // strict use of var keyword 
     const intervalId = setInterval(() => {
         if (handler(...handlerArg) === false)
             clearInterval(intervalId)
@@ -89,10 +88,10 @@ function setIntervalUntil(handler, period, ...handlerArg) {
  * @return {string}
  */
 function msToHhmmss(duration) {
-   const ss = Math.floor((duration / 1000) % 60);
-   const mm = Math.floor((duration / (1000 * 60)) % 60);
-   const hh = Math.floor((duration / (1000 * 60 * 60)) % 24);
-   return `${(hh < 10) ? "0" + hh : hh}:${(mm < 10) ? "0" + mm : mm}:${(ss < 10) ? "0" + ss : ss}`
+    const ss = Math.floor((duration / 1000) % 60);
+    const mm = Math.floor((duration / (1000 * 60)) % 60);
+    const hh = Math.floor((duration / (1000 * 60 * 60)));
+    return `${(hh < 10) ? "0" + hh : hh}:${(mm < 10) ? "0" + mm : mm}:${(ss < 10) ? "0" + ss : ss}`
 }
 
 /**
@@ -101,8 +100,8 @@ function msToHhmmss(duration) {
  * @return {number}
  */
 function hhmmssToMs(str) {
-   const [hh,mm,ss] = str.split(":");
-   return Number(hh) * 1000 * 60 * 60
+    const [hh,mm,ss] = str.split(":");
+    return Number(hh) * 1000 * 60 * 60
             + Number(mm) * 1000 * 60
             + Number(ss) * 1000;
 }
@@ -113,7 +112,7 @@ function hhmmssToMs(str) {
  * @return {Date}
  */
 function copyDate(date) {
-   return new Date(Number(date));
+    return new Date(Number(date));
 }
 
 /**
@@ -122,9 +121,9 @@ function copyDate(date) {
  * @return {Date}
  */
 function addDays(date, n) {
-   const ret = copyDate(date);
-   ret.setDate(date.getDate() + n);
-   return ret;
+    const ret = copyDate(date);
+    ret.setDate(date.getDate() + n);
+    return ret;
 }
 
 /**
@@ -132,7 +131,7 @@ function addDays(date, n) {
  * @return {Date}
  */
 function nDaysFromNow(n) {
-   return addDays(new Date(), n);
+    return addDays(new Date(), n);
 }
 
 /**
@@ -141,7 +140,7 @@ function nDaysFromNow(n) {
  * @return {number}
  */
 function diffDateMs(d1, d2) {
-   return d1.getTime() - d2.getTime();
+    return d1.getTime() - d2.getTime();
 }
 
 /**
@@ -149,5 +148,5 @@ function diffDateMs(d1, d2) {
  * @return {number}
  */
 function diffFromNowMs(date) {
-   return diffDateMs(date, new Date())
+    return diffDateMs(date, new Date());
 }

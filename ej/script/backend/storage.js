@@ -56,3 +56,20 @@ function findRec(key) {
 function saveRec(key, obj) {
    saveLS(key, JSON.stringify(obj));
 }
+
+/**
+ * @param {RegExp} pattern 
+ */
+function getWithPattern(pattern) {
+   const ret = [];
+   const lS = window.localStorage;
+   for (const key in lS) {
+      if (!lS.hasOwnProperty(key))
+         continue;
+
+      const item  = JSON.parse(lS.getItem(key));
+      if (pattern.test(item._id))
+         ret.push(item);
+   }
+   return ret;
+}
