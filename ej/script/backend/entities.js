@@ -113,6 +113,16 @@ class User {
 
     /**
      * 
+     * @param {Song} song 
+     * @return {User}
+     */
+    removeFavSong(song) {
+        [this.favSongs,] = removeFirstWhere(this.favSongs, s => s._id === song._id);
+        return this;
+    }
+
+    /**
+     * 
      * @param {UserId} userId 
      */
     followUser(userId) {

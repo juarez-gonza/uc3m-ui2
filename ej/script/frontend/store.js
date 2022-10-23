@@ -35,9 +35,13 @@ const __mutations = {
     },
 
     toArtistPage: (state, artist) => {
-        return {...state, currentPage: CurrentPage.ARTIST, extraPageData: {artist: artist}}
+        return {...state, currentPage: CurrentPage.ARTIST, extraPageData: {artist: artist}};
+    },
+
+    toUserPage: (state, otherUser) => {
+        return {...state, currentPage: CurrentPage.OTHER_USER, extraPageData: {otherUser: otherUser}};
     }
 };
 
-// @ts-ignore violación al sistema de tipado :(
+// @ts-ignore  JSDoc no puede deducir el tipo bien aquí
 const __Store = new SyncStore(__initalStoreState, __mutations);

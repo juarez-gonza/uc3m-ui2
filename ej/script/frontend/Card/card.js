@@ -31,6 +31,7 @@
  * @typedef {Object} SongCardData
  * @property {Song} song
  * @property {boolean} playable
+ * @property {{liked: boolean} | undefined} likeable
  * @property {CommonCardData} commonProperties
  */
 
@@ -102,7 +103,7 @@ function _CardContainer(containerData) {
  * @return {HTMLElement}
  */
 function SongCard(songData) {
-    const {song, playable, commonProperties} = songData;
+    const {song, playable, likeable, commonProperties} = songData;
     const {title, artist, songPath, description, coverPath, album} = song;
 
     /** @type {HTMLElement} */
@@ -126,6 +127,13 @@ function SongCard(songData) {
             <p>${description}</p>
         </div>
     `;
+
+    if (likeable !== undefined) {
+        const likeButton = LikeButton(likeable.liked);
+        const likeSection = document.createElement("div")
+        likeSection.classList.add("like-button-section");
+        ret.appendChild(likeSection).appendChild(likeButton);
+    }
 
     return addCommonProperties(ret, commonProperties);
 }
@@ -161,6 +169,7 @@ function AlbumCard(albumData) {
             <p>${album.artist}</p>
         </div>
     `;
+
     return addCommonProperties(ret, commonProperties);
 }
 
@@ -185,6 +194,24 @@ function addCommonProperties(card, commonProperties) {
         setIntervalUntil(intervalUpdate.handler, intervalUpdate.period, card);
 
     return card;
+}
+
+
+const __Filled_Heart_Path = "./icons/icons8-heart-50(1).png";
+const __Cleared_Heart_Path =  "./icons/icons8-heart-50.png";
+/**
+ * @param {boolean} liked
+ */
+function LikeButton(liked) {
+    const img = document.createElement("img");
+    img.src = liked ? __Filled_Heart_Path : __Cleared_Heart_Path;
+
+    if (!liked) {
+        img.addEventListener("mouseenter", () => img.src = __Filled_Heart_Path);
+        img.addEventListener("mouseleave", () => img.src = __Cleared_Heart_Path);
+    }
+
+    return img;
 }
 
 /**

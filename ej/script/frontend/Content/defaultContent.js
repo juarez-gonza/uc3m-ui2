@@ -18,7 +18,7 @@ function countdownHandler(initCountdown) {
  */
 function DefaultContent(root) {
    const title = document.createElement("h1");
-   title.textContent = "Next on SoundSound";
+   title.textContent = "Soon on SoundSound";
    title.classList.add("main-title");
    return appendChildren([title, upcommingSongsContainer(), upcommingAlbumsContainer()], root);
 }
@@ -37,6 +37,7 @@ function upcommingSongsContainer() {
          return {
             song: s,
             playable: false,
+            likeable: undefined,
             commonProperties: {
                intervalUpdate: {
                   handler: countdownHandler(premiereDate),

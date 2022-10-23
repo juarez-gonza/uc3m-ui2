@@ -1,16 +1,22 @@
 /**
  * @param {string} title
  * @param {Song[]} songs
- * @param {function(Song):CommonCardData} genCardCommon
  */
-function songsContainer(title, songs, genCardCommon) {
+function songsContainer(title, songs) {
     return CardContainer({
         title: title,
         containerType: CardContainerType.SongCard,
         data: songs.map(s => ({
             song: s,
             playable: true,
-            commonProperties: genCardCommon(s),
+            likeable: {
+                liked: isLikedByLoggedIn(s)
+            },
+            commonProperties: {
+                clickHandler: clickToLikeHandler(s),
+                intervalUpdate: undefined,
+                badgeMessage: undefined,
+            },
         }))
     });
 }
@@ -21,14 +27,7 @@ function songsContainer(title, songs, genCardCommon) {
  * @return {HTMLElement}
  */
 function albumSongsContainer(album) {
-    return songsContainer(
-        `Album: ${album.title}, by ${album.artist}`,
-        album.songs,
-        () => ({
-            clickHandler: undefined,
-            intervalUpdate: undefined,
-            badgeMessage: undefined
-        }));
+    return songsContainer(`Album: ${album.title}, by ${album.artist}`, album.songs);
 }
 
 /**
@@ -49,14 +48,7 @@ function artistAlbumSongs(artist) {
  * @return {HTMLElement}
  */
 function artistSingles(artist) {
-    return songsContainer(
-        `${artist.name} singles`,
-        take(artist.songs, 5),
-        () => ({
-            clickHandler: undefined,
-            intervalUpdate: undefined,
-            badgeMessage: undefined
-        }));
+    return songsContainer(`${artist.name} singles`, take(artist.songs, 5));
 }
 
 /**

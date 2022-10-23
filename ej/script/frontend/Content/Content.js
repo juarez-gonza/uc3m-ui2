@@ -24,7 +24,7 @@ class Content {
                     __Store.state.extraPageData.artist)
                 return this.element;
             case CurrentPage.OTHER_USER:
-                console.warn("Other user page not developed yet!!")
+                this.element = HomeContent(this.element, __Store.state.extraPageData.otherUser);
                 return this.element;
             case CurrentPage.PLAYLIST_CREATOR:
                 console.warn("Playlist creator not developed yet!!")

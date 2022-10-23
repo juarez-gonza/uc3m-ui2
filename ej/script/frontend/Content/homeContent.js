@@ -1,26 +1,4 @@
 /**
- * 
- * @param {Artist} artist 
- * @return {function(MouseEvent): any}
- */
-function setArtistClickHandler(artist) {
-    return e => {
-        __Store.commit("toArtistPage", artist);
-    };
-}
-
-/**
- * 
- * @param {Song} song
- * @return {function(MouseEvent): any}
- */
-function setSongClickHandler(song) {
-    return e => {
-        console.warn("Implement like system");
-    };
-}
-
-/**
  * @param {string} title
  * @param {Song[]} songs
  * @return {CardContainerData}
@@ -32,8 +10,9 @@ function songsCardData(title, songs) {
         data: songs.map(s => ({
             song: s,
             playable: true,
+            likeable: {liked: isLikedByLoggedIn(s)},
             commonProperties: {
-                clickHandler: setSongClickHandler(s),
+                clickHandler: clickToLikeHandler(s),
                 intervalUpdate: undefined,
                 badgeMessage: undefined,
             },
@@ -78,7 +57,7 @@ function artistsCardData(title, recentArtists) {
  */
 function HomeContent(root, user) {
     const title = document.createElement("h1");
-    title.textContent = "Your Home Section";
+    title.textContent = `${user.username}'s Home Section`;
     title.classList.add("main-title");
     const songsContent = CardContainerSection([
         artistsCardData("Recently heard artists", user.recentArtists),
