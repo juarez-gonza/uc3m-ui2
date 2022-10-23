@@ -14,7 +14,7 @@ function setArtistClickHandler(artist) {
  * @param {Song} song
  * @return {function(MouseEvent): any}
  */
-function clickToLikeHandler(song) {
+function setClickToLikeHandler(song) {
     return e => {
         /** @type {Element} */
         // @ts-ignore e.target tiene tipo EventTarget y eso no puede castearse a Element o Node en JSDoc

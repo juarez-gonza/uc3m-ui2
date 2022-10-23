@@ -328,6 +328,7 @@ form:invalid.form button[type="submit"] {
     font-size: 3rem;
 }
 
+/* TODO: cambiar nombre de clase playlist */
 .playlist {
     margin-top: 3%;
     width: 100%;
@@ -344,6 +345,28 @@ form:invalid.form button[type="submit"] {
 
     font-size: 2rem;
     font-style: italic;
+}
+
+.playlist .user-icons-section {
+    display: flex;
+    justify-content: space-between;
+    width: 70%;
+    max-width: 70%;
+}
+
+.playlist .user-icons-section img.profile-img {
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+
+    box-shadow: 0 0 12px rgb(132, 94, 194, 0.6);
+
+    transition: 0.2s ease-out;
+    transform: scale(1.0);
+}
+
+.playlist .user-icons-section img.profile-img:hover {
+    transform: scale(1.2);
 }
 
 .playlist .card-container {
@@ -537,6 +560,7 @@ form:invalid.form button[type="submit"] {
 }
 
 .main-nav ul.dropdown {
+    z-index: 3;
     position: absolute;
 
     right: 2.2%;

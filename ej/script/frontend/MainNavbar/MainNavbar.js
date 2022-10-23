@@ -70,15 +70,7 @@ function MainNavbarProfile(root, user) {
     // TODO: handle user image user.profilePicB64
     const rightside = document.createElement("ul");
     const userMenu = document.createElement("li");
-    const userImg = document.createElement("img");
-    userImg.src = "./icons/icons8-user-64.png";
-
-    const dropdown = root.appendChild(Dropdown([
-            {text: "Account", clickHandler: undefined},
-            {text: "Profile", clickHandler: goToLoggedInProfile},
-            {text: "Log out", clickHandler: undefined}]));
-
-    userImg.addEventListener("click", outerE => {
+    const userImg = UserIcon({user: user, clickHandler: outerE => {
         // if the dropdown is not overlapped with the userImg, then
         // a conditional to check that the same dropdown is not opened
         // twice would be needed. Not the case here
@@ -86,14 +78,17 @@ function MainNavbarProfile(root, user) {
         document.addEventListener("click", function _handler(innerE) {
             if (innerE === outerE)
                 return;
-
             if (isInDOMTree(innerE.target, dropdown) || !dropdown.classList.contains("show"))
                 return;
-
             dropdown.classList.remove("show");
             document.removeEventListener("click", _handler);
         });
-    });
+    }});
+
+    const dropdown = root.appendChild(Dropdown([
+            {text: "Account", clickHandler: undefined},
+            {text: "Profile", clickHandler: goToLoggedInProfile},
+            {text: "Log out", clickHandler: undefined}]));
 
     rightside.appendChild(userMenu).appendChild(userImg);
 

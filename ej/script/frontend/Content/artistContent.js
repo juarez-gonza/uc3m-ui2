@@ -13,7 +13,7 @@ function songsContainer(title, songs) {
                 liked: isLikedByLoggedIn(s)
             },
             commonProperties: {
-                clickHandler: clickToLikeHandler(s),
+                clickHandler: setClickToLikeHandler(s),
                 intervalUpdate: undefined,
                 badgeMessage: undefined,
             },
