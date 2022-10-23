@@ -119,8 +119,3 @@ function SignInForm() {
     signInForm.addEventListener("submit", onSubmitSignInHandler(closeModalClickHandler));
     return signInForm;
 }
-
-/*
-const [, __signIn] = document.querySelectorAll(".main-nav ul li a");
-__signIn.addEventListener("click", setOpenModalHandler("Register", SignInForm));
-*/

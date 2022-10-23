@@ -1,4 +1,26 @@
 /**
+ * 
+ * @param {Artist} artist 
+ * @return {function(MouseEvent): any}
+ */
+function setArtistClickHandler(artist) {
+    return e => {
+        __Store.commit("toArtistPage", artist);
+    };
+}
+
+/**
+ * 
+ * @param {Song} song
+ * @return {function(MouseEvent): any}
+ */
+function setSongClickHandler(song) {
+    return e => {
+        console.warn("Implement like system");
+    };
+}
+
+/**
  * @param {string} title
  * @param {Song[]} songs
  * @return {CardContainerData}
@@ -9,10 +31,12 @@ function songsCardData(title, songs) {
         containerType: CardContainerType.SongCard,
         data: songs.map(s => ({
             song: s,
-            clickHandler: undefined,
-            intervalUpdate: undefined,
-            badgeMessage: undefined,
-            playable: true
+            playable: true,
+            commonProperties: {
+                clickHandler: setSongClickHandler(s),
+                intervalUpdate: undefined,
+                badgeMessage: undefined,
+            },
         }))
     };
 }
@@ -34,7 +58,16 @@ function artistsCardData(title, recentArtists) {
     return {
         title: title,
         containerType: CardContainerType.ArtistCard,
-        data: recentArtists.map(a => ({artist: a, clickHandler: () => {console.log(a)}}))
+        data: recentArtists.map(a => (
+            {
+                artist: a,
+                commonProperties: {
+                    clickHandler: setArtistClickHandler(a),
+                    badgeMessage: undefined,
+                    intervalUpdate: undefined,
+                }
+            }
+        ))
     };
 }
 

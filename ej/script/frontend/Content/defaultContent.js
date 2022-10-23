@@ -7,7 +7,7 @@ function countdownHandler(initCountdown) {
       const description = card.querySelector(".badge-msg");
       if (description === null)
          return false;
-      description.textContent = msToHhmmss(diffFromNowMs(initCountdown));
+      description.textContent = compose(msToHhmmss, diffFromNowMs)(initCountdown);
       return true;
    };
 }
@@ -67,7 +67,7 @@ function upcommingAlbumsContainer() {
                   handler: countdownHandler(premiereDate),
                   period: 1000,
                },
-               badgeMessage: msToHhmmss(diffFromNowMs(premiereDate)),
+               badgeMessage: compose(msToHhmmss, diffFromNowMs)(premiereDate),
                clickHandler: undefined
             }
          };

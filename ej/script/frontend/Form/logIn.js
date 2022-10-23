@@ -105,8 +105,3 @@ function LogInForm() {
     logInForm.addEventListener("submit", onSubmitLogInHandler(onLogInSuccess, formError));
     return logInForm;
 }
-
-/*
-const [__logIn,] = document.querySelectorAll(".main-nav ul li a");
-__logIn.addEventListener("click", setOpenModalHandler("Enter your credentials:", LogInForm));
-*/

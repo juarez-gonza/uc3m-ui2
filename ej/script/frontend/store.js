@@ -32,6 +32,10 @@ const __mutations = {
 
     logOut: (state) => {
         return {...state, currentPage: CurrentPage.DEFAULT, loggedIn: null};
+    },
+
+    toArtistPage: (state, artist) => {
+        return {...state, currentPage: CurrentPage.ARTIST, extraPageData: {artist: artist}}
     }
 };
 
