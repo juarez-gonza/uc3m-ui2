@@ -47,6 +47,10 @@ function MainNavbarDefault(root) {
     return appendChildren([leftside, rightside], root);
 }
 
+function goToLoggedInProfile() {
+    __Store.commit("logIn", __Store.state.loggedIn);
+}
+
 /**
  * 
  * @param {HTMLElement} root 
@@ -71,7 +75,7 @@ function MainNavbarProfile(root, user) {
 
     const dropdown = root.appendChild(Dropdown([
             {text: "Account", clickHandler: undefined},
-            {text: "Profile", clickHandler: undefined},
+            {text: "Profile", clickHandler: goToLoggedInProfile},
             {text: "Log out", clickHandler: undefined}]));
 
     userImg.addEventListener("click", outerE => {

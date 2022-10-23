@@ -10,7 +10,7 @@ function DropdownItem(item) {
     const {text, clickHandler} = item
     const ret = document.createElement("li");
     ret.textContent = text;
-    if (clickHandler)
+    if (clickHandler !== undefined)
         ret.addEventListener("click", clickHandler);
     return ret;
 }
