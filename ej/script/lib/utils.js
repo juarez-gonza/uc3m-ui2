@@ -175,3 +175,17 @@ function _slide_impl(xs, n, acc) {
 function slide(xs, n) {
    return _slide_impl(xs, n, []);
 }
+
+/**
+ * Algoritmo para partir un array en varios arrays de tamaño n
+ * @template T
+ * @param {T[]} xs
+ * @param {number} n
+ * @return {T[][]}
+ */
+ function chunks(xs, n) {
+    const ret = [];
+    for (let i = 0; i < xs.length; i += n)
+        ret.push(take(xs.slice(i), n));
+    return ret;
+}

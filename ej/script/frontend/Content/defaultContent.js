@@ -2,7 +2,7 @@
  * @param {Date} initCountdown
  * @return {function(HTMLElement): boolean}
  */
-function countdownHandler(initCountdown) {
+ function countdownHandler(initCountdown) {
    return card => {
       const description = card.querySelector(".badge-msg");
       if (description === null)
