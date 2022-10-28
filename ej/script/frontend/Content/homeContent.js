@@ -95,7 +95,8 @@ function UserIconsSection(title, userIds, n) {
 /**
  * 
  * @param {HTMLElement} root 
- * @param {User} user 
+ * @param {User} user
+ * @return {HTMLElement}
  */
 function HomeContent(root, user) {
     const title = document.createElement("h1");

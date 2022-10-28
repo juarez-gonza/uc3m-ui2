@@ -26,6 +26,10 @@ class Content {
             case CurrentPage.OTHER_USER:
                 this.element = HomeContent(this.element, __Store.state.extraPageData.otherUser);
                 return this.element;
+            case CurrentPage.SEARCH_SONGS:
+                this.element = SearchContent(this.element,
+                    __Store.state.extraPageData.search)
+                return this.element;
             case CurrentPage.PLAYLIST_CREATOR:
                 console.warn("Playlist creator not developed yet!!")
                 return this.element;
