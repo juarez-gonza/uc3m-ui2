@@ -13,7 +13,30 @@
  * @return {function(A): C}
  */
 function compose(f, g) {
-    return x => f(g(x));
+    return (...x) => f(g(...x));
+}
+
+/**
+ * 
+ * @template A
+ * @template B
+ * @param {function(A): B} f 
+ * @param {A[]} xs 
+ * @return {B[]}
+ */
+function map(f, xs) {
+    return xs.map(f);
+}
+
+/**
+ * @template A
+ * @template B
+ * @template C
+ * @param {function(A, B): C} f 
+ * @return {function(A): function(B): C}
+ */
+function curry(f) {
+    return x => y => f(x, y);
 }
 
 /**
@@ -96,6 +119,24 @@ function take(arr, n) {
  */
 function foldl(f, arr, base) {
     return arr.reduce(f, base);
+}
+
+/**
+ * @param {number} x
+ * @param {number} y
+ * @return {number}
+ */
+function min(x, y) {
+    return x < y ? x : y;
+}
+
+/**
+ * @param {number} x
+ * @param {number} y
+ * @return {number}
+ */
+function max(x, y) {
+    return x > y ? x : y;
 }
 
 /**

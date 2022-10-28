@@ -21,14 +21,6 @@ function songsCardData(title, songs) {
 }
 
 /**
- * @param {Playlist[]} playlists
- * @return {CardContainerData[]}
- */
-function allPlaylistsData(playlists) {
-    return playlists.map(p => songsCardData(`Playlist: ${p.name}`, p.songs));
-}
-
-/**
  * @param {string} title
  * @param {Artist[]} recentArtists
  * @return {CardContainerData} 
@@ -110,7 +102,6 @@ function HomeContent(root, user) {
         ]);
 
     const followedUsers = UserIconsSection("Following", user.following, 5);
-    const playlists = CardContainerSection(allPlaylistsData(user.playlists))
 
-    return appendChildren([title, ...songsContent, followedUsers, ...playlists], root);
+    return appendChildren([title, ...songsContent, followedUsers], root);
 }

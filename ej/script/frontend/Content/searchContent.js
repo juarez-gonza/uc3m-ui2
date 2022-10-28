@@ -17,7 +17,6 @@
  * @param {Song[]} songs
  * @return {CardContainerData}
  */
-
 function FoundCardContainer(songs) {
     return {
         title:'songs found',

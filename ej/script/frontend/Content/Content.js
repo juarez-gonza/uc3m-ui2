@@ -33,6 +33,10 @@ class Content {
             case CurrentPage.PLAYLIST_CREATOR:
                 console.warn("Playlist creator not developed yet!!")
                 return this.element;
+            case CurrentPage.MY_PLAYLISTS:
+                this.element = PlaylistContent(this.element,
+                    __Store.state.loggedIn)
+                return this.element;
         }
     }
 };

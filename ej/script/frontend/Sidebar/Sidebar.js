@@ -13,8 +13,8 @@ class Sidebar {
     render() {
         removeAllChildren(this.element);
         if (__Store.state.loggedIn === null)
-            return SidebarDefault(this.element);
-        return SidebarLoggedIn(this.element, __Store.state.loggedIn);
+            return SidebarLoggedIn(this.element);
+        return SidebarDefault(this.element, __Store.state.loggedIn);
     }
 }
 
@@ -24,8 +24,8 @@ class Sidebar {
  * @param {User} user
  * @return {HTMLElement}
  */
-function SidebarLoggedIn(root, user) {
-    return SidebarDefault(root);
+function SidebarDefault(root, user) {
+    return SidebarLoggedIn(root);
 }
 
 /**
@@ -33,13 +33,16 @@ function SidebarLoggedIn(root, user) {
  * @param {HTMLElement} root 
  * @return {HTMLElement}
  */
-function SidebarDefault(root) {
+function SidebarLoggedIn(root) {
     const upper = SidebarSubmenu("Options", [
         {
             text: "Check Your Playlists",
             iconPath: "./icons/icons8-playlist-48.png",
             alt: "your playlists icon",
-            clickHandler: undefined
+            clickHandler: e => { 
+                e.preventDefault();
+                __Store.commit("toCheckPlaylists");
+            }
         },
         {
             text: "Playlist Creator",

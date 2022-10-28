@@ -400,6 +400,14 @@ form:invalid.form button[type="submit"] {
     overflow-wrap: anywhere;
 }
 
+.music-card.draggable, .artist-card.draggable {
+    cursor: move;
+}
+
+.music-card.draggable.dragging {
+    opacity: 0.8;
+}
+
 .music-card:hover, .artist-card:hover {
     transform: translateY(-10px);
 }

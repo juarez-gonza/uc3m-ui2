@@ -9,6 +9,7 @@ const CurrentPage = {
     ARTIST: 3,
     PLAYLIST_CREATOR: 4,
     SEARCH_SONGS: 5,
+    MY_PLAYLISTS: 6,
 };
 
 /** @typedef {Object} AppState
@@ -42,8 +43,13 @@ const __mutations = {
     toUserPage: (state, otherUser) => {
         return {...state, currentPage: CurrentPage.OTHER_USER, extraPageData: {otherUser: otherUser}};
     },
+
     toSearchPage: (state, search) => {
         return {...state, currentPage: CurrentPage.SEARCH_SONGS, extraPageData: {search: search}};
+    },
+
+    toCheckPlaylists: (state) => {
+        return {...state, currentPage: CurrentPage.MY_PLAYLISTS }
     }
 };
 
