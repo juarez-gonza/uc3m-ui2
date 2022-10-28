@@ -1,33 +1,17 @@
   /**
   * @param {HTMLElement} root
-  * @param {string} input
+  * @param {Song[]} songs
   * @return {HTMLElement}
   */
- function SearchContent(root,input) {
+ function SearchContent(root, songs) {
     const title = document.createElement("h1");
     title.textContent = "Best results";
     title.classList.add("main-title");
-    const found_songs = find_songs(input)
     const songsFoundContent = CardContainerSection([
-        FoundCardContainer(found_songs)
+        FoundCardContainer(songs)
     ]);
     return appendChildren([title, ...songsFoundContent], root);
  }
- 
-/**
- * @param {string} input_song
- * @return {Song[]} 
- */
-function find_songs(input_song) {
-    //@ts-ignore
-    const fuse = new Fuse(getAllSongs(), {
-        keys: ['title','artist']
-      })
-    const songsFound=fuse.search(input_song)
-
-    return songsFound
-    
-}
 
 /**
  * @param {Song[]} songs
