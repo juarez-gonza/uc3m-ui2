@@ -384,7 +384,6 @@ form:invalid.form button[type="submit"] {
 .music-card, .artist-card {
     height: 340px;
     width: 200px;
-    margin-left: -50px;
 
     display: flex;
     flex-direction: column;
@@ -396,7 +395,6 @@ form:invalid.form button[type="submit"] {
 
     position: relative;
     transition: 0.25s ease-out;
-    left: 0px;
 
     overflow: hidden;
     overflow-wrap: anywhere;
@@ -406,11 +404,6 @@ form:invalid.form button[type="submit"] {
     transform: translateY(-10px);
 }
   
-.music-card:hover ~ .music-card,
-.artist-card:hover ~ .artist-card { /* animation on siblings of the hovered card */
-    left: 50px;
-}
-
 .music-card .thumbnail {
     height: 70%;
     position: relative;
@@ -770,10 +763,6 @@ ul.dropdown li:last-of-type {
         display: none;
     }
 
-    .music-card:hover ~ .music-card, .artist-card:hover ~ .artist-card { /* animation on siblings of the hovered card */
-        left: 40px;
-    }
-
     /* main sidebar stuff */
     .main-sidebar ul li {
         margin-bottom: 10%;
@@ -833,10 +822,6 @@ ul.dropdown li:last-of-type {
         margin-left: -30px;
     }
 
-    .music-card:hover ~ .music-card, .artist-card:hover ~ .artist-card { /* animation on siblings of the hovered card */
-        left: 30px;
-    }
-
     /* main sidebar stuff */
     .main-sidebar ul li {
         margin-bottom: 15%;
@@ -866,10 +851,6 @@ ul.dropdown li:last-of-type {
         height: 160px;
         width: 100px;
         margin-left: -20px;
-    }
-
-    .music-card:hover ~ .music-card, .artist-card:hover ~ .artist-card { /* animation on siblings of the hovered card */
-        left: 20px;
     }
 }
 
