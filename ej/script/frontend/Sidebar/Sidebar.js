@@ -13,19 +13,9 @@ class Sidebar {
     render() {
         removeAllChildren(this.element);
         if (__Store.state.loggedIn === null)
-            return SidebarLoggedIn(this.element);
-        return SidebarDefault(this.element, __Store.state.loggedIn);
+            return SidebarDefault(this.element);
+        return SidebarLoggedIn(this.element);
     }
-}
-
-/**
- * 
- * @param {HTMLElement} root 
- * @param {User} user
- * @return {HTMLElement}
- */
-function SidebarDefault(root, user) {
-    return SidebarLoggedIn(root);
 }
 
 /**
@@ -51,30 +41,53 @@ function SidebarLoggedIn(root) {
             clickHandler: undefined
         }
     ]);
-
-    const lower = SidebarSubmenu("Contact Us!", [
+    
+    return appendChildren([upper, lower], root);
+}
+/**
+ * 
+ * @param {HTMLElement} root 
+ * @return {HTMLElement}
+ */
+ function SidebarDefault(root) {
+    const upper = SidebarSubmenu("Options", [
         {
-            text: "Instagram",
-            iconPath: "./icons/icons8-instagram-48.png",
-            alt: "instagram icon",
+            text: "Home",
+            iconPath: "./icons/icons8-interior-48.png",
+            alt: "Home icon",
             clickHandler: undefined
         },
         {
-            text: "Twitter",
-            iconPath: "./icons/icons8-twitter-48.png",
-            alt: "twitter icon",
-            clickHandler: undefined
-        },
-        {
-            text: "Privacy",
-            iconPath: "./icons/icons8-privacy-policy-64.png",
-            alt: "privacy policy",
+            text: "Podacasts",
+            iconPath: "./icons/icons8-podcast-64.png",
+            alt: "Podcasts icon",
             clickHandler: undefined
         }
     ]);
 
     return appendChildren([upper, lower], root);
 }
+
+const lower = SidebarSubmenu("Contact Us!", [
+    {
+        text: "Instagram",
+        iconPath: "./icons/icons8-instagram-48.png",
+        alt: "instagram icon",
+        clickHandler: undefined
+    },
+    {
+        text: "Twitter",
+        iconPath: "./icons/icons8-twitter-48.png",
+        alt: "twitter icon",
+        clickHandler: undefined
+    },
+    {
+        text: "Privacy",
+        iconPath: "./icons/icons8-privacy-policy-64.png",
+        alt: "privacy policy",
+        clickHandler: undefined
+    }
+]);
 
 /** @typedef {Object} SidebarItemData
  * @property {string} alt
