@@ -31,7 +31,8 @@ class Content {
                     __Store.state.extraPageData.search)
                 return this.element;
             case CurrentPage.PLAYLIST_CREATOR:
-                console.warn("Playlist creator not developed yet!!")
+                this.element = PlaylistCreatorContent(this.element,
+                    __Store.state.loggedIn);
                 return this.element;
             case CurrentPage.MY_PLAYLISTS:
                 this.element = PlaylistContent(this.element,

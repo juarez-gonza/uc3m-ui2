@@ -48,7 +48,10 @@ function SidebarLoggedIn(root) {
             text: "Playlist Creator",
             iconPath: "./icons/icons8-search-40.png",
             alt: "playlist creator icon",
-            clickHandler: undefined
+            clickHandler: e => {
+                e.preventDefault();
+                __Store.commit("toPlaylistCreator");
+            }
         }
     ]);
 

@@ -65,7 +65,9 @@ function MainNavbarProfile(root, user) {
         <h2>SoundSound</h2>
     `;
 
-    const center = Searchbar();
+    const center = Searchbar("Search your favourite songs",
+                                findSongs,
+                                onEnterMainSearchbar);
 
     // TODO: handle user image user.profilePicB64
     const rightside = document.createElement("ul");
@@ -93,4 +95,11 @@ function MainNavbarProfile(root, user) {
     rightside.appendChild(userMenu).appendChild(userImg);
 
     return appendChildren([leftside, center, rightside], root);
+}
+
+/**
+* @param {Song[]} songs
+*/
+function onEnterMainSearchbar(songs) {
+    __Store.commit("toSearchPage", songs);
 }

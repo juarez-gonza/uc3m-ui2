@@ -49,7 +49,11 @@ const __mutations = {
     },
 
     toCheckPlaylists: (state) => {
-        return {...state, currentPage: CurrentPage.MY_PLAYLISTS }
+        return {...state, currentPage: CurrentPage.MY_PLAYLISTS};
+    },
+
+    toPlaylistCreator: (state) => {
+        return {...state, currentPage: CurrentPage.PLAYLIST_CREATOR};
     }
 };
 
