@@ -20,6 +20,7 @@
 function FoundCardContainer(songs) {
     return {
         title:'songs found',
+        id: "found-songs",
         containerType: CardContainerType.SongCard,
         data: songs.map(s => ({
             song: s,

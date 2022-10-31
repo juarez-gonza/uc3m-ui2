@@ -32,6 +32,7 @@ function DefaultContent(root) {
 function upcommingSongsContainer() {
    return CardContainer({
       title: "New Songs!",
+      id: "new-songs",
       data: take(getAllSongs(), 5).map((s, idx) => {
          const premiereDate = nDaysFromNow(idx + 1);
          return {
@@ -58,6 +59,7 @@ function upcommingSongsContainer() {
 function upcommingAlbumsContainer() {
    return CardContainer({
       title: "New Albums!",
+      id: "new-albums",
       data: take(getAllAlbums(), 5).map((a, idx) => {
          const premiereDate = nDaysFromNow(idx + 1);
          return {

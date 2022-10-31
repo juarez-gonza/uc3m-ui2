@@ -17,6 +17,15 @@ function compose(f, g) {
 }
 
 /**
+ * @template T
+ * @param {T} x 
+ * @return {T}
+ */
+function id(x) {
+    return x
+}
+
+/**
  * 
  * @template A
  * @template B
@@ -179,6 +188,19 @@ function intercalateStr(s, xs) {
  */
 function intercalate(xs, xss) {
     return intersperse(xs, xss).flat();
+}
+
+/**
+ * @template T
+ * @param {T[]} xs
+ * @param {T} x
+ * @param {function(T): boolean} pred
+ * @return {T[]}
+ */
+function insertBefore(xs, x, pred) {
+    const xs_ = [...xs];
+    xs_.splice(xs.findIndex(pred), 0, x);
+    return xs_;
 }
 
 /**
