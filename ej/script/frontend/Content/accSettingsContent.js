@@ -6,14 +6,21 @@
  */
 function onSubmitAccSettingsHandler(user, onSuccess, onError) {
     return e => {
-        const inputNodes = getAccSettingsInputNodes();
+        const inputFields = getAccSettingsInputNodes()
+                                .map((/** @type{HTMLInputElement} */ field) => (
+                                    {
+                                        id: field.id === "profilePic" ? "profilePicB64" : field.id,
+                                        value: field.value
+                                    }
+                                ));
+
         /** @type {UpdateUserData} */
         const accSettingsData = foldl((obj, field) => {
                 obj[field.id] = field.value;
                 return obj;
             },
-            inputNodes.map((/** @type{HTMLInputElement} */ field) => ({id: field.id, value: field.value})),
-            {username: "", password: "", firstName: "", lastName: "", email: "", birth: "", profilePic: ""}
+            inputFields,
+            {username: "", password: "", firstName: "", lastName: "", email: "", birth: "", profilePicB64: ""}
         );
 
         const updatedUser = updateUserReq(user, accSettingsData);
@@ -27,7 +34,7 @@ function onSubmitAccSettingsHandler(user, onSuccess, onError) {
  */
 function setOnUpdateSuccess(form) {
     return (e, user) => {
-        setFormSuccess(form)(e, "The user has been updated successfully")
+        setShowSuccessFormMsg(form)(e, "The user has been updated successfully")
         __Store.state.loggedIn = user;
     };
 }
@@ -114,7 +121,7 @@ function AccSettingsForm(user) {
     accSettingsForm.addEventListener("submit",
                                     onSubmitAccSettingsHandler(user,
                                     setOnUpdateSuccess(accSettingsForm),
-                                    setFormError(accSettingsForm)));
+                                    setShowErrorFormMsg(accSettingsForm)));
 
     /* corregir valor default de datePicker, aparentemente solo
      * se puede hacer cuando el elemento html del elemento ya está creado (no seteando un elemento
@@ -134,6 +141,5 @@ function AccSettingsContent(root, user) {
     title.textContent = "Account Settings";
     title.classList.add("main-title");
 
-    appendChildren([title, AccSettingsForm(user)], root);
-    return root;
+    return appendChildren([title, AccSettingsForm(user)], root);
 }

@@ -32,7 +32,7 @@ function setOnPlaylistCreatorSuccess(user, form) {
         } catch (err) {
             if (err.name !== "RepetitionError") 
                 throw err; // re-throw error desconocido
-            return setFormError(form)(e, "There is a pre-existent playlist with this name");
+            return setShowErrorFormMsg(form)(e, "There is a pre-existent playlist with this name");
         }
     }
 }
@@ -122,7 +122,7 @@ function newPlaylistContent(user) {
     form.addEventListener("submit",
                             onSubmitPlaylistCreatorHandler(
                                 setOnPlaylistCreatorSuccess(user, form),
-                                setFormError(form)
+                                setShowErrorFormMsg(form)
                         ));
 
     /* contenedor con canciones de la nueva playlist */

@@ -1,10 +1,34 @@
 /**
- * @param {function(Event): any}  onSuccess
+ * @param {function(Event, User): any}  onSuccess
+ * @param {function(Event, string): any}  onError
  * @return {function(Event): any}
  */
-function onSubmitSignInHandler(onSuccess) {
+function onSubmitSignInHandler(onSuccess, onError) {
     return e => {
-        onSuccess(e);
+        const inputFields = Array.from(document.querySelectorAll(".modal .modal-content form .input input"))
+                            .map((/** @type{HTMLInputElement} */ field) => (
+                                {
+                                    id: field.id === "profilePic" ? "profilePic64" : field.id,
+                                    value: field.value
+                                }
+                            ));
+
+        /** @type {NewUserData} */
+        const newUserData = foldl((obj, field) => {
+                obj[field.id] = field.value;
+                return obj;
+            },
+            inputFields,
+            {username: "", password: "", firstName: "", lastName: "", email: "", birth: "", profilePicB64: ""}
+        );
+
+        try {
+            const newUser = signInUserReq(newUserData);
+            onSuccess(e, newUser);
+        } catch (err) {
+            if (err.name === "RepetitionError")
+                onError(e, "This username already exists");
+        }
     };
 }
 
@@ -117,6 +141,6 @@ const SignInIcons = {upperText: "or, sign-in with ", iconsPath: [...OAuthIcons]}
 
 function SignInForm() {
     const signInForm = Form(SignInFieldsData, SignInButtons, SignInIcons, SignInFormID);
-    signInForm.addEventListener("submit", onSubmitSignInHandler(closeModalClickHandler));
+    signInForm.addEventListener("submit", onSubmitSignInHandler(onLogInSuccess, setShowErrorFormMsg(signInForm)));
     return signInForm;
 }

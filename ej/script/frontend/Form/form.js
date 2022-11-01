@@ -169,10 +169,10 @@ function Form(fieldsData, btnsData, iconPaths, formId) {
  *                                      .bif-form-msg como el formulario creado en form.js)
  * @return {function(SubmitEvent, string)} - función que toma el evento de submit fallido y el string de error
  */
-function setFormError(form) {
+function setShowErrorFormMsg(form) {
     return (e, msg) => {
         e.preventDefault();
-        showBigFormMsg(form, msg, [ "main-light-bg-color"]);
+        showBigFormMsg(form, msg, ["secondary-light-bg-color"]);
     };
 }
 
@@ -181,7 +181,7 @@ function setFormError(form) {
  *                                      .bif-form-msg como el formulario creado en form.js)
  * @return {function(SubmitEvent, string)} - función que toma el evento de submit fallido y el string de error
  */
-function setFormSuccess(form) {
+function setShowSuccessFormMsg(form) {
     return (e, msg) => {
         e.preventDefault();
         showBigFormMsg(form, msg, ["main-dark-bg-color"]);

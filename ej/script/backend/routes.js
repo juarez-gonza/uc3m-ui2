@@ -38,7 +38,7 @@ function logInUserReq(username, password) {
  *  @property {string} firstName
  *  @property {string} lastName
  *  @property {string} email
- *  @property {Date} birth
+ *  @property {string} birth
  *  @property {string|undefined} profilePicB64
  */
 
@@ -47,21 +47,20 @@ function logInUserReq(username, password) {
  * @return {User}
  */
 function signInUserReq(userData) {
-    if (User.find(User.genUserId(userData.username)))
-        throw new RepetitionError("This username already exists");
-    const newUser = new User(userData);
+    /* TODO: revisar lógica de esto, me suena que hay chequeos innecesarios */
+    try {
+        if (User.find(User.genUserId(userData.username)))
+            throw new RepetitionError("This username already exists");
+    } catch (err) {
+        if (err.name !== "LSNotFoundException")
+            throw err; // re-throw error desconocido 
+    }
+    const newUser = new User({...userData, birth: new Date(userData.birth)});
     return newUser.save();
 }
 
 /**
- * @typedef {Object} UpdateUserData
- * @property {string} username
- * @property {string} password
- * @property {string} firstName
- * @property {string} lastName
- * @property {string} email
- * @property {string} birth
- * @property {string} profilePic
+ * @typedef {NewUserData} UpdateUserData
  */
 
 /**
