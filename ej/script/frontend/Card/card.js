@@ -239,3 +239,12 @@ function findSomeArtistImg(artistData) {
         return artistData.albums[0].coverPath;
     return artistData.songs.find(s => s.coverPath.length > 0).coverPath;
 }
+
+/**
+ * @param {Element} decoratedContainer
+ */
+function getUnderlyingCardContainer(decoratedContainer) {
+    if (decoratedContainer.classList.contains("playlist"))
+        return decoratedContainer.querySelector(".card-container")
+    return null;
+}

@@ -151,11 +151,11 @@ function BigFormError() {
  * @param {ButtonData[]} btnsData 
  * @param {IconsListData} iconPaths 
  * @param {string} formId
- * @returns 
+ * @return {HTMLFormElement}
  */
 function Form(fieldsData, btnsData, iconPaths, formId) {
     const inputs = InputFields(fieldsData);
-    const iconsList = IconListSection(iconPaths);
+    const iconsList = iconPaths !== null ? IconListSection(iconPaths) : stubHTMLElement();
     const buttons = ButtonSection(btnsData);
     const ret = appendChildren([BigFormError(), ...inputs, buttons, iconsList], document.createElement("form"));
 
@@ -165,16 +165,17 @@ function Form(fieldsData, btnsData, iconPaths, formId) {
 }
 
 /**
- * 
- * @param {Event} e 
- * @param {string} msg 
+ * @param {HTMLFormElement} form - formulario sobre el cual setear el error (debe tener un nodo hijo 
+ *                                      .bif-form-msg como el formulario creado en form.js)
+ * @return {function(SubmitEvent, string)} - función que toma el evento de submit fallido y el string de error
  */
-function formError(e, msg) {
-    e.preventDefault();
-
-    const formError = document.querySelector("form.form .big-form-msg");
-    formError.querySelector("h3").textContent = msg;
-    formError.classList.add("show");
+function setFormError(form) {
+    return (e, msg) => {
+        e.preventDefault();
+        const formError = form.querySelector(".big-form-msg");
+        formError.querySelector("h3").textContent = msg;
+        formError.classList.add("show");
+    };
 }
 
 /** @readonly @type {string[]} */

@@ -4,22 +4,45 @@
  * @param {function(Element, Element): function(DragEvent): any} setOnDragstart - función como la retornada por setOnDraggableStart
  * @param {function(Element, Element): function(DragEvent): any} setOnDragend - función como la retornada por setOnDraggableEnd
  * @param {function(Element): function(DragEvent): any} setOnDragover  - función como la retornada por setOnContainerDragover
- * @return {HTMLElement[]}
+ * @return {Element[]}
  */
 function DraggableCardSection(cardData, setOnDragstart, setOnDragend, setOnDragover) {
     // un elemento de decoratedContainers tiene un titulo y el verdadero contenedor de cartas
     const decoratedContainers = CardContainerSection(cardData);
-    for (const dc of decoratedContainers) {
-        // tomar el verdadero contenedor de cartas
-        const cardContainer = dc.querySelector(".card-container");
-        assignDraggableContainerEvents(cardContainer, setOnDragover(cardContainer));
+    return foldl((decoratedContainers, dc) => {
+        decoratedContainers.push(DraggableCardContainer(dc, setOnDragstart, setOnDragend, setOnDragover));
+        return decoratedContainers;
+    }, decoratedContainers, []);
+}
 
-        for (const c of cardContainer.querySelectorAll(".music-card")) {
-            c.classList.add("draggable");
-            assignDraggableEvents(c, setOnDragstart(c, cardContainer), setOnDragend(c, cardContainer));
-        }
-    }
-    return decoratedContainers;
+/**
+ * Añade a un card container (y sus cartas contenidas) lo necesario para soportar drag and drop
+ * @param {Element} decoratedCardContainer  - elemento como el retornado por CardContainer()
+ * @param {function(Element, Element): function(DragEvent): any} setOnDragstart - función como la retornada por setOnDraggableStart
+ * @param {function(Element, Element): function(DragEvent): any} setOnDragend - función como la retornada por setOnDraggableEnd
+ * @param {function(Element): function(DragEvent): any} setOnDragover  - función como la retornada por setOnContainerDragover
+ * @return {Element}
+ */
+function DraggableCardContainer(decoratedCardContainer, setOnDragstart, setOnDragend, setOnDragover) {
+    const cardContainer = getUnderlyingCardContainer(decoratedCardContainer);
+    assignDraggableContainerEvents(cardContainer, setOnDragover(cardContainer));
+    foldl((container, card) => {
+        DraggableCard(card, setOnDragstart(card, container), setOnDragend(card, container))
+        return container;
+    }, Array.from(cardContainer.querySelectorAll(".music-card")), cardContainer);
+    return decoratedCardContainer;
+}
+
+/**
+ * Añade a un card container (y sus cartas contenidas) lo necesario para soportar drag and drop
+ * @param {Element} card  - html de carta. como el retornado por SongCard, ArtistCard, etc.
+ * @param {function(DragEvent): any} onDragstart - dragstart event handler
+ * @param {function(DragEvent): any} onDragend - dragend eventhandler
+ * @return {Element}
+ */
+function DraggableCard(card, onDragstart, onDragend) {
+    card.classList.add("draggable");
+    return assignDraggableEvents(card, onDragstart, onDragend);
 }
 
 /**
@@ -51,7 +74,7 @@ function setOnDraggableEnd(onDragend) {
 /**
  * Toma una función que recibe el elemento draggeado, el elemento siguiente en el contenedor donde esté tomando lugar
  * el drag, y el contenedor en sí. Retorna una función que dado un contenedor retorna el event handler.
- * @param {function(Element, Element, Element): any} onInsert - handler post inserción, toma 3 elementos:
+ * @param {function(Element, Element, Element): any} onInsert - handler post inserción, toma 3 elementos
  * @return {function(Element): (function(DragEvent): any)} - retorna una función curried que toma un contenedor y retorna el event handler en sí
  */
 function setOnContainerDragover(onInsert) {
@@ -60,7 +83,8 @@ function setOnContainerDragover(onInsert) {
         e.preventDefault(); 
         const draggable = document.querySelector(".dragging");
 
-        if (draggable === null) // a veces triggerea solo el evento y larga errores de referencia
+        // a veces el evento hace trigger solo, provocando errores de referencia
+        if (draggable === null)
             return;
 
         const subseqElement = getDragAfterElement(container, e.clientX, e.clientY);

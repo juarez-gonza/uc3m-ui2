@@ -82,6 +82,28 @@ ul {
     box-shadow: rgba(0, 0, 0, 0.6) 0px 5px 15px;
 }
 
+.big-input input {
+    width: 100%;
+    padding: 0.8rem;
+    text-align: center;
+
+    border: none;
+    box-shadow: 0 0 12px rgb(132, 94, 194, 0.6);
+    border-radius: 10px;
+    outline: none;
+}
+
+.big-input {
+    transition: 0.2s ease-out;
+}
+
+.big-input:focus,
+.big-input:active,
+.big-input:hover {
+    box-shadow: 0 0 24px rgb(132, 94, 194, 0.6);
+    transform: scale(1.05);
+}
+
 /* general layout stuff */
 html, body {
     padding: 0;
@@ -278,14 +300,14 @@ body {
 
 .form .form-buttons-section {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
     width: 100%;
     margin-top: 5%;
 }
 
 .form .form-buttons-section .button {
-    width: 40%;
+    width: 55%;
     margin-bottom: 2.5%;
 }
 
@@ -313,6 +335,9 @@ form:invalid.form button[type="submit"] {
     overflow-y: auto;
     overflow-x: hidden;
 
+    /* flex-direction must be set to column,
+     * this allows div expansion according to content
+     */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -330,9 +355,20 @@ form:invalid.form button[type="submit"] {
 
 /* TODO: cambiar nombre de clase playlist */
 .playlist {
-    margin-top: 3%;
+    margin-top: 2.5%;
     width: 100%;
-    padding-left: 35%;
+    /* flex-direction must be set to column,
+     * this allows div expansion according to content
+     */
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    /* justify-content: center; */
+    margin-bottom: 5%;
+}
+
+.playlist:first-of-type {
+    margin-top: 5%;
 }
 
 .playlist:last-of-type {
@@ -374,11 +410,12 @@ form:invalid.form button[type="submit"] {
     flex-wrap: wrap;
     width: 80%;
     max-width: 80%;
+    height: 100%;
 }
 
 .playlist .card-container .music-card,
 .playlist .card-container .artist-card {
-    flex: 0 0 22.5%;
+    flex: 0 0 25%;
 }
 
 .music-card, .artist-card {
@@ -518,7 +555,7 @@ form:invalid.form button[type="submit"] {
     display: inline;
 }
 
-.main-nav .searchbar input {
+.main-nav .big-input input {
     width: 300px;
 }
 
@@ -626,28 +663,6 @@ ul.dropdown li:last-of-type {
     border-bottom-right-radius: 10px;
 }
 
-/* searchbar stuff */
-
-.searchbar {
-    transition: 0.2s ease-out;
-}
-
-.searchbar:focus,
-.searchbar:active,
-.searchbar:hover {
-    box-shadow: 0 0 24px rgb(132, 94, 194, 0.6);
-    transform: scale(1.05);
-}
-
-.searchbar input {
-    box-shadow: 0 0 12px rgb(132, 94, 194, 0.6);
-    border-radius: 10px;
-    padding: 0.8rem;
-    text-align: center;
-    border: none;
-    outline: none;
-}
-
 /* main footer stuff */
 .main-footer {
     grid-area: footer;
@@ -744,6 +759,81 @@ ul.dropdown li:last-of-type {
     padding-top: 12px;
 }
 
+/* playlist creator stuff */
+.new-playlist {
+    width: 100%;
+    margin-bottom: 0;
+    /* flex-direction must be set to column,
+     * this allows div expansion according to content
+     */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.new-playlist .playlist {
+    margin-top: 0;
+}
+
+.new-playlist .playlist .card-container {
+    border: none;
+    border-radius: 10px;
+    border-style: dashed;
+    border-color: var(--white-ish);
+    min-height: 60px;
+}
+
+.new-playlist + .big-input {
+    width: 40%;
+}
+
+/* playlist creator form overrides stuff */
+
+.new-playlist .form {
+    margin-top: 5%;
+    height: 30%;
+}
+
+.new-playlist .form label {
+    display: none;
+}
+
+.new-playlist .form input[type="text"] {
+    background-color: var(--white-ish);
+
+    width: 80%;
+
+    /* copy of big-input */
+    padding: 0.8rem;
+    text-align: center;
+
+    border: none;
+    box-shadow: 0 0 12px rgb(132, 94, 194, 0.6);
+    border-radius: 10px;
+    outline: none;
+}
+
+.new-playlist .form input[type="text"] {
+    /* copy of big-input */
+    transition: 0.2s ease-out;
+}
+
+.new-playlist .form input[type="text"]:focus,
+.new-playlist .form input[type="text"]:active,
+.new-playlist .form input[type="text"]:hover {
+    /* copy of big-input */
+    box-shadow: 0 0 24px rgb(132, 94, 194, 0.6);
+    transform: scale(1.05);
+}
+
+.new-playlist .form .form-buttons-section {
+    justify-content: space-around;
+}
+
+.new-playlist .form .form-buttons-section .button {
+    width: 40%;
+}
+
 @media (max-width: 1366px) {
     /* general layout stuff */
     body {
@@ -757,14 +847,9 @@ ul.dropdown li:last-of-type {
     }
 
     /* main content stuff */
-    .playlist {
-        padding-left: 45%;
-    }
-
     .music-card, .artist-card {
         height: 200px;
         width: 140px;
-        margin-left: -40px;
     }
 
     .music-card .description p {
@@ -794,15 +879,6 @@ ul.dropdown li:last-of-type {
 }
 
 @media (max-width: 1096px) {
-    /* main content stuff */
-    .playlist {
-        padding-left: 27.5%;
-    }
-
-    .playlist .card-container .music-card, .playlist .card-container .artist-card {
-        flex: 0 0 25%;
-    }
-
     /* main nav stuff */
     .main-nav .home-section h1 {
         font-size: 1rem;
@@ -827,7 +903,6 @@ ul.dropdown li:last-of-type {
     .music-card, .artist-card {
         height: 160px;
         width: 100px;
-        margin-left: -30px;
     }
 
     /* main sidebar stuff */
@@ -846,32 +921,8 @@ ul.dropdown li:last-of-type {
 }
 
 @media (max-width: 696px) {
-    /* main content stuff */
-    .playlist {
-        padding-left: 22.5%;
-    }
-
-    .playlist .card-container .music-card, .playlist .card-container .artist-card {
-        flex: 0 0 25%;
-    }
-
     .music-card, .artist-card {
         height: 160px;
         width: 100px;
-        margin-left: -20px;
-    }
-}
-
-@media (max-width: 548px) {
-    /* main content stuff */
-    .playlist {
-        padding-left: 25%;
-    }
-}
-
-@media (max-width: 499px) {
-    /* main content stuff */
-    .playlist {
-        padding-left: 30%;
     }
 }

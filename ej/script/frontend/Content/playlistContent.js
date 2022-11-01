@@ -17,6 +17,7 @@ function onPlaylistInsertion(e, draggable, initialContainer, finalContainer) {
     const finalPlaylist = initialContainer === finalContainer ?
                         initialPlaylist :
                         Playlist.find(finalContainer.parentElement.id);
+
     const song = Song.find(draggable.id);
     const nextSong = draggable.nextElementSibling !== null ?
                         Song.find(draggable.nextElementSibling.id)
@@ -24,10 +25,13 @@ function onPlaylistInsertion(e, draggable, initialContainer, finalContainer) {
 
     initialPlaylist.removeSong(song)
     finalPlaylist.insertBefore(song, nextSong);
+
+    // guardar las playlists
     initialPlaylist.save();
     if (initialPlaylist !== finalPlaylist)
         finalPlaylist.save();
-    // recargar las referencias a playlist del usuario logueado
+
+    // repopular las playlists del usuario guardado con la información nueva.
     __Store.state.loggedIn = User.find(__Store.state.loggedIn._id);
 }
 
@@ -40,7 +44,6 @@ function PlaylistContent(root, user) {
     title.textContent = "Your playlists";
     title.classList.add("main-title");
 
-    /** @type {HTMLElement[]} */
     const playlistSection = DraggableCardSection(
         allPlaylistsData(user.playlists),
         setOnDraggableStart(id),

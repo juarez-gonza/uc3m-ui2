@@ -7,7 +7,7 @@
  */
 function Searchbar(placeholder, finder, onEnter) {
     const ret = document.createElement("div");
-    ret.classList.add("searchbar");
+    ret.classList.add("big-input");
 
     const searchInput = document.createElement("input");
     searchInput.placeholder = placeholder;
@@ -23,11 +23,12 @@ function Searchbar(placeholder, finder, onEnter) {
 }
  
 /**
+ * Un finder de uso habitual en el proyecto, sirve como argumento a Searchbar()
  * @param {string} inputStr
  * @return {Song[]} 
  */
 function findSongs(inputStr) {
-  //@ts-ignore
+  //@ts-ignore el tipado de Fuse no es reconocido por falta de declaration file
   const fuse = new Fuse(getAllSongs(), {
       keys: ['title','artist']
   });

@@ -102,6 +102,6 @@ const LogInIcons = {upperText: "or, log-in with ", iconsPath: [...OAuthIcons]};
  */
 function LogInForm() {
     const logInForm = Form(LogInFieldsData, LogInButtons, LogInIcons, LogInFormID);
-    logInForm.addEventListener("submit", onSubmitLogInHandler(onLogInSuccess, formError));
+    logInForm.addEventListener("submit", onSubmitLogInHandler(onLogInSuccess, setFormError(logInForm)));
     return logInForm;
 }
