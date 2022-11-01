@@ -27,7 +27,7 @@ function onSubmitAccSettingsHandler(user, onSuccess, onError) {
  */
 function setOnUpdateSuccess(form) {
     return (e, user) => {
-        setFormSuccess(form)(e, "El usuario fue modificado correctamente")
+        setFormSuccess(form)(e, "The user has been updated successfully")
         __Store.state.loggedIn = user;
     };
 }
