@@ -13,7 +13,7 @@ class MainNavbar {
     render() {
         removeAllChildren(this.element);
         if (__Store.state.loggedIn === null)
-            return MainNavbarDefault(this.element);
+            return MainNavbarDefault(this.element)
         return MainNavbarProfile(this.element, __Store.state.loggedIn);
     }
 };
@@ -49,6 +49,9 @@ function MainNavbarDefault(root) {
 
 function goToLoggedInProfile() {
     __Store.commit("logIn", __Store.state.loggedIn);
+}
+function goOutOfProfile(){
+    __Store.commit("logOut")
 }
 /**
  * 
@@ -88,7 +91,7 @@ function MainNavbarProfile(root, user) {
             // @ts-ignore 
             {text: "Account", clickHandler: undefined},
             {text: "Profile", clickHandler: goToLoggedInProfile},
-            {text: "Log out", clickHandler: undefined}]));
+            {text: "Log out", clickHandler: goOutOfProfile}]));
 
     rightside.appendChild(userMenu).appendChild(userImg);
 
