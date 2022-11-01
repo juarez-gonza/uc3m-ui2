@@ -137,10 +137,10 @@ function ButtonSection(btnsData) {
 /**
  * @return {HTMLDivElement}
  */
-function BigFormError() {
+function BigFormMsg() {
     const errorMsg = document.createElement("div");
-    errorMsg.innerHTML = `<h3>Some Error</h3>`;
-    setClasses(errorMsg, ["big-form-msg", "main-light-bg-color", "shadow2"]);
+    errorMsg.innerHTML = `<h3>Some Message</h3>`;
+    setClasses(errorMsg, ["big-form-msg", "shadow2"]);
     errorMsg.classList.add("big-form-msg");
     return errorMsg
 }
@@ -151,13 +151,13 @@ function BigFormError() {
  * @param {ButtonData[]} btnsData 
  * @param {IconsListData} iconPaths 
  * @param {string} formId
- * @returns 
+ * @return {HTMLFormElement}
  */
 function Form(fieldsData, btnsData, iconPaths, formId) {
     const inputs = InputFields(fieldsData);
-    const iconsList = IconListSection(iconPaths);
+    const iconsList = iconPaths !== null ? IconListSection(iconPaths) : stubHTMLElement();
     const buttons = ButtonSection(btnsData);
-    const ret = appendChildren([BigFormError(), ...inputs, buttons, iconsList], document.createElement("form"));
+    const ret = appendChildren([BigFormMsg(), ...inputs, buttons, iconsList], document.createElement("form"));
 
     ret.classList.add("form");
     ret.id = formId;
@@ -165,17 +165,86 @@ function Form(fieldsData, btnsData, iconPaths, formId) {
 }
 
 /**
- * 
- * @param {Event} e 
- * @param {string} msg 
+ * @param {HTMLFormElement} form - formulario sobre el cual setear el error (debe tener un nodo hijo 
+ *                                      .bif-form-msg como el formulario creado en form.js)
+ * @return {function(SubmitEvent, string)} - función que toma el evento de submit fallido y el string de error
  */
-function formError(e, msg) {
-    e.preventDefault();
-
-    const formError = document.querySelector("form.form .big-form-msg");
-    formError.querySelector("h3").textContent = msg;
-    formError.classList.add("show");
+function setShowErrorFormMsg(form) {
+    return (e, msg) => {
+        e.preventDefault();
+        showBigFormMsg(form, msg, ["secondary-light-bg-color"]);
+    };
 }
+
+/**
+ * @param {HTMLFormElement} form - formulario sobre el cual setear el mensaje de éxíto(debe tener un nodo hijo 
+ *                                      .bif-form-msg como el formulario creado en form.js)
+ * @return {function(SubmitEvent, string)} - función que toma el evento de submit fallido y el string de error
+ */
+function setShowSuccessFormMsg(form) {
+    return (e, msg) => {
+        e.preventDefault();
+        showBigFormMsg(form, msg, ["main-dark-bg-color"]);
+    };
+}
+
+/** Muestra BigFormMsg en el formulario especificado, con el mensaje y las clases de css especificadas.
+ * @param {HTMLFormElement} form
+ * @param {string} msg 
+ * @param {string[]} classes 
+ */
+function showBigFormMsg(form, msg, classes) {
+    const bigFormMsg = form.querySelector(".big-form-msg");
+    bigFormMsg.querySelector("h3").textContent = msg;
+    setClasses(bigFormMsg, ["show", ...classes]);
+}
+
+/**
+ * @param {HTMLInputElement} dateInputElement
+ * @param {Date} date
+ * @return {HTMLInputElement}
+ */
+function setDateInputValue(dateInputElement, date) {
+    dateInputElement.valueAsDate = new Date(date);
+    return dateInputElement;
+}
+
+/**
+ * @template T
+ * @param {HTMLInputElement[]} inputElements
+ * @param {function(HTMLInputElement): T[keyof T]} processField - función que debe convertir input element en un
+ *                                                           - valor apropiado para el cmapo
+ * @return {T}
+ */
+function processInputs(inputElements, processField) {
+    // @ts-ignore - convertir el objeto sin keys en un objeto de tipo T falla
+    return foldl((obj, elem) => {
+        obj[elem.id] = processField(elem);
+        return obj;
+    }, inputElements, {});
+}
+
+/**
+ * @template T
+ * @param {HTMLInputElement[]} inputElements
+ * @param {function(HTMLInputElement): Promise<T[keyof T]> | T[keyof T]} processField - función asíncrona que debe convertir input element en un
+ *                                                                    - valor apropiado para el cmapo
+ */
+async function processInputsAsync(inputElements, processField) {
+    // @ts-ignore - convertir el objeto sin keys en un objeto de tipo T falla
+    /** @type {Object<key, Promise<T[keyof T]> | T>} */
+    const objWithPromises = foldl((obj, elem) => {
+        obj[elem.id] = processField(elem);
+        return obj;
+    }, inputElements, {});
+
+    for (const key of Object.keys(objWithPromises))
+        objWithPromises[key] = await objWithPromises[key];
+    
+    return objWithPromises;
+}
+
+
 
 /** @readonly @type {string[]} */
 const OAuthIcons = ["./icons/icons8-facebook-100.png", "./icons/icons8-google-100.png"];

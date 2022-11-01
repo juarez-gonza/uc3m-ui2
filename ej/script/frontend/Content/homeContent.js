@@ -1,11 +1,13 @@
 /**
  * @param {string} title
+ * @param {string} id
  * @param {Song[]} songs
  * @return {CardContainerData}
  */
-function songsCardData(title, songs) {
+function songsCardData(title, id, songs) {
     return {
         title: title,
+        id: id,
         containerType: CardContainerType.SongCard,
         data: songs.map(s => ({
             song: s,
@@ -22,12 +24,14 @@ function songsCardData(title, songs) {
 
 /**
  * @param {string} title
+ * @param {string} id
  * @param {Artist[]} recentArtists
  * @return {CardContainerData} 
  */
-function artistsCardData(title, recentArtists) {
+function artistsCardData(title, id, recentArtists) {
     return {
         title: title,
+        id: id,
         containerType: CardContainerType.ArtistCard,
         data: recentArtists.map(a => (
             {
@@ -96,9 +100,9 @@ function HomeContent(root, user) {
     title.classList.add("main-title");
 
     const songsContent = CardContainerSection([
-        artistsCardData("Recently heard artists", user.recentArtists),
-        songsCardData("Recently heard songs", user.recentSongs),
-        songsCardData("Favourite songs", user.favSongs),
+        artistsCardData("Recently heard artists", "recent-artists", user.recentArtists),
+        songsCardData("Recently heard songs", "recent-songs", user.recentSongs),
+        songsCardData("Favourite songs", "fav-songs", user.favSongs),
         ]);
 
     const followedUsers = UserIconsSection("Following", user.following, 5);

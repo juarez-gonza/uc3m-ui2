@@ -37,6 +37,7 @@
 
 /** @typedef {Object} CardContainerData
  *  @property {string} title
+ *  @property {string} id
  *  @property {CardContainerType} containerType
  *  @property {(SongCardData|ArtistCardData|AlbumCardData)[]} data
  */
@@ -50,19 +51,20 @@ function CardContainerSection(containerData) {
 }
 
 /**
- * @param {CardContainerData} cards
+ * @param {CardContainerData} cardsData
  * @return {HTMLElement}
  */
-function CardContainer(cards) {
-    const {title}  = cards;
+function CardContainer(cardsData) {
+    const {title, id} = cardsData;
     const wrapper = document.createElement("div");
+    wrapper.id = id;
     wrapper.classList.add("playlist");
 
     const h1Title = document.createElement("h1");
     h1Title.textContent = title;
 
     wrapper.appendChild(h1Title);
-    wrapper.appendChild(_CardContainer(cards));
+    wrapper.appendChild(_CardContainer(cardsData));
 
     return wrapper;
 }
@@ -108,6 +110,7 @@ function SongCard(songData) {
 
     /** @type {HTMLElement} */
     const ret = setClasses(document.createElement("div"), ["music-card", "shadow2"]);
+    ret.id = song._id;
 
     const imgPath = coverPath.length === 0 ? Album.find(album).coverPath : coverPath;
 
@@ -146,6 +149,7 @@ function ArtistCard(artistData) {
     const {artist, commonProperties} = artistData;
     /** @type {HTMLElement} */
     const ret = setClasses(document.createElement("div"), ["artist-card", "shadow2"]);
+    ret.id = artist._id;
 
     ret.innerHTML = `
         <img src=${findSomeArtistImg(artist)}>
@@ -160,6 +164,7 @@ function ArtistCard(artistData) {
 function AlbumCard(albumData) {
     const {album, commonProperties} = albumData;
     const ret = setClasses(document.createElement("div"), ["music-card", "shadow2"]);
+    ret.id = album._id;
     ret.innerHTML = `
         <div class="thumbnail">
             <img src="${album.coverPath}" alt="${album.title}">
@@ -233,4 +238,13 @@ function findSomeArtistImg(artistData) {
     if (artistData.albums.length > 0)
         return artistData.albums[0].coverPath;
     return artistData.songs.find(s => s.coverPath.length > 0).coverPath;
+}
+
+/**
+ * @param {Element} decoratedContainer
+ */
+function getUnderlyingCardContainer(decoratedContainer) {
+    if (decoratedContainer.classList.contains("playlist"))
+        return decoratedContainer.querySelector(".card-container")
+    return null;
 }

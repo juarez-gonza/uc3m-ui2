@@ -1,43 +1,39 @@
 /**
+ * @template T
+ * @param {function(T[]): any} onEnter
+ * @param {function(string): T[]} finder
+ * @param {string} placeholder
  * @return {HTMLElement}
  */
-function Searchbar() {
+function Searchbar(placeholder, finder, onEnter) {
     const ret = document.createElement("div");
-    ret.classList.add("searchbar");
+    ret.classList.add("big-input");
 
     const searchInput = document.createElement("input");
-    searchInput.placeholder = "Search your favourite songs";
+    searchInput.placeholder = placeholder;
     searchInput.type = "text";
-    searchInput.addEventListener("keypress", function(event) {
-        if (event.key === "Enter")
-          PressEnter(searchInput);
+    searchInput.addEventListener("keypress", e => {
+        if (e.key === "Enter")
+          onEnter(finder(searchInput.value));
     });
 
     ret.appendChild(searchInput);
 
     return ret;
-};
+}
  
 /**
+ * Un finder de uso habitual en el proyecto, sirve como argumento a Searchbar()
  * @param {string} inputStr
  * @return {Song[]} 
  */
 function findSongs(inputStr) {
-    //@ts-ignore
-    const fuse = new Fuse(getAllSongs(), {
-        keys: ['title','artist']
-      })
-    /** @type {Song[]} */
-    const songsFound= fuse.search(inputStr).map(s => s.item);
+  //@ts-ignore el tipado de Fuse no es reconocido por falta de declaration file
+  const fuse = new Fuse(getAllSongs(), {
+      keys: ['title','artist']
+  });
+  /** @type {Song[]} */
+  const songsFound = fuse.search(inputStr).map(s => s.item);
 
-    return songsFound
-    
+  return songsFound;
 }
-
-
-  /**
-  * @param {HTMLInputElement} input
-  */
-function PressEnter(input) {
-    __Store.commit("toSearchPage", findSongs(input.value));
-};

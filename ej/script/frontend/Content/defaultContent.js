@@ -32,7 +32,8 @@ function DefaultContent(root) {
 function upcommingSongsContainer() {
    return CardContainer({
       title: "New Songs!",
-      data: take(getAllSongs(),5).map((s, idx) => {
+      id: "new-songs",
+      data: take(getAllSongs(), 5).map((s, idx) => {
          const premiereDate = nDaysFromNow(idx + 1);
          return {
             song: s,
@@ -58,6 +59,7 @@ function upcommingSongsContainer() {
 function upcommingAlbumsContainer() {
    return CardContainer({
       title: "New Albums!",
+      id: "new-albums",
       data: take(getAllAlbums(), 5).map((a, idx) => {
          const premiereDate = nDaysFromNow(idx + 1);
          return {
@@ -83,6 +85,7 @@ function upcommingAlbumsContainer() {
  function popularSongs() {
    return CardContainer({
       title: "Popular songs",
+      id: "popular-songs",
       data: takeSelect(getAllSongs(),10, 5).map((s) => {
          return {
             song: s,

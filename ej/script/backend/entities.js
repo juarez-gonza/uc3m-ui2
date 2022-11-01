@@ -142,7 +142,7 @@ class User {
             firstName: rec.firstName,
             lastName: rec.lastName,
             email: rec.email,
-            birth: rec.birth,
+            birth: new Date(rec.birth),
             profilePicB64: rec.profilePicB64 || undefined,
             following: rec.following,
             playlists: rec.playlists.map(findInstanceFromId(Playlist)),
@@ -277,14 +277,13 @@ class Album {
         this._id = `Album-${title}.${artist}`;
         this.title = title;
         this.artist = artist;
-        this.coverPath = coverPath
+        this.coverPath = coverPath;
         this.songs = songs.map(s => new Song(s.title,
                                             artist,
                                             s.songPath,
                                             s.description,
                                             this._id,
-                                            coverPath))
-        this.coverPath = coverPath;
+                                            coverPath));
     }
 
     /**
@@ -424,9 +423,8 @@ class Artist {
      * @return  {Artist}
      */
     save() {
-        for (const a of this.albums) {
+        for (const a of this.albums)
             a.save();
-        }
         for (const s of this.songs)
             s.save();
         // guardar solo Ids de Song[] y Album[]
@@ -491,6 +489,30 @@ class Playlist {
         /** @type {UserId} */
         const author = rec.author || [];
         return new Playlist(name, author, songs);
+    }
+
+    /**
+     * 
+     * @param {Song} newSong 
+     * @param {Song} nextSong 
+     * @return {Playlist}
+     */
+    insertBefore(newSong, nextSong) {
+        if (null === nextSong)
+            this.songs.push(newSong);
+        else
+            this.songs = insertBefore(this.songs, newSong, s => s._id === nextSong._id);
+        return this;
+    }
+
+    /**
+     * @param {Song} song
+     * @return {Playlist}
+     */
+    removeSong(song) {
+        const [newSongList,] = removeFirstWhere(this.songs, (s) => s._id === song._id);
+        this.songs = newSongList;
+        return this;
     }
 
     save() {

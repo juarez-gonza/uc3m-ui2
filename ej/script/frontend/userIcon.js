@@ -15,13 +15,22 @@ function setClickToUserpage(user) {
 }
 
 /**
+ * 
+ * @param {User} user 
+ * @return {string}
+ */
+function userImgOrDefault(user) {
+    return user.profilePicB64 || "./icons/icons8-user-64.png";
+}
+
+/**
  * @param {UserIconParams} iconData
  * @return {HTMLElement}
  */
 function UserIcon(iconData) {
     const {user, clickHandler} = iconData;
     const ret = document.createElement("img");
-    ret.src = "./icons/icons8-user-64.png";
+    ret.src = userImgOrDefault(user);
     if (clickHandler !== undefined)
         ret.addEventListener("click", clickHandler);
     ret.classList.add("profile-img");

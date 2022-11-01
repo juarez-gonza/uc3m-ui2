@@ -1,10 +1,12 @@
+/** TODO: leave one between songsContainer in this file and songsCardData in homeContent.js */
 /**
  * @param {string} title
  * @param {Song[]} songs
  */
-function songsContainer(title, songs) {
+function songsContainer(title, id, songs) {
     return CardContainer({
         title: title,
+        id: id,
         containerType: CardContainerType.SongCard,
         data: songs.map(s => ({
             song: s,
@@ -27,7 +29,7 @@ function songsContainer(title, songs) {
  * @return {HTMLElement}
  */
 function albumSongsContainer(album) {
-    return songsContainer(`Album: ${album.title}, by ${album.artist}`, album.songs);
+    return songsContainer(`Album: ${album.title}, by ${album.artist}`, album._id, album.songs);
 }
 
 /**
@@ -48,7 +50,7 @@ function artistAlbumSongs(artist) {
  * @return {HTMLElement}
  */
 function artistSingles(artist) {
-    return songsContainer(`${artist.name} singles`, take(artist.songs, 5));
+    return songsContainer(`${artist.name} singles`, "singles", take(artist.songs, 5));
 }
 
 /**
@@ -59,6 +61,7 @@ function artistSingles(artist) {
 function artistAlbums(artist) {
     return CardContainer({
         title: `Albums by ${artist.name}`,
+        id: "Artist albums",
         containerType: CardContainerType.AlbumCard,
         data: artist.albums.map(a => ({
             album: a,

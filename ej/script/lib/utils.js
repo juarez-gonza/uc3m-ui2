@@ -17,6 +17,15 @@ function compose(f, g) {
 }
 
 /**
+ * @template T
+ * @param {T} x 
+ * @return {T}
+ */
+function id(x) {
+    return x
+}
+
+/**
  * 
  * @template A
  * @template B
@@ -194,6 +203,19 @@ function intercalate(xs, xss) {
 
 /**
  * @template T
+ * @param {T[]} xs
+ * @param {T} x
+ * @param {function(T): boolean} pred
+ * @return {T[]}
+ */
+function insertBefore(xs, x, pred) {
+    const xs_ = [...xs];
+    xs_.splice(xs.findIndex(pred), 0, x);
+    return xs_;
+}
+
+/**
+ * @template T
  * @param {T[]} xs 
  * @return {T[]}
  */
@@ -240,4 +262,29 @@ function slide(xs, n) {
     for (let i = 0; i < xs.length; i += n)
         ret.push(take(xs.slice(i), n));
     return ret;
+}
+
+
+
+/**
+ * 
+ * @param {Blob} file 
+ * @return {Promise}
+ */
+function getBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+}
+
+/**
+ * @template T
+ * @param {T} x 
+ * @returns 
+ */
+function idPromise(x) {
+    return new Promise(resolve => resolve(x));
 }

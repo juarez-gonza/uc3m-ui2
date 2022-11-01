@@ -10,15 +10,13 @@
  */
 function onSubmitLogInHandler(onSuccess, onError) {
     return e => {
+        /** @type {HTMLInputElement[]} */
         const inputNodes = Array.from(document.querySelectorAll(".modal .modal-content form .input input"));
 
         /** @type {LogInSubmitedData} */
-        const {username, password} = foldl((obj, field) => {
-                obj[field.id] = field.value;
-                return obj;
-            },
-            inputNodes.map((/** @type{HTMLInputElement} */ field) => ({id: field.id, value: field.value})),
-            {username: "", password: ""});
+        const {username, password} = processInputs(inputNodes, (inputElem) => {
+            return inputElem.value;
+        });
 
         try {
             const user = logInUserReq(username, password);
@@ -102,6 +100,6 @@ const LogInIcons = {upperText: "or, log-in with ", iconsPath: [...OAuthIcons]};
  */
 function LogInForm() {
     const logInForm = Form(LogInFieldsData, LogInButtons, LogInIcons, LogInFormID);
-    logInForm.addEventListener("submit", onSubmitLogInHandler(onLogInSuccess, formError));
+    logInForm.addEventListener("submit", onSubmitLogInHandler(onLogInSuccess, setShowErrorFormMsg(logInForm)));
     return logInForm;
 }

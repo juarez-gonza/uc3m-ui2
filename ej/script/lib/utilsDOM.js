@@ -54,8 +54,8 @@ function removeAllChildren(root) {
 }
 
 /**
- * @template {HTMLElement} T
- * @param {HTMLElement[]} elements
+ * @template {Element} T
+ * @param {Element[]} elements
  * @param {T} root
  * @return {T}
  */
@@ -64,6 +64,12 @@ function appendChildren(elements, root) {
         c.appendChild(e);
         return c;
     }, elements, root);
+}
+
+function stubHTMLElement() {
+    const ret = document.createElement("span");
+    ret.style.display = "none";
+    return ret;
 }
 
 /**

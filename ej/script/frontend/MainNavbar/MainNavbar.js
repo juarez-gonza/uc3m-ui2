@@ -51,8 +51,13 @@ function goToLoggedInProfile() {
     __Store.commit("logIn", __Store.state.loggedIn);
 }
 function goOutOfProfile(){
-    __Store.commit("logOut")
+    __Store.commit("logOut");
 }
+
+function goToAccountSettings() {
+    __Store.commit("toAccSettings", __Store.state.loggedIn);
+}
+
 /**
  * 
  * @param {HTMLElement} root 
@@ -67,7 +72,9 @@ function MainNavbarProfile(root, user) {
         <h2>SoundSound</h2>
     `;
 
-    const center = Searchbar();
+    const center = Searchbar("Search your favourite songs",
+                                findSongs,
+                                onEnterMainSearchbar);
 
     // TODO: handle user image user.profilePicB64
     const rightside = document.createElement("ul");
@@ -83,17 +90,24 @@ function MainNavbarProfile(root, user) {
             if (isInDOMTree(innerE.target, dropdown) || !dropdown.classList.contains("show"))
                 return;
             dropdown.classList.remove("show");
-            document.removeEventListener("click", _handler);
+            document.removeEventListener("click", _handler); /* este self-reference en el segundo argumento
+                                                                es la razón por la que el callback no es una función anónima */
         });
     }});
 
     const dropdown = root.appendChild(Dropdown([
-            // @ts-ignore 
-            {text: "Account", clickHandler: undefined},
+            {text: "Account", clickHandler: goToAccountSettings},
             {text: "Profile", clickHandler: goToLoggedInProfile},
             {text: "Log out", clickHandler: goOutOfProfile}]));
 
     rightside.appendChild(userMenu).appendChild(userImg);
 
     return appendChildren([leftside, center, rightside], root);
+}
+
+/**
+* @param {Song[]} songs
+*/
+function onEnterMainSearchbar(songs) {
+    __Store.commit("toSearchPage", songs);
 }
