@@ -6,26 +6,42 @@
  */
 function onSubmitAccSettingsHandler(user, onSuccess, onError) {
     return e => {
-        const inputFields = getAccSettingsInputNodes()
-                                .map((/** @type{HTMLInputElement} */ field) => (
-                                    {
-                                        id: field.id === "profilePic" ? "profilePicB64" : field.id,
-                                        value: field.value
-                                    }
-                                ));
-
-        /** @type {UpdateUserData} */
-        const accSettingsData = foldl((obj, field) => {
-                obj[field.id] = field.value;
-                return obj;
-            },
-            inputFields,
-            {username: "", password: "", firstName: "", lastName: "", email: "", birth: "", profilePicB64: ""}
-        );
-
-        const updatedUser = updateUserReq(user, accSettingsData);
-        onSuccess(e, updatedUser);
+        e.preventDefault();
+        /** @type {HTMLFormElement} */
+        const form = document.querySelector(".main-content form.form");
+        processAccSettingsForm(e, user, form, onSuccess, onError)
     };
+}
+
+/**
+ * @param {User} user
+ * @return {function(HTMLInputElement): Promise<NewUserData[keyof NewUserData]>|NewUserData[keyof NewUserData]}
+ */
+function setProcessAccSettingsInput(user) {
+    return inputElem => {
+        if (inputElem.id === "profilePicB64")
+            return inputElem.files !== null && inputElem.files.length < 1 ?
+                        user.profilePicB64
+                        : getBase64(inputElem.files[0]);
+        return inputElem.value;
+    };
+}
+
+/**
+ * @param {SubmitEvent} e 
+ * @param {User} user
+ * @param {HTMLFormElement} form 
+ * @param {function(SubmitEvent, User): any}  onSuccess
+ * @param {function(SubmitEvent, string): any}  onError
+ */
+async function processAccSettingsForm(e, user, form, onSuccess, onError) {
+    /** @type {HTMLInputElement[]} */
+    const inputElements = Array.from(form.querySelectorAll(".input input"));
+    /** @type {UpdateUserData} */
+    const newUserData = await processInputsAsync(inputElements, setProcessAccSettingsInput(user));
+
+    const newUser = updateUserReq(user, newUserData);
+    onSuccess(e, newUser);
 }
 
 /**
@@ -34,7 +50,7 @@ function onSubmitAccSettingsHandler(user, onSuccess, onError) {
  */
 function setOnUpdateSuccess(form) {
     return (e, user) => {
-        setShowSuccessFormMsg(form)(e, "The user has been updated successfully")
+        setShowSuccessFormMsg(form)(e, "The user has been updated successfully");
         __Store.state.loggedIn = user;
     };
 }
@@ -54,7 +70,7 @@ function onResetAccSettingsHandler(user) {
                     setDateInputValue(inputNode, user.birth);
                     break;
                 case "profilePic":
-                    console.warn("implement profilePic handling");
+                    inputNode.files = null;
                     break;
                 default:
                     inputNode.value = user[inputNode.id];
@@ -66,7 +82,7 @@ function onResetAccSettingsHandler(user) {
  * @return {HTMLInputElement[]}
  */
 function getAccSettingsInputNodes() {
-    return Array.from(document.querySelectorAll(".main-content .form .input input"));
+    return Array.from(document.querySelectorAll(".main-content form.form .input input"));
 }
 
 /**

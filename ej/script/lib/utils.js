@@ -252,3 +252,28 @@ function slide(xs, n) {
         ret.push(take(xs.slice(i), n));
     return ret;
 }
+
+
+
+/**
+ * 
+ * @param {Blob} file 
+ * @return {Promise}
+ */
+function getBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+}
+
+/**
+ * @template T
+ * @param {T} x 
+ * @returns 
+ */
+function idPromise(x) {
+    return new Promise(resolve => resolve(x));
+}

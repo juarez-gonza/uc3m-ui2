@@ -209,5 +209,42 @@ function setDateInputValue(dateInputElement, date) {
     return dateInputElement;
 }
 
+/**
+ * @template T
+ * @param {HTMLInputElement[]} inputElements
+ * @param {function(HTMLInputElement): T[keyof T]} processField - función que debe convertir input element en un
+ *                                                           - valor apropiado para el cmapo
+ * @return {T}
+ */
+function processInputs(inputElements, processField) {
+    // @ts-ignore - convertir el objeto sin keys en un objeto de tipo T falla
+    return foldl((obj, elem) => {
+        obj[elem.id] = processField(elem);
+        return obj;
+    }, inputElements, {});
+}
+
+/**
+ * @template T
+ * @param {HTMLInputElement[]} inputElements
+ * @param {function(HTMLInputElement): Promise<T[keyof T]> | T[keyof T]} processField - función asíncrona que debe convertir input element en un
+ *                                                                    - valor apropiado para el cmapo
+ */
+async function processInputsAsync(inputElements, processField) {
+    // @ts-ignore - convertir el objeto sin keys en un objeto de tipo T falla
+    /** @type {Object<key, Promise<T[keyof T]> | T>} */
+    const objWithPromises = foldl((obj, elem) => {
+        obj[elem.id] = processField(elem);
+        return obj;
+    }, inputElements, {});
+
+    for (const key of Object.keys(objWithPromises))
+        objWithPromises[key] = await objWithPromises[key];
+    
+    return objWithPromises;
+}
+
+
+
 /** @readonly @type {string[]} */
 const OAuthIcons = ["./icons/icons8-facebook-100.png", "./icons/icons8-google-100.png"];

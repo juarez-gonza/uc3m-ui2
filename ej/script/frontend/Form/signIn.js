@@ -1,35 +1,48 @@
 /**
- * @param {function(Event, User): any}  onSuccess
- * @param {function(Event, string): any}  onError
- * @return {function(Event): any}
+ * @param {function(SubmitEvent, User): any}  onSuccess
+ * @param {function(SubmitEvent, string): any}  onError
+ * @return {function(SubmitEvent): any}
  */
 function onSubmitSignInHandler(onSuccess, onError) {
     return e => {
-        const inputFields = Array.from(document.querySelectorAll(".modal .modal-content form .input input"))
-                            .map((/** @type{HTMLInputElement} */ field) => (
-                                {
-                                    id: field.id === "profilePic" ? "profilePic64" : field.id,
-                                    value: field.value
-                                }
-                            ));
-
-        /** @type {NewUserData} */
-        const newUserData = foldl((obj, field) => {
-                obj[field.id] = field.value;
-                return obj;
-            },
-            inputFields,
-            {username: "", password: "", firstName: "", lastName: "", email: "", birth: "", profilePicB64: ""}
-        );
-
-        try {
-            const newUser = signInUserReq(newUserData);
-            onSuccess(e, newUser);
-        } catch (err) {
-            if (err.name === "RepetitionError")
-                onError(e, "This username already exists");
-        }
+        // llamar preventDefault antes de ejecución de código asíncrono,
+        // de lo contrario el comportamiento default podría ejecutarse antes de lo esperado.
+        e.preventDefault();
+        /** @type {HTMLFormElement} */
+        const form = document.querySelector(".modal .modal-content form.form");
+        processSignInForm(e, form, onSuccess, onError);
     };
+}
+
+/**
+ * @param {HTMLInputElement} inputElem
+ * @return {Promise<NewUserData[keyof NewUserData]>|NewUserData[keyof NewUserData]}
+ */
+function processSignInInput(inputElem) {
+    if (inputElem.id === "profilePicB64")
+        return inputElem.files.length < 1 ? undefined : getBase64(inputElem.files[0]);
+    return inputElem.value;
+}
+
+/**
+ * @param {SubmitEvent} e 
+ * @param {HTMLFormElement} form 
+ * @param {function(SubmitEvent, User): any}  onSuccess
+ * @param {function(SubmitEvent, string): any}  onError
+ */
+async function processSignInForm(e, form, onSuccess, onError) {
+    /** @type {HTMLInputElement[]} */
+    const inputElements = Array.from(form.querySelectorAll("form.form .input input"));
+    /** @type {NewUserData} */
+    const newUserData = await processInputsAsync(inputElements, processSignInInput);
+
+    try {
+        const newUser = signInUserReq(newUserData);
+        onSuccess(e, newUser);
+    } catch (err) {
+        if (err.name === "RepetitionError")
+            onError(e, "This username already exists");
+    }
 }
 
 /** @readonly @type {InputData[]} */
@@ -111,7 +124,7 @@ const SignInFieldsData = [
         extraAttributes: undefined
     },
     {
-        id: "profilePic", label: "Upload a profile picture", type: "file",
+        id: "profilePicB64", label: "Upload a profile picture", type: "file",
         inputValidation: undefined,
         extraAttributes: undefined,
     },
