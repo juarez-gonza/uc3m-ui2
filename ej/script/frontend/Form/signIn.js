@@ -2,7 +2,7 @@
  * @param {function(Event): any}  onSuccess
  * @return {function(Event): any}
  */
-function onSubmitSignInHandler(onSuccess) {
+ function onSubmitSignInHandler(onSuccess) {
     return e => {
         onSuccess(e);
     };

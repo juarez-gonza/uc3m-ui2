@@ -277,8 +277,13 @@ class Album {
         this._id = `Album-${title}.${artist}`;
         this.title = title;
         this.artist = artist;
-        this.songs = songs;
-        songs.forEach(s => s.album = this._id);
+        this.coverPath = coverPath
+        this.songs = songs.map(s => new Song(s.title,
+                                            artist,
+                                            s.songPath,
+                                            s.description,
+                                            this._id,
+                                            coverPath))
         this.coverPath = coverPath;
     }
 

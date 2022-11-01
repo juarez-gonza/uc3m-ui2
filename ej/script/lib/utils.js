@@ -108,6 +108,17 @@ function takeWhile(arr, pred) {
 function take(arr, n) {
     return [...arr].splice(0, n);
 }
+/**
+ * Toma los  n items a partir de m. No modifica el input
+ * @template T
+ * @param {T[]} arr
+ * @param {number} m
+ * @param {number} n
+ * @return {T[]}
+ */
+ function takeSelect(arr, m, n) {
+    return [...arr].splice(m, n);
+}
 
 /**
  * @template T
