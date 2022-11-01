@@ -28,6 +28,11 @@
     color: var(--main-font-color);
 }
 
+.white-ish-bg-color {
+    background-color: var(--white-ish);
+    color: black;
+}
+
 .main-dark-bg-color {
     background-color: var(--light-purple);
     color: var(--main-font-color);
@@ -206,6 +211,7 @@ body {
 }
 
 /* big error message stuff */
+
 .big-form-msg {
     height: 0;
     opacity: 0.0;
@@ -262,7 +268,7 @@ body {
 }
 
 
-/* field errors when user is interacting  with the form */
+/* field errors when user is interacting with the form */
 
 .form .input input:focus:valid {
     box-shadow: 0 1.2px rgba(0, 255, 0, 0.6);
@@ -351,6 +357,32 @@ form:invalid.form button[type="submit"] {
     margin: 0;
     margin-top: 2.5%;
     font-size: 3rem;
+}
+
+/* style overrides for forms inside main-content */
+
+.main-content .form .input input:focus:valid {
+    box-shadow: 0 1.2px rgba(0, 255, 0, 1.0);
+}
+
+.main-content .form .input input:focus:invalid {
+    box-shadow: 0 1.2px yellow; 
+}
+
+.main-content .form .input input:focus:invalid + .input-error-message {
+    color: yellow;
+}
+
+.main-content .form .input input:focus:invalid {
+    box-shadow: 0 1.2px yellow;
+}
+
+.main-content .form .input input:not(:placeholder-shown):not(:focus):invalid + .input-error-message{
+    color: red;
+}
+
+.main-content .form .input input:not(:placeholder-shown):not(:focus):invalid {
+    box-shadow: 0 1.2px red;
 }
 
 /* TODO: cambiar nombre de clase playlist */

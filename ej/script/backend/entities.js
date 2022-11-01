@@ -142,7 +142,7 @@ class User {
             firstName: rec.firstName,
             lastName: rec.lastName,
             email: rec.email,
-            birth: rec.birth,
+            birth: new Date(rec.birth),
             profilePicB64: rec.profilePicB64 || undefined,
             following: rec.following,
             playlists: rec.playlists.map(findInstanceFromId(Playlist)),

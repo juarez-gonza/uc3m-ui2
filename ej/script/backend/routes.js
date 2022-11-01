@@ -54,6 +54,38 @@ function signInUserReq(userData) {
 }
 
 /**
+ * @typedef {Object} UpdateUserData
+ * @property {string} username
+ * @property {string} password
+ * @property {string} firstName
+ * @property {string} lastName
+ * @property {string} email
+ * @property {string} birth
+ * @property {string} profilePic
+ */
+
+/**
+ * @param {User} user
+ * @param {UpdateUserData} updateFields
+ * @return {User}
+ */
+function updateUserReq(user, updateFields) {
+    for (const key of Object.keys(updateFields))
+        switch (key) {
+            case "birth":
+                user[key] = new Date(updateFields[key]);
+                break;
+            case "profilePic":
+                console.warn("implement profilePic handling");
+                break;
+            default:
+                user[key] = updateFields[key];
+        }
+    return user.save();
+}
+
+
+/**
  * @return {Song[]}
  */
 function getAllSongs() {

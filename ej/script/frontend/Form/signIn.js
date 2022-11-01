@@ -10,6 +10,7 @@ function onSubmitSignInHandler(onSuccess) {
 
 /** @readonly @type {InputData[]} */
 const SignInFieldsData = [
+
     {
         id: "username", label: "Choose a username", type: "text",
         inputValidation: {

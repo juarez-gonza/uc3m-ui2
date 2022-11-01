@@ -10,6 +10,7 @@ const CurrentPage = {
     PLAYLIST_CREATOR: 4,
     SEARCH_SONGS: 5,
     MY_PLAYLISTS: 6,
+    ACCOUNT_SETTINGS: 7,
 };
 
 /** @typedef {Object} AppState
@@ -54,6 +55,10 @@ const __mutations = {
 
     toPlaylistCreator: (state) => {
         return {...state, currentPage: CurrentPage.PLAYLIST_CREATOR};
+    },
+
+    toAccSettings: (state) => {
+        return {...state, currentPage: CurrentPage.ACCOUNT_SETTINGS};
     }
 };
 

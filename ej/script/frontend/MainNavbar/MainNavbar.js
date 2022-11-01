@@ -51,6 +51,10 @@ function goToLoggedInProfile() {
     __Store.commit("logIn", __Store.state.loggedIn);
 }
 
+function goToAccountSettings() {
+    __Store.commit("toAccSettings", __Store.state.loggedIn);
+}
+
 /**
  * 
  * @param {HTMLElement} root 
@@ -83,12 +87,13 @@ function MainNavbarProfile(root, user) {
             if (isInDOMTree(innerE.target, dropdown) || !dropdown.classList.contains("show"))
                 return;
             dropdown.classList.remove("show");
-            document.removeEventListener("click", _handler);
+            document.removeEventListener("click", _handler); /* este self-reference en el segundo argumento
+                                                                es la razón por la que el callback no es una función anónima */
         });
     }});
 
     const dropdown = root.appendChild(Dropdown([
-            {text: "Account", clickHandler: undefined},
+            {text: "Account", clickHandler: goToAccountSettings},
             {text: "Profile", clickHandler: goToLoggedInProfile},
             {text: "Log out", clickHandler: undefined}]));
 

@@ -18,7 +18,8 @@ function onSubmitLogInHandler(onSuccess, onError) {
                 return obj;
             },
             inputNodes.map((/** @type{HTMLInputElement} */ field) => ({id: field.id, value: field.value})),
-            {username: "", password: ""});
+            {username: "", password: ""}
+        );
 
         try {
             const user = logInUserReq(username, password);

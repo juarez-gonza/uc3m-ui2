@@ -36,7 +36,11 @@ class Content {
                 return this.element;
             case CurrentPage.MY_PLAYLISTS:
                 this.element = PlaylistContent(this.element,
-                    __Store.state.loggedIn)
+                    __Store.state.loggedIn);
+                return this.element;
+            case CurrentPage.ACCOUNT_SETTINGS:
+                this.element = AccSettingsContent(this.element,
+                    __Store.state.loggedIn);
                 return this.element;
         }
     }

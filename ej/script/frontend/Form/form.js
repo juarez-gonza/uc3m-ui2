@@ -137,10 +137,10 @@ function ButtonSection(btnsData) {
 /**
  * @return {HTMLDivElement}
  */
-function BigFormError() {
+function BigFormMsg() {
     const errorMsg = document.createElement("div");
-    errorMsg.innerHTML = `<h3>Some Error</h3>`;
-    setClasses(errorMsg, ["big-form-msg", "main-light-bg-color", "shadow2"]);
+    errorMsg.innerHTML = `<h3>Some Message</h3>`;
+    setClasses(errorMsg, ["big-form-msg", "shadow2"]);
     errorMsg.classList.add("big-form-msg");
     return errorMsg
 }
@@ -157,7 +157,7 @@ function Form(fieldsData, btnsData, iconPaths, formId) {
     const inputs = InputFields(fieldsData);
     const iconsList = iconPaths !== null ? IconListSection(iconPaths) : stubHTMLElement();
     const buttons = ButtonSection(btnsData);
-    const ret = appendChildren([BigFormError(), ...inputs, buttons, iconsList], document.createElement("form"));
+    const ret = appendChildren([BigFormMsg(), ...inputs, buttons, iconsList], document.createElement("form"));
 
     ret.classList.add("form");
     ret.id = formId;
@@ -172,10 +172,41 @@ function Form(fieldsData, btnsData, iconPaths, formId) {
 function setFormError(form) {
     return (e, msg) => {
         e.preventDefault();
-        const formError = form.querySelector(".big-form-msg");
-        formError.querySelector("h3").textContent = msg;
-        formError.classList.add("show");
+        showBigFormMsg(form, msg, [ "main-light-bg-color"]);
     };
+}
+
+/**
+ * @param {HTMLFormElement} form - formulario sobre el cual setear el mensaje de éxíto(debe tener un nodo hijo 
+ *                                      .bif-form-msg como el formulario creado en form.js)
+ * @return {function(SubmitEvent, string)} - función que toma el evento de submit fallido y el string de error
+ */
+function setFormSuccess(form) {
+    return (e, msg) => {
+        e.preventDefault();
+        showBigFormMsg(form, msg, ["main-dark-bg-color"]);
+    };
+}
+
+/** Muestra BigFormMsg en el formulario especificado, con el mensaje y las clases de css especificadas.
+ * @param {HTMLFormElement} form
+ * @param {string} msg 
+ * @param {string[]} classes 
+ */
+function showBigFormMsg(form, msg, classes) {
+    const bigFormMsg = form.querySelector(".big-form-msg");
+    bigFormMsg.querySelector("h3").textContent = msg;
+    setClasses(bigFormMsg, ["show", ...classes]);
+}
+
+/**
+ * @param {HTMLInputElement} dateInputElement
+ * @param {Date} date
+ * @return {HTMLInputElement}
+ */
+function setDateInputValue(dateInputElement, date) {
+    dateInputElement.valueAsDate = new Date(date);
+    return dateInputElement;
 }
 
 /** @readonly @type {string[]} */
