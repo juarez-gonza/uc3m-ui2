@@ -20,7 +20,7 @@ function DefaultContent(root) {
    const title = document.createElement("h1");
    title.textContent = "Soon on SoundSound";
    title.classList.add("main-title");
-   return appendChildren([title, upcommingSongsContainer(), upcommingAlbumsContainer()], root);
+   return appendChildren([title, upcommingSongsContainer(), upcommingAlbumsContainer(),popularSongs()], root);
 }
 
 
@@ -32,7 +32,7 @@ function DefaultContent(root) {
 function upcommingSongsContainer() {
    return CardContainer({
       title: "New Songs!",
-      data: take(getAllSongs(), 5).map((s, idx) => {
+      data: take(getAllSongs(),5).map((s, idx) => {
          const premiereDate = nDaysFromNow(idx + 1);
          return {
             song: s,
@@ -74,5 +74,27 @@ function upcommingAlbumsContainer() {
          };
       }),
       containerType: CardContainerType.AlbumCard,
+   });
+}
+
+/**
+ * @return {HTMLElement}
+ */
+ function popularSongs() {
+   return CardContainer({
+      title: "Popular songs",
+      data: takeSelect(getAllSongs(),10, 5).map((s) => {
+         return {
+            song: s,
+            playable: true,
+            likeable: undefined,
+            commonProperties: {
+               intervalUpdate: undefined,
+               badgeMessage:undefined,
+               clickHandler: undefined
+            }
+         };
+      }),
+      containerType: CardContainerType.SongCard,
    });
 }

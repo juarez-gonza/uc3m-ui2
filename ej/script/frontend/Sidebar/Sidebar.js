@@ -58,7 +58,7 @@ function SidebarLoggedIn(root) {
             clickHandler: undefined
         },
         {
-            text: "Podacasts",
+            text: "Podcasts",
             iconPath: "./icons/icons8-podcast-64.png",
             alt: "Podcasts icon",
             clickHandler: undefined
