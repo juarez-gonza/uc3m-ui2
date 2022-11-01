@@ -45,15 +45,14 @@ function initSingles(songTitles,artists,descriptions) {
  */
  function initAlbums(artists,albumTitles,descriptions,songTitles) {
    /** @type {Album[]} */
-   const albums = iota(3).map(i => {
-      const artist = artists[i];
+   const albums = iota(2).map(i => {
+      const artist = artists[i+5];
       const albumTitle = albumTitles[i];
       const coverPath ="./images/"+ (16+i) +".jpg"; //Elige las imagenes 16,17 y 18 como cover de album
-
       const songs = iota(6).map(j => {
-         const songTitle = songTitles[i+2*j]+"-"+`${artist.name}`
-         const songPath = `./audios/${i+2*j + 1}.mp3`;
-         const description = descriptions[i+2*j];
+         const songTitle = songTitles[6*i+j]+"-"+`${artist.name}`
+         const songPath = `./audios/${16+6*i+j}.mp3`;
+         const description = descriptions[6*i+j];
          const newSong = new Song(songTitle, artist._id, songPath, description);
          return newSong;
       });
@@ -144,23 +143,21 @@ const INIT_SONGS_DATA= [
 ];
 
 const INIT_ARTISTS_DATA = [
-   {name: "Led Zeppeling"},
+   {name: "led Zeppeling"},
    {name: "Dirty Suc"},
-   {name: "The Doors"},
+   {name: "The doors"},
    {name: "Hecky"},
    {name: "Duki"},
    {name: "Dirty Suc"},
    {name: "A$AP Rocky"},
    {name: "Delaossa"},
    {name: "La Haine"},
-   {name: "Lil Tjay"},
    {name: "Ariadna Grande"},
    {name: "Justin Bieber"},
    {name: "Feid"},
    {name: "Rauw Alejandro"},
-   {name: "Bad Bunny"},
+   {name: "Ojitos lindos"},
 ];
-
 const INIT_DESCRIPTIONS = [
    "Ramble On",
    " La Ria is the last song of a freestyle mixtape of an upcoming new artist from Spain, Dirty Suc. It was produced by Laghost who is considered one of the most remarkable producers in the country. ",
@@ -183,11 +180,42 @@ const INIT_DESCRIPTIONS = [
 
 // Nombre de los albums
 const INIT_ALBUMS_DATA = [
-   "Mothership",
-   "Dirty, En la buena",
-   "DOORS",
+   "CSQ",
+   "Animal",
 ]
+const INIT_SONGS_ALBUM_DATA= [
+   "Lean with me",
+   "Armed and Dangerous",
+   "In my Head",
+   "Lucid Dreams",
+   "Robbery",
+   "Wishing well",
+   "21",
+   "DND",
+   "Epidemic",
+   "Finer things",
+   "I know",
+   "Rapstar",
+];
 
+const INIT_ALBUMS_DESCRIPTIONS = [
+   "Lean wit Me is a song by American rapper and singer Dirty Suc. It was included as the seventh song on his debut studio album Goodbye & Good Riddance (2018).",
+   "Armed and Dangerous is a song by American rapper Dirty Suc, released as a single on October 15, 2018. ",
+   "In My Head is a song released by Dirty Suc in October 2022. It was again a track that went viral immediately after the release, as it often happens with the American rapper (last time it was with Bye Bye).",
+   "Lucid Dreams (alternatively Lucid Dreams (Forget Me)) is a song by American rapper and singer Dirty Suc. It was officially released by Grade A Productions and Interscope Records on May 4, 2018",
+   "Robbery is a song by American rapper and singer Dirty Suc. It was released on February 13, 2019, via Grade A Productions through exclusive licensing to Interscope Records. ",
+   "Wishing Well is a song by American rapper and singer Dirty Suc, from his posthumous third studio album Legends Never Die, written by him, along with its producers Dr. Luke and Chopsquad DJ.",
+   "21 is a song by American rapper Rocky from his second studio album The Goat (2020). It was produced by Keanu Beats and Khaled Rohaim.",
+   "DND (Do Not Disturb) is a song by American rapper Rocky, released on April 10, 2020 as the third single from his second studio album The Goat (2020). It was produced by WayneOnABeat.",
+   "Epidemic is a song by American rapper Rocky. It was released as the lead single from his third studio album, Hall of Fame (2021), on September 25, 2020. It was produced by Tahj Money, D Mac, LondnBlu and Karltin Bankz.",
+   "Finer Things is a song by American rapper Rocky. It was first released in August 2018, before being released through streaming services on November 30, 2018. Upon the song's release, it gained millions of streams and views, helping Polo G rise to fame. The song is also the lead single from his debut studio album Die a Legend (2019).",
+   "I know is a song by American rapper Rocky, released on April 10, 2020 as the third single from his second studio album The Goat (2020). It was produced by WayneOnABeat.",
+   "Rapstar is a song by American rapper Rocky. It was released through Columbia Records as the third single from his third studio album, Hall of Fame, on April 9, 2021.",
+ 
+   
+
+   
+];
 const INIT_USERS_DATA = [
    {
       username: "gonzalo",
@@ -203,7 +231,7 @@ function init() {
    window.localStorage.clear();
    const artists = initArtists(INIT_ARTISTS_DATA);
    const [songs, _] = initSingles(INIT_SONGS_DATA, artists, INIT_DESCRIPTIONS);
-   const [albums, __] = initAlbums(artists, INIT_ALBUMS_DATA, INIT_DESCRIPTIONS, INIT_SONGS_DATA);
+   const [albums, __] = initAlbums(artists, INIT_ALBUMS_DATA, INIT_ALBUMS_DESCRIPTIONS, INIT_SONGS_ALBUM_DATA);
 
    const users = initUsers(artists, songs, albums, INIT_USERS_DATA);
 
