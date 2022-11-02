@@ -15,6 +15,7 @@ class MainNavbar {
         if (__Store.state.loggedIn === null)
             return MainNavbarDefault(this.element)
         return MainNavbarProfile(this.element, __Store.state.loggedIn);
+  
     }
 };
 
@@ -50,8 +51,9 @@ function MainNavbarDefault(root) {
 function goToLoggedInProfile() {
     __Store.commit("logIn", __Store.state.loggedIn);
 }
-function goOutOfProfile(){
-    __Store.commit("logOut");
+
+function goToModalForm(){
+    setOpenModalHandler("Are you sure?:", LogOutForm)
 }
 
 function goToAccountSettings() {
@@ -98,7 +100,7 @@ function MainNavbarProfile(root, user) {
     const dropdown = root.appendChild(Dropdown([
             {text: "Account", clickHandler: goToAccountSettings},
             {text: "Profile", clickHandler: goToLoggedInProfile},
-            {text: "Log out", clickHandler: goOutOfProfile}]));
+            {text: "Log out", clickHandler: goToModalForm}]));
 
     rightside.appendChild(userMenu).appendChild(userImg);
 
