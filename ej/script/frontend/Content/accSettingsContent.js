@@ -69,7 +69,7 @@ function onResetAccSettingsHandler(user) {
                 case "birth":
                     setDateInputValue(inputNode, user.birth);
                     break;
-                case "profilePic":
+                case "profilePicB64":
                     inputNode.files = null;
                     break;
                 default:
