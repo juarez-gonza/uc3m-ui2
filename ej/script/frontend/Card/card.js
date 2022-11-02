@@ -138,6 +138,13 @@ function SongCard(songData) {
         ret.appendChild(likeSection).appendChild(likeButton);
     }
 
+    if (playable)
+        ret.querySelector("audio").addEventListener("play", () => {
+            const user = __Store.state.loggedIn;
+            if (user !== null)
+                user.addRecentSong(song);
+        });
+
     return addCommonProperties(ret, commonProperties);
 }
 

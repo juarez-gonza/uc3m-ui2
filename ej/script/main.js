@@ -107,7 +107,7 @@ function initUsers(artists, songs, albums, userData) {
          const album = albums[(i + j) % albums.length];
          const song = album.songs[(i + j) % album.songs.length];
          user.addFavSong(song);
-         user.addRecentSong(song);
+         user._addRecentSong(song);
       }
 
       // añadir 7 artistas favoritos por usuario

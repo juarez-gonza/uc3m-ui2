@@ -40,6 +40,11 @@ class User {
     /** @type {Song[]} */
     recentSongs;
 
+    /** @type {number} */
+    static RecentArtistsCapacity = 10;
+    /** @type {number} */
+    static RecentSongsCapacity;
+
     /**
     * 
     * @param {Object} user
@@ -89,16 +94,32 @@ class User {
     * @return {User}
     */
     addRecentArtist(artist) {
-        this.recentArtists.push(artist);
+        if (this.recentArtists.length > User.RecentArtistsCapacity)
+            this.recentArtists.pop();
+        this.recentArtists.unshift(artist);
         return this;
     }
 
    /**
+    * Modifica recentSongs
+    * @param {Song} song
+    * @return {User}
+    */
+    _addRecentSong(song) {
+        if (this.recentSongs.length > User.RecentSongsCapacity)
+            this.recentSongs.pop();
+        this.recentSongs.unshift(song);
+        return this;
+    }
+
+   /**
+    * Modifica recentSongs y recentArtists. Hace búsqueda del artista en base de datos
     * @param {Song} song
     * @return {User}
     */
     addRecentSong(song) {
-        this.recentSongs.push(song);
+        this._addRecentSong(song);
+        this.addRecentArtist(Artist.find(song.artist));
         return this;
     }
 
