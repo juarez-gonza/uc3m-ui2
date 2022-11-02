@@ -23,7 +23,7 @@ class Footer {
  * @return {HTMLElement}
  */
 function DefaultFooter(footer) {
-    footer.style.display = "auto";
+    footer.style.display = "";
     document.body.style.gridTemplateAreas =  `"nav nav" "sidebar content" "sidebar content" "footer  footer"`;
     document.body.style.gridTemplateRows =  "0.8fr 4fr 4fr 0.6fr"
     return footer;

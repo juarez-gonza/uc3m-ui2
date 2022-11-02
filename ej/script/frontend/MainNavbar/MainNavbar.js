@@ -48,13 +48,7 @@ function MainNavbarDefault(root) {
     return appendChildren([leftside, rightside], root);
 }
 
-function goToLoggedInProfile() {
-    __Store.commit("logIn", __Store.state.loggedIn);
-}
-
-function goToModalForm(){
-    setOpenModalHandler("Are you sure?:", LogOutForm)
-}
+    
 
 function goToAccountSettings() {
     __Store.commit("toAccSettings", __Store.state.loggedIn);
@@ -99,8 +93,8 @@ function MainNavbarProfile(root, user) {
 
     const dropdown = root.appendChild(Dropdown([
             {text: "Account", clickHandler: goToAccountSettings},
-            {text: "Profile", clickHandler: goToLoggedInProfile},
-            {text: "Log out", clickHandler: goToModalForm}]));
+            {text: "Profile", clickHandler: () => logIn(__Store.state.loggedIn)},
+            {text: "Log out", clickHandler: setOpenModalHandler("Are you sure you want to log out?", LogOutForm)}]));
 
     rightside.appendChild(userMenu).appendChild(userImg);
 

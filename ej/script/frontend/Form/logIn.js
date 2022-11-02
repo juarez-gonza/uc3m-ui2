@@ -30,12 +30,19 @@ function onSubmitLogInHandler(onSuccess, onError) {
 }
 
 /**
+ * @param {User} user
+ */
+function logIn(user) {
+    __Store.commit("logIn", user);
+}
+
+/**
  * 
  * @param {Event} e
  * @param {User} user
  */
 function onLogInSuccess(e, user) {
-    __Store.commit("logIn", user);
+    logIn(user);
     closeModalClickHandler(e);
 }
 

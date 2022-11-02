@@ -1,28 +1,38 @@
- function goOutOfProfile(){
+ function logOut() {
     __Store.commit("logOut");
+}
+
+/**
+ * 
+ * @param {Event} e
+ */
+function onLogOut(e) {
+    logOut();
+    closeModalClickHandler(e);
 }
 
 /** @readonly @type {string} */
 const LogOutFormID = "logOut";
 
-
-
+/** @readonly @type {ButtonData[]} */
 const LogOutButtons = [
     {
         text: "Yes",
         classes: ["secondary-light-bg-color", "button"],
-        extraAttributes: {
-            type: undefined,
-        },
-        onClickHandler: goOutOfProfile
+        extraAttributes: undefined,
+        onClickHandler: (e) => {
+            e.preventDefault();
+            onLogOut(e);
+        }
     },
     {
         text: "No",
         classes: ["pinkish-bg-color", "button"],
-        extraAttributes: {
-            type: undefined,
+        extraAttributes: undefined,
+        onClickHandler: (e) => {
+            e.preventDefault();
+            onLogInSuccess(e, __Store.state.loggedIn);
         },
-        onClickHandler: goToLoggedInProfile,
     },
 ];
 
