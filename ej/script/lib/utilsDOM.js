@@ -66,6 +66,14 @@ function appendChildren(elements, root) {
     }, elements, root);
 }
 
+/**
+ * @param {Element} toInsert
+ * @param {Node} target
+ */
+function insertAfter(toInsert, target) {
+    target.parentNode.insertBefore(toInsert, target.nextSibling);
+}
+
 function stubHTMLElement() {
     const ret = document.createElement("span");
     ret.style.display = "none";

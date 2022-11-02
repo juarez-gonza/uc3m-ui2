@@ -7,6 +7,20 @@ function allPlaylistsData(playlists) {
 }
 
 /**
+ * 
+ * @param {Element} decoratedContainer
+ * @return {function(MouseEvent): any}
+ */
+function setOnDeletePlaylistHandler(decoratedContainer) {
+    return e => {
+        Playlist.find(decoratedContainer.id).remove();
+        refreshLoggedIn();
+        __Store.commit("toCheckPlaylists");
+    };
+}
+
+
+/**
  * @param {DragEvent} e
  * @param {Element} draggable
  * @param {Element} initialContainer
@@ -32,7 +46,7 @@ function onPlaylistInsertion(e, draggable, initialContainer, finalContainer) {
         finalPlaylist.save();
 
     // repopular las playlists del usuario guardado con la información nueva.
-    __Store.state.loggedIn = User.find(__Store.state.loggedIn._id);
+    refreshLoggedIn();
 }
 
 /**
@@ -44,11 +58,12 @@ function PlaylistContent(root, user) {
     title.textContent = "Your playlists";
     title.classList.add("main-title");
 
-    const playlistSection = DraggableCardSection(
+    const playlistSection = DeletableCardSection(DraggableCardSection(
         allPlaylistsData(user.playlists),
         setOnDraggableStart(id),
         setOnDraggableEnd(onPlaylistInsertion),
         setOnContainerDragover(id),
-    );
+    ), setOnDeletePlaylistHandler);
+
     return appendChildren([title, ...playlistSection], root);
 }

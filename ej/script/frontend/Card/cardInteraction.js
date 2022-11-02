@@ -36,3 +36,34 @@ function setClickToLikeHandler(song) {
         toggleLike(liked, song);
     };
 }
+
+/**
+ * 
+ * @param {function(MouseEvent): any} onClickHandler 
+ * @return {HTMLImageElement}
+ */
+function deleteButton(onClickHandler) {
+    const img = document.createElement("img");
+    img.src = "./icons/icons8-waste-64.png";
+    img.classList.add("delete-button");
+    img.addEventListener("click", onClickHandler)
+    return img;
+}
+
+/**
+ * @param {Element[]} cardContainerSection
+ * @param {function(Element): function(MouseEvent): any} setOnContainerDelete
+ * @return {Element[]}
+ */
+function DeletableCardSection(cardContainerSection, setOnContainerDelete) {
+    return cardContainerSection.map(cardContainer => {
+        cardContainer.classList.add("deletable");
+        insertAfter(
+            deleteButton(
+                setOnContainerDelete(cardContainer)
+            ),
+            cardContainer.querySelector(".card-container")
+        );
+        return cardContainer;
+    });
+}

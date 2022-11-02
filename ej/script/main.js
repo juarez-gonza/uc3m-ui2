@@ -1,4 +1,6 @@
 /**
+ * en este archivo se generan datos inicial para jugar y
+ * se corre el primer render (initialRender()) de elementos html que mantienen estado
  * @module main.js
  * @requires ./entities.js
  */
@@ -211,11 +213,8 @@ const INIT_ALBUMS_DESCRIPTIONS = [
    "Finer Things is a song by American rapper Rocky. It was first released in August 2018, before being released through streaming services on November 30, 2018. Upon the song's release, it gained millions of streams and views, helping Polo G rise to fame. The song is also the lead single from his debut studio album Die a Legend (2019).",
    "I know is a song by American rapper Rocky, released on April 10, 2020 as the third single from his second studio album The Goat (2020). It was produced by WayneOnABeat.",
    "Rapstar is a song by American rapper Rocky. It was released through Columbia Records as the third single from his third studio album, Hall of Fame, on April 9, 2021.",
- 
-   
-
-   
 ];
+
 const INIT_USERS_DATA = [
    {
       username: "gonzalo",
@@ -226,6 +225,20 @@ const INIT_USERS_DATA = [
       birth: new Date(),
    }
 ];
+
+function initialRender() {
+   const __mainContent = new Content();
+   __mainContent.render();
+
+   const __mainNavbar = new MainNavbar();
+   __mainNavbar.render();
+
+   const __sidebar = new Sidebar();
+   __sidebar.render();
+
+   const __footer = new Footer();
+   __footer.render();
+}
 
 function init() {
    window.localStorage.clear();
@@ -240,18 +253,8 @@ function init() {
 
    for (const u of users)
       u.save(); // propaga save a playlists del usuario
+   
+   initialRender();
 }
 
 init();
-
-const __mainContent = new Content();
-__mainContent.render();
-
-const __mainNavbar = new MainNavbar();
-__mainNavbar.render();
-
-const __sidebar = new Sidebar();
-__sidebar.render();
-
-const __footer = new Footer();
-__footer.render();

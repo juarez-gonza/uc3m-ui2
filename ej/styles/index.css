@@ -415,6 +415,15 @@ form:invalid.form button[type="submit"] {
     font-style: italic;
 }
 
+/* start of deletable playlist overrides */
+
+.playlist .card-container + img.delete-button {
+    margin-top: 2%;
+    width: 5%;
+}
+
+/* end of deletable playlist overrides */
+
 .playlist .user-icons-section {
     display: flex;
     justify-content: space-between;

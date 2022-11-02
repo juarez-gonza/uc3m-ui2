@@ -521,6 +521,10 @@ class Playlist {
     }
 
     remove() {
+        const user = User.find(this.author);
+        const [newPlaylists,] = removeFirstWhere(user.playlists, p => p._id === this._id);
+        user.playlists = newPlaylists;
+        user.save();
         removeLS(this._id);
     }
 };

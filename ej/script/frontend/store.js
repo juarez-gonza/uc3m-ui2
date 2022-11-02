@@ -62,5 +62,9 @@ const __mutations = {
     }
 };
 
+function refreshLoggedIn() {
+    __Store.state.loggedIn = User.find(__Store.state.loggedIn._id);
+}
+
 // @ts-ignore  JSDoc no puede deducir el tipo bien aquí
 const __Store = new SyncStore(__initalStoreState, __mutations);
