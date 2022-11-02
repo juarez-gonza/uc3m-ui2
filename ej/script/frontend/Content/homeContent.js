@@ -25,6 +25,33 @@ function songsCardData(title, id, songs) {
 /**
  * @param {string} title
  * @param {string} id
+ * @param {Playlist[]} playlists
+ * @return {CardContainerData}
+ */
+function playlistCardData(title, id, playlists) {
+    return {
+        title: title,
+        id: id,
+        containerType: CardContainerType.SongCard,
+        data: playlists.map(p => ({
+            song: p.songs[0],
+            playable: false,
+            likeable: undefined,
+            commonProperties: {
+                clickHandler: () => {
+                    __Store.commit("toPlaylistCreator", p);
+                },
+                intervalUpdate: undefined,
+                badgeMessage: undefined,
+            },
+        }))
+    };
+}
+
+
+/**
+ * @param {string} title
+ * @param {string} id
  * @param {Artist[]} recentArtists
  * @return {CardContainerData} 
  */
@@ -103,7 +130,8 @@ function HomeContent(root, user) {
         artistsCardData("Recently heard artists", "recent-artists", user.recentArtists),
         songsCardData("Recently heard songs", "recent-songs", user.recentSongs),
         songsCardData("Favourite songs", "fav-songs", user.favSongs),
-        ]);
+        playlistCardData("Your playlists", "your-playlists", user.playlists)
+    ]);
 
     const followedUsers = UserIconsSection("Following", user.following, 5);
 

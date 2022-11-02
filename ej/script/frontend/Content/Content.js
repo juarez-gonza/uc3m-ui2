@@ -32,7 +32,7 @@ class Content {
                 return this.element;
             case CurrentPage.PLAYLIST_CREATOR:
                 this.element = PlaylistCreatorContent(this.element,
-                    __Store.state.loggedIn);
+                    __Store.state.loggedIn, __Store.state.extraPageData.playlist);
                 return this.element;
             case CurrentPage.MY_PLAYLISTS:
                 this.element = PlaylistContent(this.element,

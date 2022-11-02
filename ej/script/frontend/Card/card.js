@@ -44,7 +44,7 @@
 
 /**
  * @param {CardContainerData[]} containerData
- * @return {HTMLElement[]}
+ * @return {Element[]}
  */
 function CardContainerSection(containerData) {
     return containerData.map(c => CardContainer(c));
@@ -52,7 +52,7 @@ function CardContainerSection(containerData) {
 
 /**
  * @param {CardContainerData} cardsData
- * @return {HTMLElement}
+ * @return {Element}
  */
 function CardContainer(cardsData) {
     const {title, id} = cardsData;

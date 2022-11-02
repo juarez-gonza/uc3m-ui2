@@ -47,6 +47,7 @@ function deleteButton(onClickHandler) {
     img.src = "./icons/icons8-waste-64.png";
     img.classList.add("delete-button");
     img.addEventListener("click", onClickHandler)
+    img.alt = "delete these cards";
     return img;
 }
 

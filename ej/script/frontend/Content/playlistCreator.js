@@ -47,21 +47,27 @@ function clearPlaylistCreatorCards(e) {
 /** @readonly @type {string} */
 const PlaylistCreatorFormID = "new-playlist-form";
 
-/** @readonly @type {InputData[]} */
-const PlaylistCreatorFieldsData = [
-    {
-        id: "playlist-name", label: "Your playlist name", type: "text",
-        inputValidation: {
-            errorMsg: "A name for the playlist is required",
-            attributes: {
-                required: true,
+/** 
+ * @param {string|undefined} value
+ * @return {InputData[]}
+ */
+function getPlaylistCreatorFieldsData(value) {
+    return [
+        {
+            id: "playlist-name", label: "Your playlist name", type: "text",
+            inputValidation: {
+                errorMsg: "A name for the playlist is required",
+                attributes: {
+                    required: true,
+                }
+            },
+            extraAttributes: {
+                placeholder: "playlist-name",
+                value: value !== undefined ? value : "",
             }
         },
-        extraAttributes: {
-            placeholder: "playlist-name"
-        }
-    },
-];
+    ];
+}
 
 /** @readonly @type {ButtonData[]} */
 const PlaylistCreatorButtons = [
@@ -112,13 +118,18 @@ function replaceFoundSongsContent(root) {
 
 /**
  * @param {User} user
+ * @param {Playlist | null} playlist
  * @return {Element}
  */
-function newPlaylistContent(user) {
+function newPlaylistContent(user, playlist) {
+    const playlistSongs = playlist !== null ? playlist.songs : [];
+    const playlistTitle = playlist !== null ? playlist.name : undefined;
+    const playlistId = playlist !== null ? playlist._id : "new-playlist-songs";
+
     const ret = document.createElement("div");
     ret.classList.add("new-playlist");
 
-    const form = Form(PlaylistCreatorFieldsData, PlaylistCreatorButtons, null, PlaylistCreatorFormID);
+    const form = Form(getPlaylistCreatorFieldsData(playlistTitle), PlaylistCreatorButtons, null, PlaylistCreatorFormID);
     form.addEventListener("submit",
                             onSubmitPlaylistCreatorHandler(
                                 setOnPlaylistCreatorSuccess(user, form),
@@ -126,9 +137,13 @@ function newPlaylistContent(user) {
                         ));
 
     /* contenedor con canciones de la nueva playlist */
-    const decoratedContainer = CardContainer(
-        songsCardData("Drag and drop your songs here!", "new-playlist-songs", [])
+    let decoratedContainer = CardContainer(
+        songsCardData("Drag and drop your songs here!", playlistId, playlistSongs)
     );
+
+    if (playlist !== null)
+        [decoratedContainer,] = DeletableCardSection([decoratedContainer], setOnDeletePlaylistHandler);
+
     DraggableCardContainer(
         decoratedContainer,
         setOnDraggableStart(id),
@@ -148,17 +163,19 @@ function newPlaylistContent(user) {
  * 
  * @param {HTMLElement} root 
  * @param {User} user 
+ * @param {Playlist | null} playlist
  * @return {HTMLElement}
  */
-function PlaylistCreatorContent(root, user) {
+function PlaylistCreatorContent(root, user, playlist) {
     const title = document.createElement("h1");
     title.textContent = "Playlist Creation Page";
     title.classList.add("main-title");
 
     const songsFoundContent = foundSongsContainer([]);
+
     return appendChildren([
         title,
-        newPlaylistContent(user),
+        newPlaylistContent(user, playlist),
         Searchbar(
             "Look for songs to add to your playlist",
             findSongs,

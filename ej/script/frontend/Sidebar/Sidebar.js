@@ -40,7 +40,7 @@ function SidebarLoggedIn(root) {
             alt: "playlist creator icon",
             clickHandler: e => {
                 e.preventDefault();
-                __Store.commit("toPlaylistCreator");
+                __Store.commit("toPlaylistCreator", null);
             }
         }
     ]);

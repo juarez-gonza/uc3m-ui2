@@ -53,8 +53,8 @@ const __mutations = {
         return {...state, currentPage: CurrentPage.MY_PLAYLISTS};
     },
 
-    toPlaylistCreator: (state) => {
-        return {...state, currentPage: CurrentPage.PLAYLIST_CREATOR};
+    toPlaylistCreator: (state, playlist) => {
+        return {...state, currentPage: CurrentPage.PLAYLIST_CREATOR, extraPageData: {playlist: playlist}};
     },
 
     toAccSettings: (state) => {

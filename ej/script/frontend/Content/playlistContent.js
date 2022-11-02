@@ -58,12 +58,15 @@ function PlaylistContent(root, user) {
     title.textContent = "Your playlists";
     title.classList.add("main-title");
 
-    const playlistSection = DeletableCardSection(DraggableCardSection(
+    let playlistSection = DraggableCardSection(
         allPlaylistsData(user.playlists),
         setOnDraggableStart(id),
         setOnDraggableEnd(onPlaylistInsertion),
         setOnContainerDragover(id),
-    ), setOnDeletePlaylistHandler);
+    );
+
+    if (user._id === __Store.state.loggedIn._id)
+        playlistSection = DeletableCardSection(playlistSection, setOnDeletePlaylistHandler);
 
     return appendChildren([title, ...playlistSection], root);
 }
