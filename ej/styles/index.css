@@ -358,6 +358,7 @@ form:invalid.form button[type="submit"] {
 
     margin: 0;
     margin-top: 2.5%;
+    margin-bottom: 2%;
     font-size: 3rem;
 }
 
@@ -582,6 +583,7 @@ form:invalid.form button[type="submit"] {
 .music-card .badge-msg {
     position: absolute;
     z-index: 1;
+    height: 10%;
     top: 0;
     left: 0;
     padding: 1.2rem;
@@ -953,6 +955,10 @@ ul.dropdown li:last-of-type {
 
 
 @media (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
+
     /* general layout stuff */
     body {
         grid-template-columns: 1fr 3fr;
@@ -983,11 +989,27 @@ ul.dropdown li:last-of-type {
     .main-nav .home-section h2 {
         display: none;
     }
+
+    .music-card .badge-msg {
+        font-size: 0.6rem;
+    }
 }
 
 @media (max-width: 696px) {
     .music-card, .artist-card {
         height: 160px;
         width: 100px;
+    }
+
+    .music-card .description h6 {
+        /* cut the $--webkit-line-clamp line of text with ellipsis */
+        -webkit-line-clamp: 1;
+    }
+}
+
+@media (max-width: 600px) {
+    .music-card, .artist-card {
+        height: 135px;
+        width: 90px;
     }
 }
