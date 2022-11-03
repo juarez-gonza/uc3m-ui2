@@ -434,6 +434,21 @@ form:invalid.form button[type="submit"] {
     transform: scale(1.2);
 }
 
+.empty-page-message {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.empty-page-message div {
+    text-align: center;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+}
+
 /* end of deletable playlist overrides */
 
 .playlist .user-icons-section {
