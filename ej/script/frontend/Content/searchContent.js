@@ -13,10 +13,9 @@
 
  /**
   * @param {Song[]} songs
-  * @return {HTMLElement}
   */
  function foundSongsContainer(songs) {
     return CardContainer(
-        songsCardData("Songs found", "found-songs", songs)
+        songsCardData("Songs found", "found-songs","",songs)
     );
  }

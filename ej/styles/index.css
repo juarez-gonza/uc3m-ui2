@@ -257,7 +257,7 @@ body {
     box-shadow: 0 1.2px rgba(0, 0, 0, 0.35);
     transition: box-shadow 0.2s ease-out;
 
-/*   background-color: inherit; */
+   background-color: inherit; 
 }
 
 .form .input input:focus {

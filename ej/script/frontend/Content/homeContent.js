@@ -1,13 +1,15 @@
 /**
  * @param {string} title
  * @param {string} id
+ * @param {string} mensaje
  * @param {Song[]} songs
  * @return {CardContainerData}
  */
-function songsCardData(title, id, songs) {
+function songsCardData(title, id, mensaje, songs) {
     return {
         title: title,
         id: id,
+        mensaje: mensaje,
         containerType: CardContainerType.SongCard,
         data: songs.map(s => ({
             song: s,
@@ -25,13 +27,15 @@ function songsCardData(title, id, songs) {
 /**
  * @param {string} title
  * @param {string} id
+ * @param {string} mensaje
  * @param {Playlist[]} playlists
  * @return {CardContainerData}
  */
-function playlistCardData(title, id, playlists) {
+function playlistCardData(title, id, mensaje, playlists) {
     return {
         title: title,
         id: id,
+        mensaje: mensaje,
         containerType: CardContainerType.SongCard,
         data: playlists.map(p => ({
             song: p.songs[0],
@@ -52,13 +56,15 @@ function playlistCardData(title, id, playlists) {
 /**
  * @param {string} title
  * @param {string} id
+ * @param {string} mensaje
  * @param {Artist[]} recentArtists
  * @return {CardContainerData} 
  */
-function artistsCardData(title, id, recentArtists) {
+function artistsCardData(title, id, mensaje, recentArtists) {
     return {
         title: title,
         id: id,
+        mensaje: mensaje,
         containerType: CardContainerType.ArtistCard,
         data: recentArtists.map(a => (
             {
@@ -114,9 +120,17 @@ function UserIconsSection(title, userIds, n) {
     const userIcons = _UserIconsSection(userIds, n);
     return appendChildren([h1Title, userIcons], ret);
 }
+/**
+ * @return {string}
+ */
+function printeamensaje(cartas){
+    let mensaje=""
+    if (cartas.length===0)
+        mensaje="No se encontraron resultados para esta sección... Continue exploring";
+    return mensaje;
+}
 
 /**
- * 
  * @param {HTMLElement} root 
  * @param {User} user
  * @return {HTMLElement}
@@ -127,10 +141,10 @@ function HomeContent(root, user) {
     title.classList.add("main-title");
 
     const songsContent = CardContainerSection([
-        artistsCardData("Recently heard artists", "recent-artists", user.recentArtists),
-        songsCardData("Recently heard songs", "recent-songs", user.recentSongs),
-        songsCardData("Favourite songs", "fav-songs", user.favSongs),
-        playlistCardData("Your playlists", "your-playlists", user.playlists)
+        artistsCardData("Recently heard artists", "recent-artists",printeamensaje(user.recentArtists), user.recentArtists),
+        songsCardData("Recently heard songs", "recent-songs",printeamensaje(user.recentSongs),user.recentSongs),
+        songsCardData("Favourite songs", "fav-songs",printeamensaje(user.favSongs),user.favSongs),
+        playlistCardData("Your playlists", "your-playlists",printeamensaje(user.playlists), user.playlists)
     ]);
 
     const followedUsers = UserIconsSection("Following", user.following, 5);

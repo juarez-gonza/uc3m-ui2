@@ -3,7 +3,7 @@
  * @return {CardContainerData[]}
  */
 function allPlaylistsData(playlists) {
-    return playlists.map(p => songsCardData(`Playlist: ${p.name}`, p._id, p.songs));
+    return playlists.map(p => songsCardData(`Playlist: ${p.name}`, p._id, "" ,p.songs));
 }
 
 /**

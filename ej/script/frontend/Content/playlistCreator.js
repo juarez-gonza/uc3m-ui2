@@ -138,7 +138,7 @@ function newPlaylistContent(user, playlist) {
 
     /* contenedor con canciones de la nueva playlist */
     let decoratedContainer = CardContainer(
-        songsCardData("Drag and drop your songs here!", playlistId, playlistSongs)
+        songsCardData("Drag and drop your songs here!", playlistId, "",playlistSongs)
     );
 
     if (playlist !== null)

@@ -38,6 +38,7 @@
 /** @typedef {Object} CardContainerData
  *  @property {string} title
  *  @property {string} id
+ *  @property {string} mensaje
  *  @property {CardContainerType} containerType
  *  @property {(SongCardData|ArtistCardData|AlbumCardData)[]} data
  */
@@ -54,8 +55,8 @@ function CardContainerSection(containerData) {
  * @param {CardContainerData} cardsData
  * @return {Element}
  */
-function CardContainer(cardsData) {
-    const {title, id} = cardsData;
+ function CardContainer(cardsData) {
+    const {title, id, mensaje} = cardsData;
     const wrapper = document.createElement("div");
     wrapper.id = id;
     wrapper.classList.add("playlist");
@@ -63,7 +64,11 @@ function CardContainer(cardsData) {
     const h1Title = document.createElement("h1");
     h1Title.textContent = title;
 
+    const h3mensaje = document.createElement("h3");
+    h3mensaje.textContent = mensaje;
+
     wrapper.appendChild(h1Title);
+    wrapper.appendChild(h3mensaje)
     wrapper.appendChild(_CardContainer(cardsData));
 
     return wrapper;
