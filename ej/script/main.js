@@ -223,6 +223,14 @@ const INIT_USERS_DATA = [
       lastName: "Juarez",
       email: "gonzalo@gmail.com",
       birth: new Date(),
+   },
+   {
+      username: "miguelcas",
+      password: "3456",
+      firstName: "Miguel",
+      lastName: "Castuera",
+      email: "miguel@gmail.com",
+      birth: new Date(),
    }
 ];
 

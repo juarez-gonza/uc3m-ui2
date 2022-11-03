@@ -90,13 +90,15 @@ function getAccSettingsInputNodes() {
  * @return {InputData[]}
  */
 function getAccSettingsFieldsData(user) {
-    return SignInFieldsData.map(field => {
+    return SignInFieldsData.filter(field => field.type !== "checkbox").map(field => {
         if (field.extraAttributes === undefined)
             field.extraAttributes = {};
 
         field.extraAttributes.value = user[field.id];
+
         return field;
-    });
+        }
+    );
 }
 
 /**
