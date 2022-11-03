@@ -143,6 +143,15 @@ class User {
     }
 
     /**
+     * @param {string} playlistName
+     */
+    removePlaylistByName(playlistName) {
+        const oldPlaylist = this.playlists.find(p => playlistName === p.name);
+        const [newUserPlaylists,] = removeFirstWhere(this.playlists, p => p._id === oldPlaylist._id)
+        this.playlists = newUserPlaylists;
+    }
+
+    /**
      * 
      * @param {UserId} userId 
      */
