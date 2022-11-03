@@ -128,6 +128,16 @@ const SignInFieldsData = [
         inputValidation: undefined,
         extraAttributes: undefined,
     },
+    {
+        id: "conditions", label: "I accept the terms and conditions", type: "checkbox",
+        inputValidation: {
+            errorMsg: "You need to accept them",
+            attributes: {
+                required: true,
+            }
+        },
+        extraAttributes: undefined
+    },
 ];
 
 /** @readonly @type {string} */
