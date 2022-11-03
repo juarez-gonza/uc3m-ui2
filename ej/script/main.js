@@ -248,7 +248,7 @@ function initialRender() {
    __footer.render();
 }
 
-function init() {
+function initData() {
    window.localStorage.clear();
    const artists = initArtists(INIT_ARTISTS_DATA);
    const [songs, _] = initSingles(INIT_SONGS_DATA, artists, INIT_DESCRIPTIONS);
@@ -262,7 +262,12 @@ function init() {
    for (const u of users)
       u.save(); // propaga save a playlists del usuario
    
+}
+
+function main() {
+   if (getAllSongs().length === 0)
+      initData();
    initialRender();
 }
 
-init();
+main();
