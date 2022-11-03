@@ -231,13 +231,6 @@ body {
     padding: 1rem;
 }
 
-
-
-.form input[type="checkbox"] {
-    justify-content: right;
-    width: 5%;
-    
-}
 .form .input {
     width: 40%;
 
@@ -262,6 +255,10 @@ body {
 
 .form .input input:focus {
     outline: none;
+}
+
+.form .input input[type="checkbox"] {
+    margin: auto;
 }
 
 /* field error stuff */

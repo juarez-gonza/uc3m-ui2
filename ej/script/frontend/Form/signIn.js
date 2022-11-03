@@ -131,7 +131,7 @@ const SignInFieldsData = [
     {
         id: "conditions", label: "I accept the terms and conditions", type: "checkbox",
         inputValidation: {
-            errorMsg: "You need to accept them",
+            errorMsg: "You must accept this in order to create the account",
             attributes: {
                 required: true,
             }
