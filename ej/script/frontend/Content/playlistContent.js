@@ -50,6 +50,17 @@ function onPlaylistInsertion(e, draggable, initialContainer, finalContainer) {
 }
 
 /**
+ * @param {Playlist[]} elements
+ * @return {string}
+ */
+ function NoResultsMessagePlaylists(elements){
+    let mensaje=""
+    if (elements.length===0)
+        mensaje="No Playlists were found... Create a new Playlist";
+    return mensaje;
+}
+
+/**
  * @param {HTMLElement} root
  * @param {User} user
  */
@@ -57,6 +68,8 @@ function PlaylistContent(root, user) {
     const title = document.createElement("h1");
     title.textContent = "Your playlists";
     title.classList.add("main-title");
+    const mensaje = document.createElement("h3");
+    mensaje.textContent = NoResultsMessagePlaylists(user.playlists);
 
     let playlistSection = DraggableCardSection(
         allPlaylistsData(user.playlists),
@@ -68,5 +81,5 @@ function PlaylistContent(root, user) {
     if (user._id === __Store.state.loggedIn._id)
         playlistSection = DeletableCardSection(playlistSection, setOnDeletePlaylistHandler);
 
-    return appendChildren([title, ...playlistSection], root);
+    return appendChildren([title, ...playlistSection,mensaje], root);
 }
