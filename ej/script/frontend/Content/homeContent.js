@@ -108,25 +108,29 @@ function _UserIconsSection(userIds, n) {
  * @param {string} title
  * @param {UserId[]} userIds - ids of users to show
  * @param {number} n - number of users to show
+ * @param {string} mensaje -message of no results fot the section
  * @return {HTMLElement}
  */
-function UserIconsSection(title, userIds, n) {
+function UserIconsSection(title, userIds, n, mensaje) {
     const ret = document.createElement("div");
     setClasses(ret, ["playlist", "user-icons-section"])
 
     const h1Title = document.createElement("h1");
     h1Title.textContent = title;
 
+    const h3Title = document.createElement("h3");
+    h3Title.textContent = mensaje;
+
     const userIcons = _UserIconsSection(userIds, n);
-    return appendChildren([h1Title, userIcons], ret);
+    return appendChildren([h1Title, userIcons, h3Title], ret);
 }
 /**
  * @return {string}
  */
-function printeamensaje(cartas){
+function NoResultsMessage(elements){
     let mensaje=""
-    if (cartas.length===0)
-        mensaje="No se encontraron resultados para esta sección... Continue exploring";
+    if (elements.length===0)
+        mensaje="No results were found for this section... Continue exploring";
     return mensaje;
 }
 
@@ -141,13 +145,13 @@ function HomeContent(root, user) {
     title.classList.add("main-title");
 
     const songsContent = CardContainerSection([
-        artistsCardData("Recently heard artists", "recent-artists",printeamensaje(user.recentArtists), user.recentArtists),
-        songsCardData("Recently heard songs", "recent-songs",printeamensaje(user.recentSongs),user.recentSongs),
-        songsCardData("Favourite songs", "fav-songs",printeamensaje(user.favSongs),user.favSongs),
-        playlistCardData("Your playlists", "your-playlists",printeamensaje(user.playlists), user.playlists)
+        artistsCardData("Recently heard artists", "recent-artists",NoResultsMessage(user.recentArtists), user.recentArtists),
+        songsCardData("Recently heard songs", "recent-songs",NoResultsMessage(user.recentSongs),user.recentSongs),
+        songsCardData("Favourite songs", "fav-songs",NoResultsMessage(user.favSongs),user.favSongs),
+        playlistCardData("Your playlists", "your-playlists",NoResultsMessage(user.playlists), user.playlists)
     ]);
 
-    const followedUsers = UserIconsSection("Following", user.following, 5);
+    const followedUsers = UserIconsSection("Following", user.following, 5,NoResultsMessage(user.playlists));
 
     return appendChildren([title, ...songsContent, followedUsers], root);
 }
