@@ -18,86 +18,16 @@
  */
 function DefaultContent(root) {
    const title = document.createElement("h1");
-   title.textContent = "Soon on SoundSound";
+   title.textContent = "Welcome to SoundSound";
    title.classList.add("main-title");
-   return appendChildren([title, upcommingSongsContainer(), upcommingAlbumsContainer(),popularSongs()], root);
-}
-
-
-// Codigo feo para generar cartas con contador
-
-/**
- * @return {HTMLElement}
- */
-function upcommingSongsContainer() {
-   return CardContainer({
-      title: "New Songs!",
-      id: "new-songs",
-      data: take(getAllSongs(), 5).map((s, idx) => {
-         const premiereDate = nDaysFromNow(idx + 1);
-         return {
-            song: s,
-            playable: false,
-            likeable: undefined,
-            commonProperties: {
-               intervalUpdate: {
-                  handler: countdownHandler(premiereDate),
-                  period: 1000,
-               },
-               badgeMessage: msToHhmmss(diffFromNowMs(premiereDate)),
-               clickHandler: undefined
-            }
-         };
-      }),
-      containerType: CardContainerType.SongCard
-   });
-}
-
-/**
- * @return {HTMLElement}
- */
-function upcommingAlbumsContainer() {
-   return CardContainer({
-      title: "New Albums!",
-      id: "new-albums",
-      data: take(getAllAlbums(), 5).map((a, idx) => {
-         const premiereDate = nDaysFromNow(idx + 1);
-         return {
-            album: a,
-            playable: false,
-            commonProperties: {
-               intervalUpdate: {
-                  handler: countdownHandler(premiereDate),
-                  period: 1000,
-               },
-               badgeMessage: compose(msToHhmmss, diffFromNowMs)(premiereDate),
-               clickHandler: undefined
-            }
-         };
-      }),
-      containerType: CardContainerType.AlbumCard,
-   });
-}
-
-/**
- * @return {HTMLElement}
- */
- function popularSongs() {
-   return CardContainer({
-      title: "Popular songs",
-      id: "popular-songs",
-      data: takeSelect(getAllSongs(),10, 5).map((s) => {
-         return {
-            song: s,
-            playable: true,
-            likeable: undefined,
-            commonProperties: {
-               intervalUpdate: undefined,
-               badgeMessage:undefined,
-               clickHandler: undefined
-            }
-         };
-      }),
-      containerType: CardContainerType.SongCard,
-   });
-}
+   const title2 = document.createElement("p");
+   title2.textContent = "In SoundSound you can find your favourite music and podcasts";
+   const title3 = document.createElement("h2");
+   title3.textContent = "Start now";
+   const imagen = document.createElement("div");
+    imagen.classList.add("home-section");
+    imagen.innerHTML = `
+        <img alt="app image" src="./icons/Ultimate-Guide-Stock-Music-Royalty-Free-Music-Custom-Music.png (1).jpg">
+    `;
+   return appendChildren([title,title2,title3,imagen], root);
+   }

@@ -29,6 +29,9 @@ function MainNavbarDefault(root) {
         <img alt="app image" src="./icons/icons8-video-playlist-40.png">
         <h2>SoundSound</h2>
     `;
+    const center = Searchbar("Search your favourite songs",
+                                findSongs,
+                                onEnterMainSearchbar);
 
     const rightside = document.createElement("ul");
 
@@ -45,7 +48,7 @@ function MainNavbarDefault(root) {
     rightside.appendChild(logIn).appendChild(logInRef);
     rightside.appendChild(signIn).appendChild(signInRef);
 
-    return appendChildren([leftside, rightside], root);
+    return appendChildren([leftside, center, rightside], root);
 }
 
     
