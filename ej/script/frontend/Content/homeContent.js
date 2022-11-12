@@ -9,7 +9,7 @@ function songsCardData(title, id, mensaje, songs) {
     return {
         title: title,
         id: id,
-        mensaje: mensaje,
+        emptyMessage: mensaje,
         containerType: CardContainerType.SongCard,
         data: songs.map(s => ({
             song: s,
@@ -35,7 +35,7 @@ function playlistCardData(title, id, mensaje, playlists) {
     return {
         title: title,
         id: id,
-        mensaje: mensaje,
+        emptyMessage: mensaje,
         containerType: CardContainerType.SongCard,
         data: playlists.map(p => ({
             song: p.songs[0],
@@ -64,7 +64,7 @@ function artistsCardData(title, id, mensaje, recentArtists) {
     return {
         title: title,
         id: id,
-        mensaje: mensaje,
+        emptyMessage: mensaje,
         containerType: CardContainerType.ArtistCard,
         data: recentArtists.map(a => (
             {

@@ -71,6 +71,13 @@ function PlaylistContent(root, user) {
     const mensaje = document.createElement("h3");
     mensaje.textContent = NoResultsMessagePlaylists(user.playlists);
 
+    if (user.playlists.length === 0) {
+        const emptyMessage = document.createElement("div");
+        emptyMessage.classList.add("empty-page-message");
+        emptyMessage.innerHTML = `<div>No playlists were found...</div>`;
+        return appendChildren([title, emptyMessage], root);
+    }
+
     let playlistSection = DraggableCardSection(
         allPlaylistsData(user.playlists),
         setOnDraggableStart(id),

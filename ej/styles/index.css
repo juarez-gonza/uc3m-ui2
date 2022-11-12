@@ -231,13 +231,6 @@ body {
     padding: 1rem;
 }
 
-
-
-.form input[type="checkbox"] {
-    justify-content: right;
-    width: 5%;
-    
-}
 .form .input {
     width: 40%;
 
@@ -262,6 +255,10 @@ body {
 
 .form .input input:focus {
     outline: none;
+}
+
+.form .input input[type="checkbox"] {
+    margin: auto;
 }
 
 /* field error stuff */
@@ -432,6 +429,21 @@ form:invalid.form button[type="submit"] {
 .playlist .card-container + img.delete-button:hover,
 .playlist .card-container + img.delete-button:focus {
     transform: scale(1.2);
+}
+
+.empty-page-message {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.empty-page-message div {
+    text-align: center;
+    margin: 0;
+    position: absolute;
+    top: 50%;
 }
 
 /* end of deletable playlist overrides */
