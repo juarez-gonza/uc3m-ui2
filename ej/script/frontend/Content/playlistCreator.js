@@ -27,13 +27,16 @@ function setOnPlaylistCreatorSuccess(user, form) {
     return (e, newTitle, songs) => {
         try {
             user.addPlaylist(newTitle, songs);
-            user.save();
-            __Store.commit("toCheckPlaylists");
         } catch (err) {
             if (err.name !== "RepetitionError") 
                 throw err; // re-throw error desconocido
-            return setShowErrorFormMsg(form)(e, "There is a pre-existent playlist with this name");
+            // el usuario está modificando una playlist preexistente
+            user.removePlaylistByName(newTitle);
+            user.addPlaylist(newTitle, songs);
         }
+
+        user.save();
+        __Store.commit("toCheckPlaylists");
     }
 }
 
