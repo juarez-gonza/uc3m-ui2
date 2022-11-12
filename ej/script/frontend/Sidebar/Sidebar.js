@@ -47,29 +47,15 @@ function SidebarLoggedIn(root) {
     
     return appendChildren([upper, lower], root);
 }
+
 /**
- * 
- * @param {HTMLElement} root 
+ * @param {HTMLElement} root
  * @return {HTMLElement}
  */
  function SidebarDefault(root) {
-    const upper = SidebarSubmenu("Options", [
-        {
-            text: "Home",
-            iconPath: "./icons/icons8-interior-48.png",
-            alt: "Home icon",
-            clickHandler: undefined
-        },
-        {
-            text: "Podcasts",
-            iconPath: "./icons/icons8-podcast-64.png",
-            alt: "Podcasts icon",
-            clickHandler: undefined
-        }
-    ]);
-
-    return appendChildren([upper, lower], root);
+    return root;
 }
+
 
 const lower = SidebarSubmenu("Contact Us!", [
     {

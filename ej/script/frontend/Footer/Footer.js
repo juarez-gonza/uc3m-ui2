@@ -24,8 +24,8 @@ class Footer {
  */
 function DefaultFooter(footer) {
     footer.style.display = "";
-    document.body.style.gridTemplateAreas =  `"nav nav" "sidebar content" "sidebar content" "footer  footer"`;
-    document.body.style.gridTemplateRows =  "0.8fr 4fr 4fr 0.6fr"
+    document.body.style.gridTemplateAreas =  `"nav nav" "content content" "footer  footer"`;
+    document.body.style.gridTemplateRows =  "0.8fr 8fr 0.6fr"
     return footer;
 }
 
