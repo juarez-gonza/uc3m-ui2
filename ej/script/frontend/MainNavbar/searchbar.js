@@ -5,6 +5,7 @@
  * @param {string} placeholder
  * @return {HTMLElement}
  */
+
 function Searchbar(placeholder, finder, onEnter) {
     const ret = document.createElement("div");
     ret.classList.add("big-input");
@@ -16,7 +17,7 @@ function Searchbar(placeholder, finder, onEnter) {
         if (e.key === "Enter")
           onEnter(finder(searchInput.value));
     });
-
+    
     ret.appendChild(searchInput);
 
     return ret;
@@ -25,15 +26,25 @@ function Searchbar(placeholder, finder, onEnter) {
 /**
  * Un finder de uso habitual en el proyecto, sirve como argumento a Searchbar()
  * @param {string} inputStr
- * @return {Song[]} 
+ * @return {object} 
  */
 function findSongs(inputStr) {
   //@ts-ignore el tipado de Fuse no es reconocido por falta de declaration file
   const fuse = new Fuse(getAllSongs(), {
-      keys: ['title','artist']
+      keys: ['title']
   });
   /** @type {Song[]} */
   const songsFound = fuse.search(inputStr).map(s => s.item);
 
-  return songsFound;
+
+  //@ts-ignore el tipado de Fuse no es reconocido por falta de declaration file
+  const fuse2 = new Fuse(getAllArtists(), {
+    keys: ['name']
+  });
+  /** @type {Artist[]} */
+  const artistsFound = fuse2.search(inputStr).map(s => s.item);
+  const artistsFound2= getAllArtists()
+
+  const search = songsFound;
+  return search;
 }

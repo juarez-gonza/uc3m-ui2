@@ -28,6 +28,33 @@ function songsCardData(title, id, mensaje, songs) {
  * @param {string} title
  * @param {string} id
  * @param {string} mensaje
+ * @param {Song[]} songs
+ * @return {CardContainerData}
+ */
+ function songsCardDataNotLogged(title, id, mensaje, songs) {
+    return {
+        title: title,
+        id: id,
+        emptyMessage: mensaje,
+        containerType: CardContainerType.SongCard,
+        data: songs.map(s => ({
+            song: s,
+            playable: false,
+            likeable: undefined,
+            commonProperties: {
+                clickHandler: undefined,
+                intervalUpdate: undefined,
+                badgeMessage: undefined,
+            },
+        }))
+    };
+}
+
+
+/**
+ * @param {string} title 
+ * @param {string} id
+ * @param {string} mensaje
  * @param {Playlist[]} playlists
  * @return {CardContainerData}
  */
@@ -71,6 +98,32 @@ function artistsCardData(title, id, mensaje, recentArtists) {
                 artist: a,
                 commonProperties: {
                     clickHandler: setArtistClickHandler(a),
+                    badgeMessage: undefined,
+                    intervalUpdate: undefined,
+                }
+            }
+        ))
+    };
+}
+
+/**
+ * @param {string} title
+ * @param {string} id
+ * @param {string} mensaje
+ * @param {Artist[]} recentArtists
+ * @return {CardContainerData} 
+ */
+ function artistsCardDataNotLogged(title, id, mensaje, recentArtists) {
+    return {
+        title: title,
+        id: id,
+        emptyMessage: mensaje,
+        containerType: CardContainerType.ArtistCard,
+        data: recentArtists.map(a => (
+            {
+                artist: a,
+                commonProperties: {
+                    clickHandler: undefined,
                     badgeMessage: undefined,
                     intervalUpdate: undefined,
                 }
@@ -125,6 +178,7 @@ function UserIconsSection(title, userIds, n, mensaje) {
     return appendChildren([h1Title, userIcons, h3Title], ret);
 }
 /**
+ * @param {object} elements
  * @return {string}
  */
 function NoResultsMessage(elements){
