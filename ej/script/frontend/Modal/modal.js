@@ -29,7 +29,6 @@ function backdropClickHandler(e) {
 }
 
 /**
- * 
  * @param {string} title
  * @param {function(Event): HTMLElement[] | HTMLElement} createContent
  * @return {function(Event)}
@@ -38,6 +37,7 @@ function setOpenModalHandler(title, createContent) {
 
     return e => {
         __modal.querySelector(".modal-header h1").textContent = title;
+        
         /** @type {HTMLElement} */
         const container = __modal.querySelector(".modal-content");
 
@@ -58,4 +58,35 @@ function setOpenModalHandler(title, createContent) {
     };
 }
 
+/**
+ * 
+ * @param {string} title
+ * @param {string} title2
+ * @param {function(Event): HTMLElement[] | HTMLElement} createContent
+ * @return {function(Event)}
+ */
+function setOpenModalHandler2(title,title2, createContent) {
+
+    return e => {
+        __modal.querySelector(".modal-header h1").textContent = title;
+        
+        /** @type {HTMLElement} */
+        const container = __modal.querySelector(".modal-content");
+
+        // limpiar contenido de modal previo (no se hace en cierre de modal porque
+        // la animación de fade-out requiriría setTimeout mayor al tiempo de fade-out para remover el contenido)
+        removeAllChildren(container);
+
+        // crear contenido aquí porque de pasarse el contenido directamente como parámetro, entonces el estado
+        // del componente se compartiría entre distintos modales (por ejemplo, los mensajes de error
+        // de un formulario nuevo serían los que quedaron en el anterior).
+        const content = createContent(e);
+        if (Array.isArray(content))
+            appendChildren(content, container);
+        else
+            container.appendChild(content);
+
+        openModalClickHandler(e);
+    };
+}
 __modalContainer.addEventListener("click", backdropClickHandler);

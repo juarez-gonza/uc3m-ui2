@@ -62,9 +62,24 @@ a:hover {
     text-decoration: underline white;
 }
 
-ul {
+.main-content ul {
+    align-items:center ;
+    align-self: center;
+    display: flex;
     list-style-type: none;
+    
 }
+.main-content li{
+    margin: 2%
+}
+.main-content ul img{
+    height: 30%;
+    width: 25%
+}
+ul a {
+    font-size:120%;
+}
+
 
 .button {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -178,7 +193,18 @@ body {
     font-style: italic;
     color: var(--main-font-color);
 }
+.modal-container .modal .modal-header2 {
+    grid-area: modal-header;
+    flex: 2 2 80px;
+    padding-left: 10%;
 
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: var(--purple);
+
+    font-style: italic;
+    color: var(--main-font-color);
+}
 .modal-container .modal .modal-content {
     grid-area: modal-content;
     flex: 6 6;

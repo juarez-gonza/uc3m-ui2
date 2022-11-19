@@ -2,12 +2,14 @@
 /**
  * @param {string} title
  * @param {Song[]} songs
+ * @return {Element}
  */
 function songsContainer(title, id, songs) {
     return CardContainer({
         title: title,
         id: id,
         containerType: CardContainerType.SongCard,
+        emptyMessage:"",
         data: songs.map(s => ({
             song: s,
             playable: true,
@@ -26,7 +28,7 @@ function songsContainer(title, id, songs) {
 /**
  * 
  * @param {Album} album 
- * @return {HTMLElement}
+ * @return {Element}
  */
 function albumSongsContainer(album) {
     return songsContainer(`Album: ${album.title}, by ${album.artist}`, album._id, album.songs);
@@ -47,7 +49,7 @@ function artistAlbumSongs(artist) {
 /**
  * 
  * @param {Artist} artist 
- * @return {HTMLElement}
+ * @return {Element}
  */
 function artistSingles(artist) {
     return songsContainer(`${artist.name} singles`, "singles", take(artist.songs, 5));
@@ -56,13 +58,14 @@ function artistSingles(artist) {
 /**
  * 
  * @param {Artist} artist 
- * @return {HTMLElement}
+ * @return {Element}
  */
 function artistAlbums(artist) {
     return CardContainer({
         title: `Albums by ${artist.name}`,
         id: "Artist albums",
         containerType: CardContainerType.AlbumCard,
+        emptyMessage: "",
         data: artist.albums.map(a => ({
             album: a,
             commonProperties: undefined,

@@ -38,7 +38,7 @@ function MainNavbarDefault(root) {
     const logIn = document.createElement("li");
     const logInRef = document.createElement("a");
     logInRef.textContent = "Log In";
-    logInRef.addEventListener("click", setOpenModalHandler("Enter your credentials:", LogInForm));
+    logInRef.addEventListener("click", setOpenModalHandler("Política de privacidad:",LogInForm));
 
     const signIn = document.createElement("li");
     const signInRef = document.createElement("a");
@@ -105,8 +105,16 @@ function MainNavbarProfile(root, user) {
 }
 
 /**
-* @param {Song[]} songs
+* @param {Song[]} search
 */
-function onEnterMainSearchbar(songs) {
-    __Store.commit("toSearchPage", songs);
+function onEnterMainSearchbar(search) {
+    __Store.commit("toSearchPage",search);
 }
+
+/**
+* @param {Song[]} search
+*/
+function onEnterMainSearchbar2(search) {
+    __Store.commit("toSearchPageNotLogged",search);
+}
+

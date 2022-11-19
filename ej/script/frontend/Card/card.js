@@ -35,7 +35,8 @@
  * @property {CommonCardData} commonProperties
  */
 
-/** @typedef {Object} CardContainerData
+/** 
+ * @typedef {Object} CardContainerData
  *  @property {string} title
  *  @property {string} id
  *  @property {string} emptyMessage
@@ -164,7 +165,7 @@ function ArtistCard(artistData) {
     ret.id = artist._id;
 
     ret.innerHTML = `
-        <img src=${findSomeArtistImg(artist)}>
+        <img src=${"./images/6.jpg"}>
         <div class="description">${artist.name}</div>
     `;
     return addCommonProperties(ret, commonProperties);
