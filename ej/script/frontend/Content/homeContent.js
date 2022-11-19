@@ -205,7 +205,7 @@ function HomeContent(root, user) {
         playlistCardData("Your playlists", "your-playlists",NoResultsMessage(user.playlists), user.playlists)
     ]);
 
-    const followedUsers = UserIconsSection("Following", user.following, 5,NoResultsMessage(user.playlists));
+    const followedUsers = UserIconsSection("Following", user.following, 5, NoResultsMessage(user.playlists));
 
     return appendChildren([title, ...songsContent, followedUsers], root);
 }

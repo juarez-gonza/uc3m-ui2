@@ -30,7 +30,7 @@ function MainNavbarDefault(root) {
         <h2>SoundSound</h2>
     `;
     const center = Searchbar("Search your favourite songs",
-                                findSongs,
+                                findContent,
                                 onEnterMainSearchbar);
 
     const rightside = document.createElement("ul");
@@ -72,7 +72,7 @@ function MainNavbarProfile(root, user) {
     `;
 
     const center = Searchbar("Search your favourite songs",
-                                findSongs,
+                                findContent,
                                 onEnterMainSearchbar);
 
     // TODO: handle user image user.profilePicB64

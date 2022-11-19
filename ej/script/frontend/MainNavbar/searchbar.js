@@ -24,27 +24,54 @@ function Searchbar(placeholder, finder, onEnter) {
 }
  
 /**
- * Un finder de uso habitual en el proyecto, sirve como argumento a Searchbar()
  * @param {string} inputStr
- * @return {object} 
+ * @return {Song[]} 
  */
 function findSongs(inputStr) {
   //@ts-ignore el tipado de Fuse no es reconocido por falta de declaration file
   const fuse = new Fuse(getAllSongs(), {
       keys: ['title']
   });
-  /** @type {Song[]} */
   const songsFound = fuse.search(inputStr).map(s => s.item);
+  return songsFound
+}
 
-
+/**
+ * @param {string} inputStr
+ * @return {Artist[]} 
+ */
+function findArtists(inputStr) {
   //@ts-ignore el tipado de Fuse no es reconocido por falta de declaration file
-  const fuse2 = new Fuse(getAllArtists(), {
-    keys: ['name']
+  const fuse = new Fuse(getAllArtists(), {
+      keys: ['name']
   });
   /** @type {Artist[]} */
-  const artistsFound = fuse2.search(inputStr).map(s => s.item);
-  const artistsFound2= getAllArtists()
+  const songsFound = fuse.search(inputStr).map(s => s.item);
+  return songsFound
+}
 
-  const search = songsFound;
+
+/**
+ * @param {string} inputStr
+ * @return {User[]} 
+ */
+ function findUsers(inputStr) {
+  //@ts-ignore
+  const fuse = new Fuse(getAllUsers(), {
+      keys: ['username']
+  });
+  const usersFound = fuse.search(inputStr).map(s => s.item._id);
+  return usersFound
+}
+
+/**
+ * @param {string} inputStr
+ * @return {object} 
+ */
+ function findContent(inputStr) {
+  const songs=findSongs(inputStr);
+  const artists=findArtists(inputStr);
+  const users=findUsers(inputStr);
+  const search={songs:songs, artists:artists, users:users};
   return search;
 }

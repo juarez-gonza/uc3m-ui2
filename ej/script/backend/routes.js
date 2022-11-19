@@ -104,3 +104,10 @@ function getAllAlbums() {
  function getAllArtists() {
     return getWithPattern(/^Artist-.*/);
  }
+
+ /**
+ * @return {User[]}
+ */
+  function getAllUsers() {
+    return getWithPattern(/^User-.*/);
+ }

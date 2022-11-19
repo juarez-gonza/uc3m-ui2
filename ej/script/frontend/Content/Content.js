@@ -27,8 +27,7 @@ class Content {
                 this.element = HomeContent(this.element, __Store.state.extraPageData.otherUser);
                 return this.element;
             case CurrentPage.SEARCH_SONGS:
-                this.element = SearchContent(this.element,
-                    __Store.state.extraPageData.search)
+                this.element = SearchContent(this.element, __Store.state.extraPageData.search);
                 return this.element;
             case CurrentPage.PLAYLIST_CREATOR:
                 this.element = PlaylistCreatorContent(this.element,
