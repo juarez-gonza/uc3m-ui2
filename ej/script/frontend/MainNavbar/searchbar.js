@@ -72,6 +72,6 @@ function findArtists(inputStr) {
   const songs=findSongs(inputStr);
   const artists=findArtists(inputStr);
   const users=findUsers(inputStr);
-  const search={songs:songs, artists:artists, users:users};
+  const search={songs:songs, artists:artists, users:users, n:0};
   return search;
 }

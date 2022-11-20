@@ -3,39 +3,47 @@
  * @param {object} search
  */
 function SearchContent(root, search) {
+    console.log(search)
    const title = document.createElement("h1");
    title.textContent = "Best results";
    title.classList.add("main-title");
-   const songs= search.songs
-   const artists = search.artists
-   const users = search.users
+
    const user = __Store.state.loggedIn;
-   
-   let foundContent=foundUsers(users,user)
+   const foundContent=SelectContent(search,user)
    const upper = Options([
       {
           text: "Songs",
           iconPath: "./icons/icons8-down-arrow-64.png",
           alt: "search songs",
-          clickHandler: undefined
+          clickHandler:  e => { 
+            e.preventDefault();
+            search.n=0;
+            __Store.commit("toSearchPage",search);
+        }
       },
       {
           text: "Artists",
           iconPath:"./icons/icons8-down-arrow-64.png",
           alt: "search artists",
-          clickHandler: undefined
+          clickHandler: e => { 
+            e.preventDefault();
+            search.n=1;
+            __Store.commit("toSearchPage",search);
+        }
       },
       {
          text: "Users",
          iconPath: "./icons/icons8-down-arrow-64.png",
          alt: "search users",
-         clickHandler: undefined
+         clickHandler: e => { 
+            e.preventDefault();
+            search.n=2;
+            __Store.commit("toSearchPage",search);
+        }
      }
   ]);
    return appendChildren([title, upper, foundContent], root);
 }
-
-
 
 
 /**
@@ -59,10 +67,10 @@ function SearchContent(root, search) {
  */
 function foundArtists(artists, user) {
     if (user==null){
-        return CardContainer(artistsCardDataNotLogged("Songs found", "found-songs", NoResultsMessage(artists), artists));
+        return CardContainer(artistsCardDataNotLogged("Artitsts found", "artists-songs", NoResultsMessage(artists), artists));
     }
     else{
-        return CardContainer(artistsCardData("Songs found", "found-songs", NoResultsMessage(artists), artists)) 
+        return CardContainer(artistsCardData("Artitsts found", "artists-songs", NoResultsMessage(artists), artists)) 
     }
 }
 /**
@@ -72,11 +80,11 @@ function foundArtists(artists, user) {
  */
  function foundUsers(users, user) {
     if (user==null){
-    const FoundContent= UserIconsSectionNotLogged("Following", users, NoResultsMessage(users));
+    const FoundContent= UserIconsSectionNotLogged("Found users", users, NoResultsMessage(users));
     return FoundContent
     }
     else{
-        const FoundContent = UserIconsSection("Following", users, NoResultsMessage(users));
+        const FoundContent = UserIconsSection("Found users", users, NoResultsMessage(users));
         return FoundContent
     }
 }
@@ -169,3 +177,19 @@ function UserIconsSection(title, userIds,mensaje) {
             clickHandler: undefined
         }));
 }
+
+/**
+ * 
+ * @param {object} search
+ * @param {User} user
+ */
+function SelectContent(search,user){
+    if (search.n==0){
+    return foundSongs(search.songs,user)}
+
+    else if (search.n==1){
+    return foundArtists(search.artists,user)}
+
+    else{
+    return foundUsers(search.users,user)}
+    }
