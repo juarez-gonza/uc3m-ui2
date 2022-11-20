@@ -154,11 +154,12 @@ const INIT_ARTISTS_DATA = [
    {name: "A$AP Rocky"},
    {name: "Delaossa"},
    {name: "La Haine"},
-   {name: "Ariadna Grande"},
+   {name: "Lil Tjay"},
+   {name: "Ariana Grande"},
    {name: "Justin Bieber"},
    {name: "Feid"},
    {name: "Rauw Alejandro"},
-   {name: "Ojitos lindos"},
+   {name: "Agus"},
 ];
 const INIT_DESCRIPTIONS = [
    "Ramble On",

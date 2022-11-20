@@ -111,10 +111,4 @@ function onEnterMainSearchbar(search) {
     __Store.commit("toSearchPage",search);
 }
 
-/**
-* @param {Song[]} search
-*/
-function onEnterMainSearchbar2(search) {
-    __Store.commit("toSearchPageNotLogged",search);
-}
 
