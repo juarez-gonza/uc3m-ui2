@@ -3,7 +3,6 @@
  * @param {object} search
  */
 function SearchContent(root, search) {
-    console.log(search)
    const title = document.createElement("h1");
    title.textContent = "Best results";
    title.classList.add("main-title");
@@ -45,6 +44,21 @@ function SearchContent(root, search) {
    return appendChildren([title, upper, foundContent], root);
 }
 
+/**
+ * 
+ * @param {object} search
+ * @param {User} user
+ */
+function SelectContent(search,user){
+    if (search.n==0){
+    return foundSongs(search.songs,user)}
+
+    else if (search.n==1){
+    return foundArtists(search.artists,user)}
+
+    else{
+    return foundUsers(search.users,user)}
+    }
 
 /**
  * @param {Song[]} songs
@@ -178,18 +192,4 @@ function UserIconsSection(title, userIds,mensaje) {
         }));
 }
 
-/**
- * 
- * @param {object} search
- * @param {User} user
- */
-function SelectContent(search,user){
-    if (search.n==0){
-    return foundSongs(search.songs,user)}
 
-    else if (search.n==1){
-    return foundArtists(search.artists,user)}
-
-    else{
-    return foundUsers(search.users,user)}
-    }
