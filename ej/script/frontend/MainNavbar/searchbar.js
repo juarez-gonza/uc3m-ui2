@@ -46,8 +46,8 @@ function findArtists(inputStr) {
       keys: ['name']
   });
   /** @type {Artist[]} */
-  const songsFound = fuse.search(inputStr).map(s => s.item);
-  return songsFound
+  const artistsFound = fuse.search(inputStr).map(s => s.item);
+  return artistsFound
 }
 
 

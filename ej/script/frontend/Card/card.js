@@ -165,7 +165,7 @@ function ArtistCard(artistData) {
     ret.id = artist._id;
 
     ret.innerHTML = `
-        <img src=${"./images/6.jpg"}>
+        <img src=${findSomeArtistImg(artist)}>
         <div class="description">${artist.name}</div>
     `;
     return addCommonProperties(ret, commonProperties);
@@ -250,7 +250,7 @@ function BadgeMessage(message) {
 function findSomeArtistImg(artistData) {
     if (artistData.albums.length > 0)
         return artistData.albums[0].coverPath;
-    return artistData.songs.find(s => s.coverPath.length > 0).coverPath;
+    return artistData.songs.find(s => s.coverPath.length>0).coverPath;
 }
 
 /**
