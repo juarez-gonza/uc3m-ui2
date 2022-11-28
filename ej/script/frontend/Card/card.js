@@ -15,6 +15,13 @@
  * @property {string|undefined} badgeMessage
  */
 
+/** @type {CommonCardData} - valor default para usar donde necesario */
+const __NoCardProperties = {
+    clickHandler: undefined,
+    intervalUpdate: undefined,
+    badgeMessage: undefined,
+};
+
 /**
  * @typedef {Object} ArtistCardData
  * @property {Artist} artist
@@ -250,7 +257,7 @@ function BadgeMessage(message) {
 function findSomeArtistImg(artistData) {
     if (artistData.albums.length > 0)
         return artistData.albums[0].coverPath;
-    return artistData.songs.find(s => s.coverPath.length>0).coverPath;
+    return artistData.songs.find(s => s.coverPath.length > 0).coverPath;
 }
 
 /**

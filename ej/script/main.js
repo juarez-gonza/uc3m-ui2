@@ -161,6 +161,7 @@ const INIT_ARTISTS_DATA = [
    {name: "Rauw Alejandro"},
    {name: "Agus"},
 ];
+
 const INIT_DESCRIPTIONS = [
    "Ramble On",
    " La Ria is the last song of a freestyle mixtape of an upcoming new artist from Spain, Dirty Suc. It was produced by Laghost who is considered one of the most remarkable producers in the country. ",
@@ -185,7 +186,8 @@ const INIT_DESCRIPTIONS = [
 const INIT_ALBUMS_DATA = [
    "CSQ",
    "Animal",
-]
+];
+
 const INIT_SONGS_ALBUM_DATA= [
    "Lean with me",
    "Armed and Dangerous",
@@ -251,6 +253,7 @@ function initialRender() {
 
 function initData() {
    window.localStorage.clear();
+
    const artists = initArtists(INIT_ARTISTS_DATA);
    const [songs, _] = initSingles(INIT_SONGS_DATA, artists, INIT_DESCRIPTIONS);
    const [albums, __] = initAlbums(artists, INIT_ALBUMS_DATA, INIT_ALBUMS_DESCRIPTIONS, INIT_SONGS_ALBUM_DATA);
@@ -266,6 +269,7 @@ function initData() {
 }
 
 function main() {
+   window.localStorage.clear();
    if (getAllSongs().length === 0)
       initData();
    initialRender();

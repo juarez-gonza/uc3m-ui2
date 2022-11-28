@@ -69,9 +69,14 @@ function findArtists(inputStr) {
  * @return {object} 
  */
  function findContent(inputStr) {
-  const songs=findSongs(inputStr);
-  const artists=findArtists(inputStr);
-  const users=findUsers(inputStr);
-  const search={songs:songs, artists:artists, users:users, n:0};
+  const songs = findSongs(inputStr);
+  const artists = findArtists(inputStr);
+  const users = findUsers(inputStr);
+  const search = {
+    songs,
+    artists,
+    users,
+    category: SearchCategory.Songs
+  };
   return search;
 }

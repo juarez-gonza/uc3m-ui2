@@ -11,6 +11,23 @@ function genId(...args) {
     return foldl((acc, str) => acc.concat(str), args, "");
 }
 
+/**
+ * @typedef {Object} UnpopulatedUser
+ * @property {string} _id;
+ * @property {string} username;
+ * @property {string} password;
+ * @property {string} firstName;
+ * @property {string} lastName;
+ * @property {string} email;
+ * @property {string} birth;
+ * @property {string | undefined} profilePicB64;
+ * @property {UserId[]} following;
+ * @property {PlaylistId[]} playlists;
+ * @property {SongId[]} favSongs;
+ * @property {ArtistId[]} recentArtists;
+ * @property {SongId[]} recentSongs;
+ */
+
 /** @typedef {string} UserId */
 class User {
     /** @type {UserId} */
@@ -159,13 +176,12 @@ class User {
         this.following.push(userId);
     }
 
-   /**
-    * 
-    * @param {string} userId 
-    * @return {User}
-    */
-    static find(userId) {
-        const rec = findRec(userId);
+    /**
+     * 
+     * @param {UnpopulatedUser} rec
+     * @return {User}
+     */
+    static populate(rec) {
         return new User({
             username: rec.username,
             password: rec.password,
@@ -175,11 +191,21 @@ class User {
             birth: new Date(rec.birth),
             profilePicB64: rec.profilePicB64 || undefined,
             following: rec.following,
-            playlists: rec.playlists.map(findInstanceFromId(Playlist)),
-            favSongs: rec.favSongs.map(findInstanceFromId(Song)),
-            recentSongs: rec.recentSongs.map(findInstanceFromId(Song)),
-            recentArtists: rec.recentArtists.map(findInstanceFromId(Artist)),
+            playlists: rec.playlists === undefined ? undefined : rec.playlists.map(findInstanceFromId(Playlist)),
+            favSongs: rec.favSongs === undefined ? undefined : rec.favSongs.map(findInstanceFromId(Song)),
+            recentSongs: rec.recentSongs === undefined ? undefined : rec.recentSongs.map(findInstanceFromId(Song)),
+            recentArtists: rec.recentArtists === undefined ? undefined : rec.recentArtists.map(findInstanceFromId(Artist)),
         });
+    }
+
+   /**
+    * 
+    * @param {string} userId 
+    * @return {User}
+    */
+    static find(userId) {
+        const rec = findRec(userId);
+        return User.populate(rec);
     }
 
     /**
@@ -213,6 +239,17 @@ class User {
     }
 };
 
+/**
+ * @typedef {Object} UnpopulatedSong
+ * @property {string} _id
+ * @property {string} title
+ * @property {ArtistId} artist
+ * @property {AlbumId} album
+ * @property {string | undefined} coverPath
+ * @property {string} description
+ * @property {string} songPath
+ */
+
 /** @typedef {string} SongId */
 class Song {
     /** @type {SongId} */
@@ -227,6 +264,8 @@ class Song {
     coverPath;
     /** @type {string} */
     description;
+    /** @type {string} */
+    songPath;
 
     /**
      * 
@@ -262,11 +301,10 @@ class Song {
 
     /**
      * 
-     * @param {SongId} songId 
+     * @param {UnpopulatedSong} rec 
      * @return {Song}
      */
-    static find(songId) {
-        const rec = findRec(songId);
+    static populate(rec) {
         /** @type {string} */
         const title = rec.title;
         /** @type {ArtistId} */
@@ -281,7 +319,26 @@ class Song {
         const coverPath = rec.coverPath || "";
         return new Song(title, artist, songPath, description, album, coverPath);
     }
+
+    /**
+     * 
+     * @param {SongId} songId 
+     * @return {Song}
+     */
+    static find(songId) {
+        const rec = findRec(songId);
+        return Song.populate(rec);
+    }
 };
+
+/**
+ * @typedef {Object} UnpopulatedAlbum
+ * @property {string} _id
+ * @property {string} title
+ * @property {ArtistId} artist
+ * @property {SongId[]} songs
+ * @property {string} coverPath
+ */
 
 /** @typedef {string} AlbumId */
 class Album {
@@ -334,13 +391,12 @@ class Album {
             s.remove();
         removeLS(this._id);
     }
+
     /**
-     * 
-     * @param {string} albumId
+     * @param {UnpopulatedAlbum} rec
      * @return {Album}
      */
-    static find(albumId) {
-        const rec = findRec(albumId)
+    static populate(rec) {
         /** @type {string} */
         const title = rec.title;
         /** @type {ArtistId} */
@@ -353,7 +409,24 @@ class Album {
         const coverPath = rec.coverPath;
         return new Album(title, artist, songs, coverPath);
     }
+    /**
+     * 
+     * @param {string} albumId
+     * @return {Album}
+     */
+    static find(albumId) {
+        const rec = findRec(albumId)
+        return Album.populate(rec);
+    }
 };
+
+/**
+ * @typedef {Object} UnpopulatedArtist
+ * @property {string} _id
+ * @property {string} name
+ * @property {SongId[]} songs
+ * @property {AlbumId[]} albums
+ */
 
 /** @typedef {string} ArtistId */
 class Artist {
@@ -465,19 +538,27 @@ class Artist {
 
     /**
      * 
-     * @param {string} artistId
+     * @param {UnpopulatedArtist} rec 
      * @return {Artist}
      */
-    static find(artistId) {
-        const rec = findRec(artistId);
+    static populate(rec) {
         const name = rec.name;
         /** @type {Song[]} */
         const songs = rec.songs.map(findInstanceFromId(Song));
 
         /** @type {Album[]} */
         const albums = rec.albums.map(findInstanceFromId(Album));
+        return  new Artist(name, songs, albums);
+    }
 
-        return new Artist(name, songs, albums);
+    /**
+     * 
+     * @param {string} artistId
+     * @return {Artist}
+     */
+    static find(artistId) {
+        const rec = findRec(artistId);
+        return Artist.populate(rec);
     }
 };
 
@@ -572,7 +653,6 @@ function findInstanceFromId(C) {
 
 class ConstructorError extends Error {
     /**
-     * 
      * @param {string} message 
      */
     constructor(message) {

@@ -85,29 +85,62 @@ function updateUserReq(user, updateFields) {
 
 
 /**
+ * 
+ * @return {UnpopulatedSong[]}
+ */
+function _getAllSongs() {
+    /** @ts-ignore */
+    return getWithPattern(/^Song-.*/);
+}
+
+/**
  * @return {Song[]}
  */
 function getAllSongs() {
-   return getWithPattern(/^Song-.*/);
+   return _getAllSongs().map(s => Song.populate(s));
+}
+
+/**
+ * @return {UnpopulatedAlbum[]}
+ */
+function _getAllAlbums() {
+    /** @ts-ignore */
+    return getWithPattern(/^Album-.*/);
 }
 
 /**
  * @return {Album[]}
  */
 function getAllAlbums() {
-   return getWithPattern(/^Album-.*/);
+   return _getAllAlbums().map(a => Album.populate(a));
+}
+
+/**
+ * @return {UnpopulatedArtist[]}
+ */
+function _getAllArtists() {
+    /** @ts-ignore */
+    return getWithPattern(/^Artist-.*/);
 }
 
 /**
  * @return {Artist[]}
  */
  function getAllArtists() {
-    return getWithPattern(/^Artist-.*/);
+    return _getAllArtists().map(a => Artist.populate(a));
  }
+
+/**
+ * @return {UnpopulatedUser[]}
+ */
+function _getAllUsers() {
+    /** @ts-ignore */
+    return getWithPattern(/^User-.*/);
+}
 
  /**
  * @return {User[]}
  */
   function getAllUsers() {
-    return getWithPattern(/^User-.*/);
+    return _getAllUsers().map(u => User.populate(u));
  }

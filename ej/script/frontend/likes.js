@@ -19,6 +19,15 @@ function isLikedByLoggedIn(song) {
 /**
  * 
  * @param {Song} song 
+ * @return {undefined | {liked: boolean}} 
+ */
+function likeableByLoggedIn(song) {
+    return __Store.state.loggedIn === null ? undefined : { liked: isLikedByLoggedIn(song) };
+}
+
+/**
+ * 
+ * @param {Song} song 
  * @return {Song} 
  */
 function likeLoggedIn(song) {
@@ -48,4 +57,17 @@ function dislikeLoggedIn(song) {
  */
 function toggleLike(liked, song) {
     return liked ? dislikeLoggedIn(song) : likeLoggedIn(song);
+}
+
+
+/**
+ * @param {Song} s
+ * @return {CommonCardData}
+ */
+function likeableCardProperties(s) {
+    return {
+        clickHandler: setClickToLikeHandler(s),
+        intervalUpdate: undefined,
+        badgeMessage: undefined,
+    }
 }

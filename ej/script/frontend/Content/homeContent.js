@@ -3,9 +3,10 @@
  * @param {string} id
  * @param {string} mensaje
  * @param {Song[]} songs
+ * @param {function(Song): CommonCardData} setCommonProperties
  * @return {CardContainerData}
  */
-function songsCardData(title, id, mensaje, songs) {
+function songsCardData(title, id, mensaje, songs, setCommonProperties=()=>__NoCardProperties) {
     return {
         title: title,
         id: id,
@@ -14,42 +15,11 @@ function songsCardData(title, id, mensaje, songs) {
         data: songs.map(s => ({
             song: s,
             playable: true,
-            likeable: {liked: isLikedByLoggedIn(s)},
-            commonProperties: {
-                clickHandler: setClickToLikeHandler(s),
-                intervalUpdate: undefined,
-                badgeMessage: undefined,
-            },
+            likeable: likeableByLoggedIn(s),
+            commonProperties: setCommonProperties(s),
         }))
     };
 }
-
-/**
- * @param {string} title
- * @param {string} id
- * @param {string} mensaje
- * @param {Song[]} songs
- * @return {CardContainerData}
- */
- function songsCardDataNotLogged(title, id, mensaje, songs) {
-    return {
-        title: title,
-        id: id,
-        emptyMessage: mensaje,
-        containerType: CardContainerType.SongCard,
-        data: songs.map(s => ({
-            song: s,
-            playable: false,
-            likeable: undefined,
-            commonProperties: {
-                clickHandler: undefined,
-                intervalUpdate: undefined,
-                badgeMessage: undefined,
-            },
-        }))
-    };
-}
-
 
 /**
  * @param {string} title 
@@ -85,9 +55,10 @@ function playlistCardData(title, id, mensaje, playlists) {
  * @param {string} id
  * @param {string} mensaje
  * @param {Artist[]} recentArtists
+ * @param {function(Artist): CommonCardData} setCommonProperties
  * @return {CardContainerData} 
  */
-function artistsCardData(title, id, mensaje, recentArtists) {
+function artistsCardData(title, id, mensaje, recentArtists, setCommonProperties = () => __NoCardProperties) {
     return {
         title: title,
         id: id,
@@ -96,37 +67,7 @@ function artistsCardData(title, id, mensaje, recentArtists) {
         data: recentArtists.map(a => (
             {
                 artist: a,
-                commonProperties: {
-                    clickHandler: setArtistClickHandler(a),
-                    badgeMessage: undefined,
-                    intervalUpdate: undefined,
-                }
-            }
-        ))
-    };
-}
-
-/**
- * @param {string} title
- * @param {string} id
- * @param {string} mensaje
- * @param {Artist[]} recentArtists
- * @return {CardContainerData} 
- */
- function artistsCardDataNotLogged(title, id, mensaje, recentArtists) {
-    return {
-        title: title,
-        id: id,
-        emptyMessage: mensaje,
-        containerType: CardContainerType.ArtistCard,
-        data: recentArtists.map(a => (
-            {
-                artist: a,
-                commonProperties: {
-                    clickHandler: undefined,
-                    badgeMessage: undefined,
-                    intervalUpdate: undefined,
-                }
+                commonProperties: setCommonProperties(a)
             }
         ))
     };
@@ -147,24 +88,26 @@ function UserIcons(users, setIconClickHandler) {
 
 /**
  * @param {UserId[]} userIds - ids of users to show
+ * @param {function(User): (function(MouseEvent): any) | undefined} setIconClickHandler
  * @param {number} n - number of users to show
  * @return {HTMLElement}
  */
-function _UserIconsSection(userIds, n) {
+function _UserIconsSection(userIds, setIconClickHandler, n) {
     const users = take(userIds, n).map(uid => User.find(uid));
     const ret = document.createElement("div");
     ret.classList.add("user-icons-section");
-    return appendChildren(UserIcons(users, setClickToUserpage), ret);
+    return appendChildren(UserIcons(users, setIconClickHandler), ret);
 }
 
 /**
  * @param {string} title
  * @param {UserId[]} userIds - ids of users to show
- * @param {number} n - number of users to show
- * @param {string} mensaje -message of no results fot the section
+ * @param {string} notFoundMessage - message when no results are found
+ * @param {function(User): (function(MouseEvent): any) | undefined} setIconClickHandler
+ * @param {number | undefined} n - number of users to show
  * @return {HTMLElement}
  */
-function UserIconsSection(title, userIds, n, mensaje) {
+function UserIconsSection(title, userIds, notFoundMessage, setIconClickHandler=()=>id, n=undefined) {
     const ret = document.createElement("div");
     setClasses(ret, ["playlist", "user-icons-section"])
 
@@ -172,20 +115,18 @@ function UserIconsSection(title, userIds, n, mensaje) {
     h1Title.textContent = title;
 
     const h3Title = document.createElement("h3");
-    h3Title.textContent = mensaje;
+    h3Title.textContent = notFoundMessage;
 
-    const userIcons = _UserIconsSection(userIds, n);
+    const userIcons = _UserIconsSection(userIds, setIconClickHandler, n !== undefined ? n : userIds.length);
     return appendChildren([h1Title, userIcons, h3Title], ret);
 }
+
 /**
  * @param {object} elements
  * @return {string}
  */
 function NoResultsMessage(elements){
-    let mensaje=""
-    if (elements.length===0)
-        mensaje="No results were found for this section... Continue exploring";
-    return mensaje;
+    return elements.length > 0 ? "" : "No results were found for this section... Continue exploring" ;
 }
 
 /**
@@ -205,7 +146,7 @@ function HomeContent(root, user) {
         playlistCardData("Your playlists", "your-playlists",NoResultsMessage(user.playlists), user.playlists)
     ]);
 
-    const followedUsers = UserIconsSection("Following", user.following, 5, NoResultsMessage(user.playlists));
+    const followedUsers = UserIconsSection("Following", user.following, NoResultsMessage(user.playlists), setClickToUserpage, 5);
 
     return appendChildren([title, ...songsContent, followedUsers], root);
 }

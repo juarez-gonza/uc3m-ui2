@@ -11,6 +11,19 @@ function setArtistClickHandler(artist) {
 
 /**
  * 
+ * @param {Artist} a 
+ * @return {CommonCardData}
+ */
+function interactableArtistCardProperties(a) {
+    return {
+        clickHandler: setArtistClickHandler(a),
+        badgeMessage: undefined,
+        intervalUpdate: undefined,
+    };
+}
+
+/**
+ * 
  * @param {Song} song
  * @return {function(MouseEvent): any}
  */
