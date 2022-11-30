@@ -33,7 +33,7 @@ function onSubmitLogInHandler(onSuccess, onError) {
  * @param {User} user
  */
 function logIn(user) {
-    __Store.commit("logIn", user);
+    nextPage("logIn", user);
 }
 
 /**

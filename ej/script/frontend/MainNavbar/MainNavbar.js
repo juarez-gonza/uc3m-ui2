@@ -103,12 +103,13 @@ function MainNavbarProfile(root, user) {
 * @param {Song[]} search
 */
 function onEnterMainSearchbar(search) {
-    __Store.commit("toSearchPage", search);
+    console.log("asd");
+    nextPage("toSearchPage", search);
 }
 
 /**
  * @param {User} user
  */
 function goToAccountSettings(user) {
-    __Store.commit("toAccSettings", user);
+    nextPage("toAccSettings", user);
 }

@@ -20,7 +20,7 @@ const CurrentPage = {
  * @property {Object<string, any> | null} extraPageData
  */
 
-/** @typedef {Object} StateChange */
+/** @typedef {Object | undefined} StateChange */
 
 /** @type {AppState} */
 const __initalStoreState = {
@@ -29,7 +29,11 @@ const __initalStoreState = {
     extraPageData: null
 };
 
-/** @type {Object<string, function(AppState, StateChange): AppState>} */
+/**
+ * @typedef {"logIn" | "logOut" | "toArtistPage" | "toUserPage" | "toSearchPage" | "toCheckPlaylists" | "toPlaylistCreator" | "toAccSettings"} MKeys
+ */
+
+/** @type {Object<MKeys, function(AppState, StateChange): AppState>} */
 const __mutations = {
     logIn: (state, user) => {
         return {...state, currentPage: CurrentPage.USER_HOME, loggedIn: user};

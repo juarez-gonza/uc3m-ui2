@@ -40,7 +40,7 @@ function SelectContent(search, user) {
 function switchSearchCategory(newCategory, search) {
     return e => {
         e.preventDefault();
-        __Store.commit("toSearchPage", {...search, category: newCategory});
+        nextPage("toSearchPage", {...search, category: newCategory});
     }
 }
 

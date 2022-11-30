@@ -15,7 +15,7 @@ function setOnDeletePlaylistHandler(decoratedContainer) {
     return e => {
         Playlist.find(decoratedContainer.id).remove();
         refreshLoggedIn();
-        __Store.commit("toCheckPlaylists");
+        nextPage("toCheckPlaylists");
     };
 }
 

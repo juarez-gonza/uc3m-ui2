@@ -5,7 +5,7 @@
  */
 function setArtistClickHandler(artist) {
     return e => {
-        __Store.commit("toArtistPage", artist);
+        nextPage("toArtistPage", artist);
     };
 }
 

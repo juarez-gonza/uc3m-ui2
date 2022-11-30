@@ -40,7 +40,7 @@ function playlistCardData(title, id, mensaje, playlists) {
             likeable: undefined,
             commonProperties: {
                 clickHandler: () => {
-                    __Store.commit("toPlaylistCreator", p);
+                    nextPage("toPlaylistCreator", p);
                 },
                 intervalUpdate: undefined,
                 badgeMessage: undefined,

@@ -43,7 +43,7 @@ function findSongs(inputStr) {
 function findArtists(inputStr) {
   //@ts-ignore el tipado de Fuse no es reconocido por falta de declaration file
   const fuse = new Fuse(getAllArtists(), {
-      keys: ['name']
+    keys: ['name']
   });
   /** @type {Artist[]} */
   const artistsFound = fuse.search(inputStr).map(s => s.item);

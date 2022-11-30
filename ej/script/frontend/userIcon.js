@@ -10,7 +10,7 @@
  */
 function setClickToUserpage(user) {
     return e => {
-        __Store.commit("toUserPage", user);
+        nextPage("toUserPage", user);
     };
 }
 

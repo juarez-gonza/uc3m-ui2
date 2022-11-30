@@ -36,7 +36,7 @@ function setOnPlaylistCreatorSuccess(user, form) {
         }
 
         user.save();
-        __Store.commit("toCheckPlaylists");
+        nextPage("toCheckPlaylists");
     }
 }
 

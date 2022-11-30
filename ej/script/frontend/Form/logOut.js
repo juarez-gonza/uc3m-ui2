@@ -1,5 +1,5 @@
  function logOut() {
-    __Store.commit("logOut");
+    nextPage("logOut");
 }
 
 /**

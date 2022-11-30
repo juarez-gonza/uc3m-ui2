@@ -31,7 +31,7 @@ function SidebarLoggedIn(root) {
             alt: "your playlists icon",
             clickHandler: e => { 
                 e.preventDefault();
-                __Store.commit("toCheckPlaylists");
+                nextPage("toCheckPlaylists");
             }
         },
         {
@@ -40,7 +40,7 @@ function SidebarLoggedIn(root) {
             alt: "playlist creator icon",
             clickHandler: e => {
                 e.preventDefault();
-                __Store.commit("toPlaylistCreator", null);
+                nextPage("toPlaylistCreator", null);
             }
         }
     ]);
