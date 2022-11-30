@@ -60,7 +60,7 @@ function findArtists(inputStr) {
   const fuse = new Fuse(getAllUsers(), {
       keys: ['username']
   });
-  const usersFound = fuse.search(inputStr).map(s => s.item._id);
+  const usersFound = fuse.search(inputStr).map(s => s.item);
   return usersFound
 }
 

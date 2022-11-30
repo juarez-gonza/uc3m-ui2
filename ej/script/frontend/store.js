@@ -13,11 +13,14 @@ const CurrentPage = {
     ACCOUNT_SETTINGS: 7,
 };
 
-/** @typedef {Object} AppState
- *  @property {User|null} loggedIn
- *  @property {CurrentPage} currentPage
- *  @property {Object<string, any> | null} extraPageData
+/**
+ * @typedef {Object} AppState
+ * @property {User|null} loggedIn
+ * @property {CurrentPage} currentPage
+ * @property {Object<string, any> | null} extraPageData
  */
+
+/** @typedef {Object} StateChange */
 
 /** @type {AppState} */
 const __initalStoreState = {
@@ -26,11 +29,10 @@ const __initalStoreState = {
     extraPageData: null
 };
 
-/** @type {Object<string, function(AppState, Object): AppState>} */
+/** @type {Object<string, function(AppState, StateChange): AppState>} */
 const __mutations = {
     logIn: (state, user) => {
-        const ret = {...state, currentPage: CurrentPage.USER_HOME, loggedIn: user}
-        return ret;
+        return {...state, currentPage: CurrentPage.USER_HOME, loggedIn: user};
     },
 
     logOut: (state) => {

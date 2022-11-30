@@ -9,64 +9,38 @@
 };
 
 /**
- * @param {HTMLElement} root
- * @param {object} search
+ * @typedef {object} Search
+ * @property {SearchCategory} category
+ * @property {Song[]} songs
+ * @property {Artist[]} artists
+ * @property {User[]} users
  */
-function SearchContent(root, search) {
-   const title = document.createElement("h1");
-   title.textContent = "Best results";
-   title.classList.add("main-title");
-
-   const user = __Store.state.loggedIn;
-   const foundContent = SelectContent(search, user)
-   const upper = Options([
-      {
-          text: "Songs",
-          iconPath: "./icons/icons8-down-arrow-64.png",
-          alt: "search songs",
-          clickHandler:  e => { 
-            e.preventDefault();
-            search.category = SearchCategory.Songs;
-            __Store.commit("toSearchPage", search);
-        }
-      },
-      {
-          text: "Artists",
-          iconPath:"./icons/icons8-down-arrow-64.png",
-          alt: "search artists",
-          clickHandler: e => { 
-            e.preventDefault();
-            search.category = SearchCategory.Artists;
-            __Store.commit("toSearchPage", search);
-        }
-      },
-      {
-         text: "Users",
-         iconPath: "./icons/icons8-down-arrow-64.png",
-         alt: "search users",
-         clickHandler: e => { 
-            e.preventDefault();
-            search.category = SearchCategory.Users;
-            __Store.commit("toSearchPage", search);
-        }
-     }
-  ]);
-   return appendChildren([title, upper, foundContent], root);
-}
 
 /**
  * 
- * @param {object} search
+ * @param {Search} search
  * @param {User} user
  */
-function SelectContent(search, user){
+function SelectContent(search, user) {
     switch (search.category) {
         case SearchCategory.Songs:
             return foundSongs(search.songs, user);
         case SearchCategory.Artists:
-            return foundArtists(search.artists, user)
+            return foundArtists(search.artists, user);
         case SearchCategory.Users:
-            return foundUsers(search.users, user)
+            return foundUsers(search.users, user);
+    }
+}
+
+/**
+ * @param {SearchCategory} newCategory 
+ * @param {Search} search
+ * @return {function(MouseEvent): any}
+ */
+function switchSearchCategory(newCategory, search) {
+    return e => {
+        e.preventDefault();
+        __Store.commit("toSearchPage", {...search, category: newCategory});
     }
 }
 
@@ -78,10 +52,10 @@ function SelectContent(search, user){
  function foundSongs(songs, user) {
     return CardContainer(
         songsCardData("Songs found",
-                        "found-songs",
-                        NoResultsMessage(songs),
-                        songs,
-                        user === null ? () => __NoCardProperties : likeableCardProperties));
+                      "found-songs",
+                      NoResultsMessage(songs),
+                      songs,
+                      user === null ? () => __NoCardProperties : likeableCardProperties));
 }
 
 /**
@@ -99,19 +73,50 @@ function foundArtists(artists, user) {
 }
 
 /**
- * @param {UserId[]} results
+ * @param {User[]} results
  * @param {User} user
  * @return {Element}
  */
  function foundUsers(results, user) {
-    return UserIconsSection(
-        "Found Users",
-        results,
-        NoResultsMessage(results),
-        user === null ? () => id : setClickToUserpage
-    );
+    return UserIconsSection("Found Users",
+                            results.map(u => u._id),
+                            NoResultsMessage(results),
+                            user === null ? () => id : setClickToUserpage);
 }
 
 function Options(items) {
-   return appendChildren([...SidebarItems(items)], document.createElement("ul"));
+    return appendChildren([...SidebarItems(items)], document.createElement("ul"));
+}
+
+/**
+ * @param {HTMLElement} root
+ * @param {User} user
+ * @param {Search} search
+ */
+function SearchContent(root, user, search) {
+    const title = document.createElement("h1");
+    title.textContent = "Best results";
+    title.classList.add("main-title");
+    const foundContent = SelectContent(search, user);
+    const upper = Options([
+        {
+            text: "Songs",
+            iconPath: "./icons/icons8-down-arrow-64.png",
+            alt: "search songs",
+            clickHandler: switchSearchCategory(SearchCategory.Songs, search)
+        },
+        {
+            text: "Artists",
+            iconPath:"./icons/icons8-down-arrow-64.png",
+            alt: "search artists",
+            clickHandler: switchSearchCategory(SearchCategory.Artists, search)
+        },
+        {
+            text: "Users",
+            iconPath: "./icons/icons8-down-arrow-64.png",
+            alt: "search users",
+            clickHandler: switchSearchCategory(SearchCategory.Users, search)
+        }
+    ]);
+    return appendChildren([title, upper, foundContent], root);
 }

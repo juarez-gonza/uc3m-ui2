@@ -12,9 +12,10 @@ class MainNavbar {
      */
     render() {
         removeAllChildren(this.element);
-        if (__Store.state.loggedIn === null)
+        const loggedIn = __Store.state.loggedIn;
+        if (loggedIn === null)
             return MainNavbarDefault(this.element)
-        return MainNavbarProfile(this.element, __Store.state.loggedIn);
+        return MainNavbarProfile(this.element, loggedIn);
   
     }
 };
@@ -49,12 +50,6 @@ function MainNavbarDefault(root) {
     rightside.appendChild(signIn).appendChild(signInRef);
 
     return appendChildren([leftside, center, rightside], root);
-}
-
-    
-
-function goToAccountSettings() {
-    __Store.commit("toAccSettings", __Store.state.loggedIn);
 }
 
 /**
@@ -95,8 +90,8 @@ function MainNavbarProfile(root, user) {
     }});
 
     const dropdown = root.appendChild(Dropdown([
-            {text: "Account", clickHandler: goToAccountSettings},
-            {text: "Profile", clickHandler: () => logIn(__Store.state.loggedIn)},
+            {text: "Account", clickHandler: () => goToAccountSettings(user)},
+            {text: "Profile", clickHandler: () => logIn(user)},
             {text: "Log out", clickHandler: setOpenModalHandler("Are you sure you want to log out?", LogOutForm)}]));
 
     rightside.appendChild(userMenu).appendChild(userImg);
@@ -108,7 +103,12 @@ function MainNavbarProfile(root, user) {
 * @param {Song[]} search
 */
 function onEnterMainSearchbar(search) {
-    __Store.commit("toSearchPage",search);
+    __Store.commit("toSearchPage", search);
 }
 
-
+/**
+ * @param {User} user
+ */
+function goToAccountSettings(user) {
+    __Store.commit("toAccSettings", user);
+}
