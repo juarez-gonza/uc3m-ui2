@@ -103,7 +103,6 @@ function MainNavbarProfile(root, user) {
 * @param {Song[]} search
 */
 function onEnterMainSearchbar(search) {
-    console.log("asd");
     nextPage("toSearchPage", search);
 }
 

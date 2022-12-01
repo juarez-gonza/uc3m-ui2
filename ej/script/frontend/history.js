@@ -23,17 +23,21 @@ function nextPage(mutationName, newState) {
     const newEntry = [mutationName, newState];
     __PageStack.push(__PageHistory[__PageHistory.length - 1]);
     __PageHistory.push(newEntry);
-    window.location.hash = mutationName;
-    __Store.commit(mutationName, newState);
 
+    history.pushState({}, "", `#${mutationName}`);
+    __Store.commit(mutationName, newState);
     /* algunas mutaciones toman 1 solo argumento,
      * pero en javascript esto no importa, el segundo argumento sería ignorado en este caso
      */
 }
 
 function prevPage() {
+    console.log("prev");
+
     const [mutationName, restoredState] = __PageStack.pop();
-    window.location.hash = mutationName;
+    __PageHistory.pop();
+
+    history.pushState({}, "", `#${mutationName}`);
     __Store.commit(mutationName, restoredState);
 }
 
@@ -56,14 +60,14 @@ window.addEventListener("load", () => {
         isInnerNavigation = false;
     });
 
-    /** @type {undefined | number} */
-    let lastEventTime = 0;
-    const MIN_TIME_BETWEEN_EVENT_THRESHOLD = 500;
-    window.addEventListener("hashchange", () => {
-        const currentTime = new Date().getTime();
-        if (currentTime - lastEventTime < MIN_TIME_BETWEEN_EVENT_THRESHOLD)
+    const MIN_TIME_BETWEEN_EVENT_THRESHOLD = 1000;
+    let lastTime = 0;
+    window.addEventListener("popstate", (e) => {
+        e.preventDefault();
+        const currentTime = e.timeStamp;
+        if (currentTime - lastTime < MIN_TIME_BETWEEN_EVENT_THRESHOLD)
             return;
-        lastEventTime = currentTime;
+        lastTime = currentTime;
 
         if (!isInnerNavigation)
             prevPage();
