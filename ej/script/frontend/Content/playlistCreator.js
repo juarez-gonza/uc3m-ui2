@@ -95,15 +95,16 @@ const PlaylistCreatorButtons = [
 /**
  * 
  * @param {HTMLElement} root 
+ * @param {User} user
  * @return {function(Song[]): any}
  */
-function replaceFoundSongsContent(root) {
+function replaceFoundSongsContent(root, user) {
     return songs => {
         const currentFoundSongs = root.querySelector("#found-songs");
         if (currentFoundSongs !== null)
             currentFoundSongs.remove();
 
-        const decoratedContainer = foundSongsContainer(songs);
+        const decoratedContainer = foundSongs(songs, user);
         if (songs.length === 0)
             getUnderlyingCardContainer(decoratedContainer).textContent = "...No songs were found";
         else
@@ -174,7 +175,7 @@ function PlaylistCreatorContent(root, user, playlist) {
     title.textContent = "Playlist Creation Page";
     title.classList.add("main-title");
 
-    const songsFoundContent = foundSongsContainer([]);
+    const songsFoundContent = foundSongs([], user);
 
     return appendChildren([
         title,
@@ -182,7 +183,7 @@ function PlaylistCreatorContent(root, user, playlist) {
         Searchbar(
             "Look for songs to add to your playlist",
             findSongs,
-            replaceFoundSongsContent(root)
+            replaceFoundSongsContent(root, user)
         ),
         songsFoundContent
     ], root);
