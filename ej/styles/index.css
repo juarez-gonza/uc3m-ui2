@@ -1057,13 +1057,11 @@ ul.dropdown li:last-of-type {
 
 
 @media (max-width: 768px) {
-    body {
-        font-size: 14px;
-    }
-
     /* general layout stuff */
     body {
-        grid-template-columns: 0.15fr 3.85fr;
+        font-size: 14px;
+
+        grid-template-columns: 0.30fr 3.7fr;
         grid-template-rows: 0.6fr 4fr 4fr 0.6fr;
         grid-template-areas:
         "nav nav"
@@ -1083,7 +1081,13 @@ ul.dropdown li:last-of-type {
         margin-bottom: 15%;
     }
 
+    .main-sidebar nav {
+       width: 40%; 
+    }
+
+
     /* main nav stuff */
+
     .main-nav nav .home-section {
         margin-left: 2.5%;
     }

@@ -29,6 +29,7 @@ function DefaultFooter(footer) {
     document.body.style.gridTemplateAreas =  `"nav nav" "content content" "footer  footer"`;
     document.body.style.gridTemplateRows =  "0.8fr 8fr 0.6fr";
     document.body.style.gridTemplateColumns =  "0.2fr 3.8";
+    footer.innerText = "Subscribe now and invite 2 friends for free!";
     return footer;
 }
 
