@@ -164,3 +164,10 @@ function diffDateMs(d1, d2) {
 function diffFromNowMs(date) {
     return diffDateMs(date, new Date());
 }
+
+/**
+ * @param {number} ms
+ */
+function msToSeconds(ms) {
+    return ms * 0.001;
+}

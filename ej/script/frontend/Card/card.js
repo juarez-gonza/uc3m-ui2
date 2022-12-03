@@ -151,12 +151,24 @@ function SongCard(songData) {
         ret.appendChild(likeSection).appendChild(likeButton);
     }
 
-    if (playable)
-        ret.querySelector("audio").addEventListener("play", () => {
-            const user = __Store.state.loggedIn;
-            if (user !== null)
-                user.addRecentSong(song);
+    if (playable) {
+        const audioTag = ret.querySelector("audio");
+        audioTag.addEventListener("loadedmetadata", () => {
+            const progressMarker = MusicProgressMarkerHandle();
+
+            audioTag.addEventListener("play", () => {
+                const user = __Store.state.loggedIn;
+                if (user !== null)
+                    user.addRecentSong(song);
+                stopDifferentMedia(audioTag);
+                startNewSong(progressMarker, song, imgPath, audioTag);
+            });
+
+            audioTag.addEventListener("timeupdate", e => {
+                updateMusicPlayer(progressMarker, audioTag.currentTime, audioTag.duration);
+            });
         });
+    }
 
     return addCommonProperties(ret, commonProperties);
 }

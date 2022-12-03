@@ -769,6 +769,52 @@ ul.dropdown li:last-of-type {
     font-style: italic;
 }
 
+.main-footer .music-player-progress {
+    height: 8px;
+    width: 100%;
+    margin-bottom: 0.5%;
+    padding: 0;
+
+    position: absolute;
+    top: -5%;
+}
+
+.main-footer .play-button:hover, .main-footer .pause-button:hover {
+    transform: scale(1.05);
+}
+
+.main-footer .music-player-progress .progress-marker {
+    height: 100%;
+    width: 2%;
+}
+
+.main-footer .currently-playing {
+    display: flex;
+    text-align: center;
+    font-weight: bold;
+    align-items: center;
+    justify-content: space-evenly;
+    position: absolute;
+    width: 20%;
+    right: 2.5%;
+}
+
+.main-footer .currently-playing img {
+    width: 40px;
+    height: 40px;
+}
+
+.main-footer .currently-playing div {
+    padding-left: 6px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 /* main sidebar stuff */
 .main-sidebar {
     grid-area: sidebar;

@@ -32,8 +32,6 @@ function nextPage(mutationName, newState) {
 }
 
 function prevPage() {
-    console.log("prev");
-
     const [mutationName, restoredState] = __PageStack.pop();
     __PageHistory.pop();
 
