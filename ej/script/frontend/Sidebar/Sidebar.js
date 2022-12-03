@@ -4,7 +4,7 @@ class Sidebar {
 
     constructor() {
         __Store.events.subscribe("stateChange", () => this.render());
-        this.element = document.querySelector("aside nav");
+        this.element = document.querySelector("aside");
     }
 
     /**
@@ -44,8 +44,29 @@ function SidebarLoggedIn(root) {
             }
         }
     ]);
-    
-    return appendChildren([upper, lower], root);
+
+    const nav = document.createElement("nav");
+
+    nav.classList.add("main-dark-bg-color");
+    appendChildren([upper, lower], nav);
+
+    const slideButton = document.createElement("button");
+    setClasses(slideButton, ["button", "main-dark-bg-color"]);
+    slideButton.innerText = "▶";
+
+
+    slideButton.addEventListener("click", () => {
+        nav.classList.add("show");
+    });
+    window.addEventListener("click", e => {
+        /* buscar nav de nuevo porque podría haber sido eliminado */
+        const nav = document.querySelector("aside nav");
+        const slideButton = document.querySelector("aside button");
+        if (nav !== null && !isInDOMTree(e.target, nav) && slideButton !== e.target)
+            nav.classList.remove("show");
+    });
+
+    return appendChildren([slideButton, nav], root);
 }
 
 /**

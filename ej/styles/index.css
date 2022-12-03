@@ -133,7 +133,7 @@ body {
     width: 100%;
 
     display: grid;
-    grid-template-columns: 0.8fr 3fr;
+    grid-template-columns: 0.15fr 3.85fr;
     grid-template-rows: 1fr 4fr 4fr 0.6fr;
     grid-template-areas:
     "nav nav"
@@ -150,7 +150,7 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 5;
+    z-index: 4;
 
     height: 100%;
     width: 100%;
@@ -558,7 +558,7 @@ form:invalid.form button[type="submit"] {
     position: absolute;
     width: 100%;
     bottom: 0;
-    z-index: 100;
+    z-index: 3; 
     display: none;
 }
 
@@ -633,6 +633,7 @@ form:invalid.form button[type="submit"] {
 .main-nav {
     grid-area: nav;
     position: sticky;
+    z-index: 4; /* debe tener z-index seteado para no limitar menu desplegable (mayor al z-index de sidebar para no ser tapado) */
     top: 0;
 
     display: flex;
@@ -688,7 +689,7 @@ form:invalid.form button[type="submit"] {
 }
 
 .main-nav ul.dropdown {
-    z-index: 3;
+    z-index: 5;
     position: absolute;
 
     right: 2.2%;
@@ -757,6 +758,7 @@ ul.dropdown li:last-of-type {
 .main-footer {
     grid-area: footer;
     position: sticky;
+    z-index: 4; /* debe tener z-index mayor al z-index de sidebar para no ser tapado */
     left: 0;
     bottom: 0;
 
@@ -816,24 +818,55 @@ ul.dropdown li:last-of-type {
 }
 
 /* main sidebar stuff */
+
 .main-sidebar {
     grid-area: sidebar;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+
     overflow-y: auto;
     position: sticky;
+    z-index: 3; /* debe tener z-index seteado para no limitar al sidebar desplegable */
     top: 0;
+
+}
+
+.main-sidebar > .button {
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+    height: 70%;
+    width: 100%;
 }
 
 .main-sidebar nav {
-    height: 100%;
-    width: 100%;
+    height: 80%;
+    width: 22.5%;
     overflow: hidden;
 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    top: 10%;
+    left: -40%;
+
+    position: fixed;
+    z-index: 5;
+
+    transition: left 0.2s ease-out;
+
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
-.main-sidebar ul {
+.main-sidebar nav.show {
+    left: 0;
+}
+
+
+.main-sidebar nav ul {
     height: 50%;
     width: 100%;
 
@@ -845,22 +878,22 @@ ul.dropdown li:last-of-type {
     margin: 0;
 }
 
-.main-sidebar ul:first-of-type {
+.main-sidebar nav ul:first-of-type {
     align-content: flex-start;
 }
 
-.main-sidebar ul:last-of-type {
+.main-sidebar nav ul:last-of-type {
     align-content: flex-end;
 }
 
-.main-sidebar ul li {
+.main-sidebar nav ul li {
     margin-bottom: 8%;
     width: 100%;
     display: flex;
     justify-content: flex-start;
 }
 
-.main-sidebar ul li:first-of-type {
+.main-sidebar nav ul li:first-of-type {
     display: inline-block;
     width: 100%;
     padding-top: 5%;
@@ -869,16 +902,16 @@ ul.dropdown li:last-of-type {
     background-color: var(--pinkish);
 }
 
-.main-sidebar ul li:not(:first-of-type) {
+.main-sidebar nav ul li:not(:first-of-type) {
     text-align: left;
     transition: left 0.25s ease-out;
 }
 
-.main-sidebar ul li:not(:first-of-type):hover {
+.main-sidebar nav ul li:not(:first-of-type):hover {
     left: 0%;
 }
 
-.main-sidebar ul li img {
+.main-sidebar nav ul li img {
     display: block;
     flex-basis: 1;
 
@@ -889,7 +922,7 @@ ul.dropdown li:last-of-type {
     padding: 0%;
 }
 
-.main-sidebar ul li a {
+.main-sidebar nav ul li a {
     display: block;
     flex-basis: 4;
     padding-top: 12px;
@@ -973,7 +1006,7 @@ ul.dropdown li:last-of-type {
 @media (max-width: 1366px) {
     /* general layout stuff */
     body {
-        grid-template-columns: 0.8fr 3fr;
+        grid-template-columns: 0.15fr 3.85fr;
         grid-template-rows: 0.8fr 4fr 4fr 0.6fr;
         grid-template-areas:
         "nav nav"
@@ -993,7 +1026,7 @@ ul.dropdown li:last-of-type {
     }
 
     /* main sidebar stuff */
-    .main-sidebar ul li {
+    .main-sidebar nav ul li {
         margin-bottom: 10%;
     }
 
@@ -1030,7 +1063,7 @@ ul.dropdown li:last-of-type {
 
     /* general layout stuff */
     body {
-        grid-template-columns: 1fr 3fr;
+        grid-template-columns: 0.15fr 3.85fr;
         grid-template-rows: 0.6fr 4fr 4fr 0.6fr;
         grid-template-areas:
         "nav nav"
@@ -1046,16 +1079,16 @@ ul.dropdown li:last-of-type {
     }
 
     /* main sidebar stuff */
-    .main-sidebar ul li {
+    .main-sidebar nav ul li {
         margin-bottom: 15%;
     }
 
     /* main nav stuff */
-    .main-nav .home-section {
+    .main-nav nav .home-section {
         margin-left: 2.5%;
     }
 
-    .main-nav .home-section h2 {
+    .main-nav nav .home-section h2 {
         display: none;
     }
 

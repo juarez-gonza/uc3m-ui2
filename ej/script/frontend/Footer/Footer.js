@@ -27,7 +27,8 @@ function DefaultFooter(footer) {
     footer.classList.add("gradient1-bg");
     footer.style.display = "";
     document.body.style.gridTemplateAreas =  `"nav nav" "content content" "footer  footer"`;
-    document.body.style.gridTemplateRows =  "0.8fr 8fr 0.6fr"
+    document.body.style.gridTemplateRows =  "0.8fr 8fr 0.6fr";
+    document.body.style.gridTemplateColumns =  "0.2fr 3.8";
     return footer;
 }
 
