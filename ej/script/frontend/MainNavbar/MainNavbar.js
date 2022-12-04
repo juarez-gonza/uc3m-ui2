@@ -39,7 +39,7 @@ function MainNavbarDefault(root) {
     const logIn = document.createElement("li");
     const logInRef = document.createElement("a");
     logInRef.textContent = "Log In";
-    logInRef.addEventListener("click", setOpenModalHandler("Política de privacidad:",LogInForm));
+    logInRef.addEventListener("click", setOpenModalHandler("Log In", LogInForm));
 
     const signIn = document.createElement("li");
     const signInRef = document.createElement("a");

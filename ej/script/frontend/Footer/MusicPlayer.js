@@ -7,6 +7,10 @@ function MusicPlayer(footer) {
     footer.classList.remove("gradient1-bg");
     footer.classList.add("purple-bg-color");
 
+    /* music controls */
+    const controls = document.createElement("div");
+    controls.classList.add("music-controls")
+
     const play = document.createElement("img");
     play.classList.add("play-button");
     play.src = "./icons/icons8-play-button-circled-48.png";
@@ -14,17 +18,20 @@ function MusicPlayer(footer) {
     const pause = document.createElement("img");
     pause.src = "./icons/icons8-pause-squared-48.png";
     pause.classList.add("pause-button");
+    appendChildren([play, pause], controls);
 
-    const musicPlaying = currentlyPlayingSection("./icons/icons8-sheet-music-48.png",
+    /* music mini-thumbnail and title and artist of theme being played */
+    const musicPlaying = playingThemeImg("./icons/icons8-sheet-music-48.png",
                                                 "Start playing music!",
                                                 "Listen your favourite artists");
 
 
+    /* theme progress bar */
     const progressBar = document.createElement("div");
     setClasses(progressBar, ["gradient1-bg", "music-player-progress"]);
     progressBar.innerHTML = `<div class="progress-marker white-ish-bg-color"></div>`;
 
-    return appendChildren([progressBar, play, pause, musicPlaying], footer);
+    return appendChildren([progressBar, controls, musicPlaying], footer);
 }
 
 /**
@@ -33,17 +40,17 @@ function MusicPlayer(footer) {
  * @param {string} artistName 
  * @return {HTMLElement}
  */
-function currentlyPlayingSection(imgSrc, songName, artistName) {
-    const currentlyPlaying = document.createElement("div");
-    currentlyPlaying.innerHTML = `
+function playingThemeImg(imgSrc, songName, artistName) {
+    const ret = document.createElement("div");
+    ret.innerHTML = `
         <img src="${imgSrc}">
         <div>
             <span>${songName}</span>
             <span>${artistName}</span>
         </div>
     `;
-    setClasses(currentlyPlaying, ["currently-playing"])
-    return currentlyPlaying;
+    setClasses(ret, ["playing-theme-img"])
+    return ret;
 }
 
 /**
@@ -63,7 +70,7 @@ function startNewSong(progressMarker, song, imgSrc, audioTag) {
     clearMusicPlayer(progressMarker);
     const footer = document.querySelector(".main-footer");
     footer.removeChild(footer.querySelector(".currently-playing"));
-    footer.appendChild(currentlyPlayingSection(imgSrc, song.title, song.artist));
+    footer.appendChild(playingThemeImg(imgSrc, song.title, song.artist));
 
     const playButton = removeEventListeners(footer.querySelector(".play-button"));
     const pauseButton = removeEventListeners(footer.querySelector(".pause-button"));

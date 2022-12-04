@@ -185,7 +185,7 @@ function ArtistCard(artistData) {
 
     ret.innerHTML = `
         <img src=${findSomeArtistImg(artist)}>
-        <div class="description">${artist.name}</div>
+        <div class="description"><h6>${artist.name}</h6></div>
     `;
     return addCommonProperties(ret, commonProperties);
 }

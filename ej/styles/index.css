@@ -69,15 +69,18 @@ a:hover {
     list-style-type: none;
     
 }
+
 .main-content li{
     margin: 2%
 }
+
 .main-content ul img{
     height: 30%;
     width: 25%
 }
+
 ul a {
-    font-size:120%;
+    font-size: 120%;
 }
 
 
@@ -125,7 +128,7 @@ ul a {
 html, body {
     padding: 0;
     margin: 0;
-    height: 100%; 
+    height: 100vh; 
     font-family: 'Roboto', sans-serif;
 }
 
@@ -351,6 +354,7 @@ body {
 .form .form-icons-list ul {
     display: flex;
     justify-content: space-between;
+    list-style: none;
     padding: 0;
 }
 
@@ -383,6 +387,10 @@ form:invalid.form button[type="submit"] {
     margin-top: 2.5%;
     margin-bottom: 2%;
     font-size: 3rem;
+}
+
+.main-title + p {
+    text-align: center;
 }
 
 /* style overrides for forms inside main-content */
@@ -497,19 +505,21 @@ form:invalid.form button[type="submit"] {
 .playlist .card-container {
     display: flex;
     flex-wrap: wrap;
-    width: 80%;
-    max-width: 80%;
+    justify-content: space-around;
+    width: 90%;
+    max-width: 90%;
     height: 100%;
 }
 
 .playlist .card-container .music-card,
 .playlist .card-container .artist-card {
-    flex: 0 0 25%;
+    margin-left: 3px;
+    margin-bottom: 12px;
 }
 
 .music-card, .artist-card {
-    height: 340px;
-    width: 200px;
+    height: 400px;
+    width: 280px;
 
     display: flex;
     flex-direction: column;
@@ -562,11 +572,11 @@ form:invalid.form button[type="submit"] {
     display: none;
 }
 
-.music-card .description {
+.music-card .description, .artist-card .description {
     height: 20%;
 }
 
-.music-card .description h6 {
+.music-card .description h6, .artist-card .description h6 {
     top: 0;
     margin: 0;
 
@@ -647,12 +657,13 @@ form:invalid.form button[type="submit"] {
 }
 
 .main-nav .big-input input {
-    width: 300px;
+    width: 400px;
 }
 
 .main-nav .home-section {
     height: 100%;
     margin-left: 1.5%;
+    margin-right: 5%;
     display: flex;
     align-items: center;
 
@@ -666,6 +677,9 @@ form:invalid.form button[type="submit"] {
 .main-nav ul {
     margin: 0%;
     margin-right: 5%;
+    height: 100%;
+    display: flex;
+    align-items: center;
 }
 
 .main-nav ul li {
@@ -688,6 +702,9 @@ form:invalid.form button[type="submit"] {
     transform: scale(1.05);
 }
 
+
+/* dropdown stuff */
+
 .main-nav ul.dropdown {
     z-index: 5;
     position: absolute;
@@ -698,9 +715,20 @@ form:invalid.form button[type="submit"] {
     height: 0px;
     width: 180px;
 
+    display: flex;
+    align-content: stretch;
+    flex-wrap: wrap;
+
+    padding: 0;
+    margin: 0;
+
     opacity: 0.0;
 
     transition: 0.2s ease-out;
+
+    background-color: var(--white-ish);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
 .main-nav ul.dropdown.show {
@@ -709,26 +737,13 @@ form:invalid.form button[type="submit"] {
     opacity: 1.0;
 }
 
-/* dropdown stuff */
 
-ul.dropdown {
-    display: flex;
-    align-content: stretch;
-    flex-wrap: wrap;
-
-    padding: 0;
-    margin: 0;
-
-    background-color: var(--white-ish);
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-}
-
-ul.dropdown li {
+.main-nav ul.dropdown li {
     width: 100%;
-
-    padding: 0px;
-    padding-top: 12px;
+    height: 33%; /* son 3 items en la lista. TODO: ver si puede evitarse el hardcodeo de la altura */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
     margin: 0;
 
@@ -739,17 +754,17 @@ ul.dropdown li {
     color: black;
 }
 
-ul.dropdown li:hover {
+.main-nav ul.dropdown li:hover {
     background-color: var(--purple);
     color: var(--main-font-color);
 }
 
-ul.dropdown li:not(:last-of-type) {
+.main-nav ul.dropdown li:not(:last-of-type) {
     border: none;
     box-shadow: 0 1.2px rgba(0, 0, 0, 0.35);
 }
 
-ul.dropdown li:last-of-type {
+.main-nav ul.dropdown li:last-of-type {
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 }
@@ -771,7 +786,7 @@ ul.dropdown li:last-of-type {
     font-style: italic;
 }
 
-.main-footer .music-player-progress {
+.main-footer.music-player .music-player-progress {
     height: 8px;
     width: 100%;
     margin-bottom: 0.5%;
@@ -781,32 +796,33 @@ ul.dropdown li:last-of-type {
     top: -5%;
 }
 
-.main-footer .play-button:hover, .main-footer .pause-button:hover {
+.main-footer.music-player .music-controls .play-button:hover, .main-footer .pause-button:hover {
     transform: scale(1.05);
 }
 
-.main-footer .music-player-progress .progress-marker {
+.main-footer.music-player .music-player-progress .progress-marker {
     height: 100%;
     width: 2%;
 }
 
-.main-footer .currently-playing {
+.main-footer.music-player .playing-theme-img {
     display: flex;
     text-align: center;
     font-weight: bold;
     align-items: center;
     justify-content: space-evenly;
-    position: absolute;
-    width: 20%;
+    width: 25%;
+
+    position: absolute; /* en la resolución más grande tiene posicion absoluta, esto se cambiara a estatico en mas pequeñas */
     right: 2.5%;
 }
 
-.main-footer .currently-playing img {
+.main-footer.music-player .playing-theme-img img {
     width: 40px;
     height: 40px;
 }
 
-.main-footer .currently-playing div {
+.main-footer.music-player .playing-theme-img div {
     padding-left: 6px;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -1017,8 +1033,8 @@ ul.dropdown li:last-of-type {
 
     /* main content stuff */
     .music-card, .artist-card {
-        height: 200px;
-        width: 140px;
+        height: 280px;
+        width: 200px;
     }
 
     .music-card .description p {
@@ -1032,7 +1048,8 @@ ul.dropdown li:last-of-type {
 
     /* main nav stuff */
     .main-nav .home-section {
-        margin-left: 1.5%;
+        margin-left: 2.5%;
+        font-size: 1rem;
     }
 
     .main-nav .home-section h1 {
@@ -1040,10 +1057,8 @@ ul.dropdown li:last-of-type {
         font-size: 1.4rem;
     }
 
-    /* main nav stuff */
-    .main-nav .home-section {
-        margin-left: 2.5%;
-        font-size: 1rem;
+    .main-nav .big-input input {
+        width: 300px;
     }
 }
 
@@ -1056,7 +1071,7 @@ ul.dropdown li:last-of-type {
 }
 
 
-@media (max-width: 768px) {
+@media (max-width: 796px) {
     /* general layout stuff */
     body {
         font-size: 14px;
@@ -1072,8 +1087,8 @@ ul.dropdown li:last-of-type {
 
     /* main content stuff */
     .music-card, .artist-card {
-        height: 160px;
-        width: 100px;
+        height: 200px;
+        width: 140px;
     }
 
     /* main sidebar stuff */
@@ -1088,25 +1103,51 @@ ul.dropdown li:last-of-type {
 
     /* main nav stuff */
 
-    .main-nav nav .home-section {
+    .main-nav .home-section {
         margin-left: 2.5%;
     }
 
-    .main-nav nav .home-section h2 {
+    .main-nav .home-section h2 {
         display: none;
     }
 
+    /* main-nav searchbar */
+    .main-nav .big-input input {
+        width: 180px;
+    }
+
+    /* modal stuff */
+    .modal-container .modal {
+        width: 80%;
+    }
+
+    /* form stuff */
+
+    .form {
+        width: 90%;
+    }
+
+    .form .input {
+        width: 60%;
+    }
+
+    /* music-card stuff */
     .music-card .badge-msg {
         font-size: 0.6rem;
+    }
+
+    /* */
+    .main-footer.music-player {
+        justify-content: space-around;
+    }
+
+    .main-footer.music-player .playing-theme-img {
+        position: static; /* cambiar a posicion estatica para aprovechar justify-content de .music-player en resoluciones chicas */
+        width: 60%;
     }
 }
 
 @media (max-width: 696px) {
-    .music-card, .artist-card {
-        height: 160px;
-        width: 100px;
-    }
-
     .music-card .description h6 {
         /* cut the $--webkit-line-clamp line of text with ellipsis */
         -webkit-line-clamp: 1;
@@ -1115,7 +1156,14 @@ ul.dropdown li:last-of-type {
 
 @media (max-width: 600px) {
     .music-card, .artist-card {
-        height: 135px;
-        width: 90px;
+        height: 160px;
+        width: 110px;
+    }
+}
+
+@media (max-width: 476px) {
+    /* main-nav searchbar */
+    .main-nav .big-input input {
+        width: 120px;
     }
 }
