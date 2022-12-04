@@ -504,7 +504,13 @@ form:invalid.form button[type="submit"] {
     max-width: 70%;
 }
 
-.playlist .user-icons-section img.profile-img {
+.playlist .user-icons-section .labeled-profile-img {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.playlist .user-icons-section .labeled-profile-img img.profile-img {
     height: 60px;
     width: 60px;
     border-radius: 50%;
@@ -515,9 +521,19 @@ form:invalid.form button[type="submit"] {
     transform: scale(1.0);
 }
 
-.playlist .user-icons-section img.profile-img:hover {
+.playlist .user-icons-section i.labeled-profile-img img.profile-img:hover {
     transform: scale(1.2);
 }
+
+.playlist .user-icons-section .labeled-profile-img span {
+    text-decoration: underline solid transparent;
+    transition: text-decoration 0.3s ease-out;
+}
+
+.playlist .user-icons-section .labeled-profile-img:hover span {
+    text-decoration: underline white;
+}
+
 
 .playlist .card-container {
     display: flex;

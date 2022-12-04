@@ -73,7 +73,7 @@ function MainNavbarProfile(root, user) {
     // TODO: handle user image user.profilePicB64
     const rightside = document.createElement("ul");
     const userMenu = document.createElement("li");
-    const userImg = UserIcon({user: user, clickHandler: outerE => {
+    const userImg = UserIcon({user: user, label: undefined, clickHandler: outerE => {
         // if the dropdown is not overlapped with the userImg, then
         // a conditional to check that the same dropdown is not opened
         // twice would be needed. Not the case here

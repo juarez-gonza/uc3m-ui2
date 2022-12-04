@@ -82,6 +82,7 @@ function artistsCardData(title, id, mensaje, recentArtists, setCommonProperties=
 function UserIcons(users, setIconClickHandler) {
     return users.map(u => UserIcon({
             user: u,
+            label: {text: u.username},
             clickHandler: setIconClickHandler(u)
         }));
 }

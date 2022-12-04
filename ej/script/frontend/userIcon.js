@@ -1,6 +1,7 @@
 /**
- * @typedef {Object} UserIconParams
+ * @typedef {Object} UserIconData
  * @property {User} user
+ * @property {{text: string} | undefined} label
  * @property {function(MouseEvent): any | undefined} clickHandler
  */
 
@@ -24,10 +25,10 @@ function userImgOrDefault(user) {
 }
 
 /**
- * @param {UserIconParams} iconData
+ * @param {UserIconData} iconData
  * @return {HTMLElement}
  */
-function UserIcon(iconData) {
+function _UserIconImgOnly(iconData) {
     const {user, clickHandler} = iconData;
     const ret = document.createElement("img");
     ret.src = userImgOrDefault(user);
@@ -35,4 +36,28 @@ function UserIcon(iconData) {
         ret.addEventListener("click", clickHandler);
     ret.classList.add("profile-img");
     return ret;
+}
+
+/**
+ * @param {UserIconData} iconData
+ * @return {HTMLElement}
+ */
+function _LabeledUserIcon(iconData) {
+    const {label} = iconData;
+    const ret = document.createElement("div");
+    const labelItem = document.createElement("span");
+    labelItem.textContent = label.text;
+
+    appendChildren([_UserIconImgOnly(iconData), labelItem], ret)
+    ret.classList.add("labeled-profile-img");
+    return ret;
+}
+
+/**
+ * @param {UserIconData} iconData
+ * @return {HTMLElement}
+ */
+function UserIcon(iconData) {
+    const {label} = iconData
+    return label !== undefined? _LabeledUserIcon(iconData) : _UserIconImgOnly(iconData);
 }
