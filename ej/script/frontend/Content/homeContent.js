@@ -140,7 +140,15 @@ function HomeContent(root, user) {
     title.classList.add("main-title");
 
     const songsContent = CardContainerSection([
-        artistsCardData("Recently heard artists", "recent-artists",NoResultsMessage(user.recentArtists), user.recentArtists),
+        artistsCardData("Recently heard artists",
+                        "recent-artists",
+                        NoResultsMessage(user.recentArtists),
+                        user.recentArtists,
+                        (a) => ({
+                            clickHandler: setArtistClickHandler(a),
+                            badgeMessage: undefined,
+                            intervalUpdate: undefined,
+                        })),
         songsCardData("Recently heard songs", "recent-songs",NoResultsMessage(user.recentSongs),user.recentSongs),
         songsCardData("Favourite songs", "fav-songs",NoResultsMessage(user.favSongs),user.favSongs),
         playlistCardData("Your playlists", "your-playlists",NoResultsMessage(user.playlists), user.playlists)
