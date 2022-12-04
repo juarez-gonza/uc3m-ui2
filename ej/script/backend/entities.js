@@ -173,7 +173,23 @@ class User {
      * @param {UserId} userId 
      */
     followUser(userId) {
-        this.following.push(userId);
+        if (!this.isFollowing(userId))
+            this.following.push(userId);
+    }
+
+    /**
+     * @param {UserId} userId
+     */
+    unfollowUser(userId) {
+        [this.following,] = removeFirstWhere(this.following, u => u === userId);
+    }
+
+    /**
+     * @param {UserId} userId
+     * @return {boolean}
+     */
+    isFollowing(userId) {
+        return this.following.some(u => u === userId);
     }
 
     /**

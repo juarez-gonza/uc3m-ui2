@@ -68,6 +68,11 @@ const __mutations = {
     }
 };
 
+function saveAndRefreshLoggedIn() {
+    __Store.state.loggedIn.save();
+    refreshLoggedIn();
+}
+
 function refreshLoggedIn() {
     __Store.state.loggedIn = User.find(__Store.state.loggedIn._id);
 }

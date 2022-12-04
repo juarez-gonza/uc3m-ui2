@@ -109,7 +109,7 @@ function _UserIconsSection(userIds, setIconClickHandler, n) {
  */
 function UserIconsSection(title, userIds, notFoundMessage, setIconClickHandler=()=>id, n=undefined) {
     const ret = document.createElement("div");
-    setClasses(ret, ["playlist", "user-icons-section"])
+    setClasses(ret, ["playlist", "user-icons-section"]);
 
     const h1Title = document.createElement("h1");
     h1Title.textContent = title;
@@ -127,6 +127,36 @@ function UserIconsSection(title, userIds, notFoundMessage, setIconClickHandler=(
  */
 function NoResultsMessage(elements){
     return elements.length > 0 ? "" : "No results were found for this section... Continue exploring" ;
+}
+
+/**
+ * @param {User} user
+ */
+function FollowUserButton(user) {
+    const ret = document.createElement("button");
+    const isFollowing = __Store.state.loggedIn.isFollowing(user._id);
+
+    setClasses(ret,
+                ["follow-button", "button",
+                isFollowing ? "main-dark-bg-color" : "main-light-bg-color"]);
+    ret.textContent = isFollowing ? `Unfollow ${user.username}` : `Follow ${user.username}`;
+
+    ret.addEventListener("click", () => {
+        const loggedIn = __Store.state.loggedIn;
+        if (loggedIn.isFollowing(user._id)) {
+            loggedIn.unfollowUser(user._id);
+            ret.classList.remove("main-dark-bg-color");
+            ret.classList.add("main-light-bg-color");
+            ret.textContent = `Follow ${user.username}`;
+        } else {
+            loggedIn.followUser(user._id);
+            ret.classList.remove("main-light-bg-color");
+            ret.classList.add("main-dark-bg-color");
+            ret.textContent = `Unollow ${user.username}`;
+        }
+        saveAndRefreshLoggedIn();
+    });
+    return ret;
 }
 
 /**
@@ -149,12 +179,17 @@ function HomeContent(root, user) {
                             badgeMessage: undefined,
                             intervalUpdate: undefined,
                         })),
-        songsCardData("Recently heard songs", "recent-songs", NoResultsMessage(user.recentSongs),user.recentSongs),
-        songsCardData("Favourite songs", "fav-songs", NoResultsMessage(user.favSongs),user.favSongs),
-        playlistCardData("Your playlists", "your-playlists", NoResultsMessage(user.playlists), user.playlists)
+        songsCardData("Recently heard songs", "recent-songs", NoResultsMessage(user.recentSongs), user.recentSongs),
+        songsCardData("Favourite songs", "fav-songs", NoResultsMessage(user.favSongs), user.favSongs),
+        playlistCardData("Playlists", "your-playlists", NoResultsMessage(user.playlists), user.playlists)
     ]);
 
     const followedUsers = UserIconsSection("Following", user.following, NoResultsMessage(user.playlists), setClickToUserpage, 5);
 
-    return appendChildren([title, ...songsContent, followedUsers], root);
+    /* comparar por id porque la referencia si puede haber cambiado */
+    return __Store.state.loggedIn._id !== user._id ? appendChildren([FollowUserButton(user),
+                                                            title,
+                                                            ...songsContent,
+                                                            followedUsers], root)
+            : appendChildren([title, ...songsContent, followedUsers], root);
 }

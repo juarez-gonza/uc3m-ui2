@@ -145,7 +145,7 @@ const INIT_SONGS_DATA= [
 ];
 
 const INIT_ARTISTS_DATA = [
-   {name: "led Zeppeling"},
+   {name: "Led Zeppelin"},
    {name: "Dirty Suc"},
    {name: "The doors"},
    {name: "Hecky"},

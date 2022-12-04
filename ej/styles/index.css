@@ -67,6 +67,15 @@ a:hover {
     text-decoration: underline white;
 }
 
+.main-content .button.follow-button {
+    position: fixed;
+    right: 2.5%;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    width: 15%;
+    z-index: 2;
+}
+
 .main-content ul {
     align-items:center ;
     align-self: center;
@@ -1064,6 +1073,10 @@ form:invalid.form button[type="submit"] {
     }
 
     /* main content stuff */
+    .main-content .button.follow-button {
+        width: 20%;
+    }
+
     .music-card, .artist-card {
         height: 280px;
         width: 200px;
@@ -1118,6 +1131,10 @@ form:invalid.form button[type="submit"] {
     }
 
     /* main content stuff */
+    .main-content .button.follow-button {
+        width: 25%;
+    }
+
     .music-card, .artist-card {
         height: 200px;
         width: 140px;
@@ -1180,6 +1197,10 @@ form:invalid.form button[type="submit"] {
 }
 
 @media (max-width: 696px) {
+    .main-content .button.follow-button {
+        width: 30%;
+    }
+
     .music-card .description h6 {
         /* cut the $--webkit-line-clamp line of text with ellipsis */
         -webkit-line-clamp: 1;
