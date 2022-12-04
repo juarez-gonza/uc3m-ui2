@@ -69,7 +69,7 @@ function MusicProgressMarkerHandle() {
 function startNewSong(progressMarker, song, imgSrc, audioTag) {
     clearMusicPlayer(progressMarker);
     const footer = document.querySelector(".main-footer");
-    footer.removeChild(footer.querySelector(".currently-playing"));
+    footer.removeChild(footer.querySelector(".playing-theme-img"));
     footer.appendChild(playingThemeImg(imgSrc, song.title, song.artist));
 
     const playButton = removeEventListeners(footer.querySelector(".play-button"));
@@ -84,6 +84,8 @@ function startNewSong(progressMarker, song, imgSrc, audioTag) {
         if (audioTag.paused)
             audioTag.play();
     });
+
+    audioTag.play();
 }
 
 /**
@@ -121,4 +123,21 @@ function removeEventListeners(node) {
     parent.removeChild(node);
     parent.appendChild(newNode);
     return newNode;
+}
+
+/**
+ * @param {HTMLElement} progressMarker
+ * @param {Song} song
+ * @param {string} imgSrc
+ * @param {HTMLAudioElement} audioTag
+ * @return {function(Event): any}
+ */
+function getPlaySongHandler(progressMarker, song, imgSrc, audioTag) {
+    return () => {
+        const user = __Store.state.loggedIn;
+        if (user !== null)
+            user.addRecentSong(song);
+        stopDifferentMedia(audioTag);
+        startNewSong(progressMarker, song, imgSrc, audioTag);
+    };
 }

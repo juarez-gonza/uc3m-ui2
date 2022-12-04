@@ -131,6 +131,9 @@ function SongCard(songData) {
         <div class="thumbnail">
             <img src="${imgPath}" alt="${title}">
             ${playable ? `
+            <div class="play-button">
+                <img src="./icons/icons8-play-button-circled-48.png">
+            </div>
             <audio controls>
                 <source src="${songPath}" type="audio/mpeg">
                 Your browser doest not support the audio tag
@@ -153,16 +156,14 @@ function SongCard(songData) {
 
     if (playable) {
         const audioTag = ret.querySelector("audio");
+        const playButton = ret.querySelector(".play-button img");
+
         audioTag.addEventListener("loadedmetadata", () => {
             const progressMarker = MusicProgressMarkerHandle();
+            const playSongHandler = getPlaySongHandler(progressMarker, song, imgPath, audioTag)
 
-            audioTag.addEventListener("play", () => {
-                const user = __Store.state.loggedIn;
-                if (user !== null)
-                    user.addRecentSong(song);
-                stopDifferentMedia(audioTag);
-                startNewSong(progressMarker, song, imgPath, audioTag);
-            });
+            audioTag.addEventListener("play", playSongHandler);
+            playButton.addEventListener("click", playSongHandler);
 
             audioTag.addEventListener("timeupdate", e => {
                 updateMusicPlayer(progressMarker, audioTag.currentTime, audioTag.duration);
