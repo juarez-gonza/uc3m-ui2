@@ -4,8 +4,13 @@
     --pinkish: #ff6f91;
     --pink: #EF476F;
     --purple0: #88316e;
-
     --purple: #9A1663;
+    --light-purple: #845ec2;
+
+    --orangish: #ff6f91;
+    --light-orange: #ff9671;
+    --yellow1: #ffc75f;
+    --yellow2: #f9f871;
 
     --white-ish: #edeef6;
     --main-font-color: #fff;
@@ -285,6 +290,9 @@ body {
 
 .form .input input[type="checkbox"] {
     margin: auto;
+    margin-top: 2px;
+    height: 16px;
+    width: 16px;
 }
 
 /* field error stuff */
@@ -303,18 +311,18 @@ body {
 }
 
 .form .input input:focus:invalid {
-    box-shadow: 0 1.2px var(--purple0); 
+    box-shadow: 0 1.2px var(--yellow1); 
 }
 
 .form .input input:focus:invalid + .input-error-message {
     height: 2rem;
 
     opacity: 1.0;
-    color: var(--purple0);
+    color: var(--yellow1);
 }
 
 .form .input input:focus:invalid {
-    box-shadow: 0 1.2px var(--purple0);
+    box-shadow: 0 1.2px var(--yellow1);
 }
 
 /* field errors when user has already interacted with the form */
@@ -327,7 +335,7 @@ body {
 }
 
 .form .input input:not(:placeholder-shown):not(:focus):invalid {
-    box-shadow: 0 1.2px var(--pinkish);
+    box-shadow: 0 1.2px var(--orangish);
 }
 
 /* form buttons section stuff */

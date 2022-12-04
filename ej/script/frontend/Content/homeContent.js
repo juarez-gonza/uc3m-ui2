@@ -58,7 +58,7 @@ function playlistCardData(title, id, mensaje, playlists) {
  * @param {function(Artist): CommonCardData} setCommonProperties
  * @return {CardContainerData} 
  */
-function artistsCardData(title, id, mensaje, recentArtists, setCommonProperties = () => __NoCardProperties) {
+function artistsCardData(title, id, mensaje, recentArtists, setCommonProperties=()=>__NoCardProperties) {
     return {
         title: title,
         id: id,
@@ -149,9 +149,9 @@ function HomeContent(root, user) {
                             badgeMessage: undefined,
                             intervalUpdate: undefined,
                         })),
-        songsCardData("Recently heard songs", "recent-songs",NoResultsMessage(user.recentSongs),user.recentSongs),
-        songsCardData("Favourite songs", "fav-songs",NoResultsMessage(user.favSongs),user.favSongs),
-        playlistCardData("Your playlists", "your-playlists",NoResultsMessage(user.playlists), user.playlists)
+        songsCardData("Recently heard songs", "recent-songs", NoResultsMessage(user.recentSongs),user.recentSongs),
+        songsCardData("Favourite songs", "fav-songs", NoResultsMessage(user.favSongs),user.favSongs),
+        playlistCardData("Your playlists", "your-playlists", NoResultsMessage(user.playlists), user.playlists)
     ]);
 
     const followedUsers = UserIconsSection("Following", user.following, NoResultsMessage(user.playlists), setClickToUserpage, 5);

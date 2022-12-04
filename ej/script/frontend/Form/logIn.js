@@ -1,6 +1,7 @@
 /** @typedef {Object} LogInSubmitedData
  *  @property {string} username
  *  @property {string} password
+ *  @property {string} remember
  */
 
 /**
@@ -14,9 +15,14 @@ function onSubmitLogInHandler(onSuccess, onError) {
         const inputNodes = Array.from(document.querySelectorAll(".modal .modal-content form .input input"));
 
         /** @type {LogInSubmitedData} */
-        const {username, password} = processInputs(inputNodes, (inputElem) => {
+        const {username, password, remember} = processInputs(inputNodes, (inputElem) => {
+            if (inputElem.type === "checkbox")
+                return inputElem.checked;    
             return inputElem.value;
         });
+
+        if (remember)
+            rememberCredentials(username, password);
 
         try {
             const user = logInUserReq(username, password);
@@ -27,6 +33,26 @@ function onSubmitLogInHandler(onSuccess, onError) {
             throw err;
         }
     };
+}
+
+/**
+ * @param {string} username 
+ * @param {string} password 
+ */
+function rememberCredentials(username, password) {
+    saveRec("soundsound-user", {username: username, password: password});
+}
+
+/**
+ * @return {{username: string, password: string} | null}
+ */
+function getUserCredentials() {
+    try {
+        return findRec("soundsound-user");
+    } catch (err) {
+        if (err.name === "LSNotFoundException")
+            return null;
+    }
 }
 
 /**
@@ -76,6 +102,11 @@ const LogInFieldsData = [
         extraAttributes: {
             placeholder: "secret"
         }
+    },
+    {
+        id: "remember", label: "Remember log in for following connections?", type: "checkbox",
+        inputValidation: undefined,
+        extraAttributes: undefined
     },
 ];
 

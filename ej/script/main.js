@@ -268,11 +268,18 @@ function initData() {
    
 }
 
+function previousLogin() {
+   const creds = getUserCredentials();
+   if (creds === null)
+      return null;
+   logIn(logInUserReq(creds.username, creds.password));
+}
+
 function main() {
-   window.localStorage.clear();
    if (getAllSongs().length === 0)
       initData();
    initialRender();
+   previousLogin();
 }
 
 main();

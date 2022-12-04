@@ -212,8 +212,8 @@ function setDateInputValue(dateInputElement, date) {
 /**
  * @template T
  * @param {HTMLInputElement[]} inputElements
- * @param {function(HTMLInputElement): T[keyof T]} processField - función que debe convertir input element en un
- *                                                           - valor apropiado para el cmapo
+ * @param {function(HTMLInputElement): T[keyof T] | boolean} processField - función que debe convertir input element en un
+ *                                                                        - valor apropiado para el cmapo
  * @return {T}
  */
 function processInputs(inputElements, processField) {
@@ -227,8 +227,8 @@ function processInputs(inputElements, processField) {
 /**
  * @template T
  * @param {HTMLInputElement[]} inputElements
- * @param {function(HTMLInputElement): Promise<T[keyof T]> | T[keyof T]} processField - función asíncrona que debe convertir input element en un
- *                                                                    - valor apropiado para el cmapo
+ * @param {function(HTMLInputElement): Promise<T[keyof T]> | T[keyof T] | boolean}  processField - función asíncrona que debe convertir input element en un
+ *                                                                                               - valor apropiado para el cmapo
  */
 async function processInputsAsync(inputElements, processField) {
     // @ts-ignore - convertir el objeto sin keys en un objeto de tipo T falla
