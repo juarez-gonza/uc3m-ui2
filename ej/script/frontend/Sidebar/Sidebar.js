@@ -42,6 +42,15 @@ function SidebarLoggedIn(root) {
                 e.preventDefault();
                 nextPage("toPlaylistCreator", null);
             }
+        },
+        {
+            text: "My content",
+            iconPath: "./icons/icons8-subir-40 (1).png",
+            alt: "My content",
+            clickHandler: e => {
+                e.preventDefault();
+                nextPage("toMyContent");
+            }
         }
     ]);
 

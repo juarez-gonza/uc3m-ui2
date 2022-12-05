@@ -40,6 +40,9 @@ class Content {
             case CurrentPage.ACCOUNT_SETTINGS:
                 this.element = AccSettingsContent(this.element, loggedIn);
                 return this.element;
+            case CurrentPage.MY_CONTENT:
+                this.element = UserContent(this.element, loggedIn);
+                return this.element;
         }
     }
 };

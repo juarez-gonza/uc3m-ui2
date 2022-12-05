@@ -11,6 +11,7 @@ const CurrentPage = {
     SEARCH_SONGS: 5,
     MY_PLAYLISTS: 6,
     ACCOUNT_SETTINGS: 7,
+    MY_CONTENT: 8
 };
 
 /**
@@ -30,7 +31,7 @@ const __initalStoreState = {
 };
 
 /**
- * @typedef {"logIn" | "logOut" | "toArtistPage" | "toUserPage" | "toSearchPage" | "toCheckPlaylists" | "toPlaylistCreator" | "toAccSettings"} MKeys
+ * @typedef {"logIn" | "logOut" | "toArtistPage" | "toUserPage" | "toSearchPage" | "toCheckPlaylists" | "toPlaylistCreator" | "toAccSettings" | "toMyContent"} MKeys
  */
 
 /** @type {Object<MKeys, function(AppState, StateChange): AppState>} */
@@ -65,6 +66,9 @@ const __mutations = {
 
     toAccSettings: (state) => {
         return {...state, currentPage: CurrentPage.ACCOUNT_SETTINGS};
+    },
+    toMyContent: (state) => {
+        return {...state, currentPage: CurrentPage.MY_CONTENT};
     }
 };
 
