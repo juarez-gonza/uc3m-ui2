@@ -67,6 +67,7 @@ const __mutations = {
     toAccSettings: (state) => {
         return {...state, currentPage: CurrentPage.ACCOUNT_SETTINGS};
     },
+
     toMyContent: (state) => {
         return {...state, currentPage: CurrentPage.MY_CONTENT};
     }

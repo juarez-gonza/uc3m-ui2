@@ -30,6 +30,8 @@ function MainNavbarDefault(root) {
         <img alt="app image" src="./icons/icons8-video-playlist-40.png">
         <h2>SoundSound</h2>
     `;
+    leftside.addEventListener("click", logOut);
+
     const center = Searchbar("Search your favourite songs",
                                 findContent,
                                 onEnterMainSearchbar);
@@ -65,6 +67,7 @@ function MainNavbarProfile(root, user) {
         <img alt="app image" src="./icons/icons8-video-playlist-40.png">
         <h2>SoundSound</h2>
     `;
+    leftside.addEventListener("click", () => logIn(user));
 
     const center = Searchbar("Search your favourite songs",
                                 findContent,
