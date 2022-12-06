@@ -59,7 +59,7 @@ function getPlaylistCreatorFieldsData(value) {
         {
             id: "playlist-name", label: "Your playlist name", type: "text",
             inputValidation: {
-                errorMsg: "A name for the playlist is required",
+                errorMsg: "A name for the playlist is required", 
                 attributes: {
                     required: true,
                 }

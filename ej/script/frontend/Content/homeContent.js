@@ -21,6 +21,7 @@ function songsCardData(title, id, mensaje, songs, setCommonProperties=()=>__NoCa
     };
 }
 
+
 /**
  * @param {string} title 
  * @param {string} id

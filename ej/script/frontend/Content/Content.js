@@ -41,7 +41,7 @@ class Content {
                 this.element = AccSettingsContent(this.element, loggedIn);
                 return this.element;
             case CurrentPage.MY_CONTENT:
-                this.element = UserContent(this.element, loggedIn);
+                this.element = UserContent(this.element);
                 return this.element;
         }
     }
