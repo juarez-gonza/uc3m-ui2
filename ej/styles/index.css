@@ -760,6 +760,21 @@ form:invalid.form button[type="submit"] {
     transform: scale(1.05);
 }
 
+/* user content statistics stuff */
+/*
+.main-content ul.statistics {
+    display: flex;
+    justify-content: center;
+}
+*/
+
+.main-content ul.statistics li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
 
 /* dropdown stuff */
 

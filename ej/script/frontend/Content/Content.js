@@ -21,7 +21,7 @@ class Content {
                 return this.element;
             case CurrentPage.ARTIST:
                 this.element = ArtistContent(this.element, loggedIn,
-                                            __Store.state.extraPageData.artist)
+                                            __Store.state.extraPageData.artist);
                 return this.element;
             case CurrentPage.OTHER_USER:
                 this.element = HomeContent(this.element, __Store.state.extraPageData.otherUser);

@@ -6,14 +6,14 @@
 
     const title = document.createElement("h2");
     title.textContent = "My Content";
-    title.classList.add("main-title")
+    title.classList.add("main-title");
 
-    const random=Math.floor(Math.random() * 18)
+    const random = Math.floor(Math.random() * 18);
     const songsContent = CardContainerSection([
         songCardDataNotPlayable("Track 1", "", "", takeSelect(getAllSongs(),random,1)),
     ]);
 
-    const random2=Math.floor(Math.random() * 18)
+    const random2 = Math.floor(Math.random() * 18);
     const songsContent2 = CardContainerSection([
         songCardDataNotPlayable("Track 2", "", "", takeSelect(getAllSongs(),random2,1)),
     ]);
@@ -25,7 +25,7 @@
 }
 
 
-const track1= stats([
+const track1 = stats([
     {
         text: "Views: "+ Math.floor(Math.random() * 10000 + 5000),
         iconPath: "./icons/icons8-sleepy-eyes-30 (1).png",
@@ -52,9 +52,9 @@ const track1= stats([
     }
 ]);
 
-const track2= stats([
+const track2 = stats([
     {
-        text: "Views: "+ Math.floor(Math.random() * 10000 + 5000),
+        text: "Views: " + Math.floor(Math.random() * 10000 + 5000),
         iconPath: "./icons/icons8-sleepy-eyes-30 (1).png",
         alt: "Views icon",
         clickHandler: undefined
@@ -115,7 +115,7 @@ function songCardDataNotPlayable(title, id, mensaje, songs) {
  * @return {HTMLFormElement}
  */
  function uploadButton(btnsData) {
-    const formId="form"
+    const formId = "form"
     const buttons = ButtonSection(btnsData);
     const ret = appendChildren([BigFormMsg(), buttons], document.createElement("form"));
 
