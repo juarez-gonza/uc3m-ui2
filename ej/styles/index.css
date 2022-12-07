@@ -754,13 +754,12 @@ form:invalid.form button[type="submit"] {
     transform: scale(1.05);
 }
 
-/* user content statistics stuff */
-/*
-.main-content ul.statistics {
-    display: flex;
-    justify-content: center;
+.main-nav ul li img.lang-selection {
+    width: 30px;
 }
-*/
+
+
+/* user content statistics stuff */
 
 .main-content ul.statistics li {
     display: flex;

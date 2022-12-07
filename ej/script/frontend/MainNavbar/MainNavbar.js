@@ -48,8 +48,14 @@ function MainNavbarDefault(root) {
     signInRef.textContent = "Sign In";
     signInRef.addEventListener("click", setOpenModalHandler("Register", SignInForm));
 
+    const language = document.createElement("li");
+    const languageImg = document.createElement("img");
+    languageImg.src = "./icons/icons8-uk-flag-64.png";
+    languageImg.classList.add("lang-selection");
+
     rightside.appendChild(logIn).appendChild(logInRef);
     rightside.appendChild(signIn).appendChild(signInRef);
+    rightside.appendChild(language).appendChild(languageImg);
 
     return appendChildren([leftside, center, rightside], root);
 }
@@ -97,7 +103,13 @@ function MainNavbarProfile(root, user) {
             {text: "Profile", clickHandler: () => logIn(user)},
             {text: "Log out", clickHandler: setOpenModalHandler("Are you sure you want to log out?", LogOutForm)}]));
 
+    const language = document.createElement("li");
+    const languageImg = document.createElement("img");
+    languageImg.src = "./icons/icons8-uk-flag-64.png";
+    languageImg.classList.add("lang-selection");
+
     rightside.appendChild(userMenu).appendChild(userImg);
+    rightside.appendChild(language).appendChild(languageImg);
 
     return appendChildren([leftside, center, rightside], root);
 }
