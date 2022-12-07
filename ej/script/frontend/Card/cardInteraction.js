@@ -72,12 +72,8 @@ function deleteButton(onClickHandler) {
 function DeletableCardSection(cardContainerSection, setOnContainerDelete) {
     return cardContainerSection.map(cardContainer => {
         cardContainer.classList.add("deletable");
-        insertAfter(
-            deleteButton(
-                setOnContainerDelete(cardContainer)
-            ),
-            cardContainer.querySelector(".card-container")
-        );
+        insertAfter(deleteButton(setOnContainerDelete(cardContainer)),
+                    cardContainer.querySelector(".card-container"));
         return cardContainer;
     });
 }
