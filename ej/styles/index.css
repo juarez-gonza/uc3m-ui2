@@ -561,7 +561,7 @@ form:invalid.form button[type="submit"] {
     justify-content: space-between;
     align-items: stretch;
 
-    background-color: var(--pinkish);
+    background-color: var(--purple0);
     border-radius: 4px;
 
     position: relative;

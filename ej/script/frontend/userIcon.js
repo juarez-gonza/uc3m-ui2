@@ -32,6 +32,7 @@ function _UserIconImgOnly(iconData) {
     const {user, clickHandler} = iconData;
     const ret = document.createElement("img");
     ret.src = userImgOrDefault(user);
+    ret.alt = `${user._id}-profile-img`;
     if (clickHandler !== undefined)
         ret.addEventListener("click", clickHandler);
     ret.classList.add("profile-img");

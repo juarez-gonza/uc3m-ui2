@@ -10,15 +10,18 @@ function Searchbar(placeholder, finder, onEnter) {
     const ret = document.createElement("div");
     ret.classList.add("big-input");
 
+    const searchLabel = document.createElement("label");
+    searchLabel.htmlFor = "search-input";
     const searchInput = document.createElement("input");
     searchInput.placeholder = placeholder;
     searchInput.type = "text";
+    searchInput.name = "search-input"
     searchInput.addEventListener("keypress", e => {
         if (e.key === "Enter")
           onEnter(finder(searchInput.value));
     });
     
-    ret.appendChild(searchInput);
+    ret.appendChild(searchLabel).appendChild(searchInput);
 
     return ret;
 }

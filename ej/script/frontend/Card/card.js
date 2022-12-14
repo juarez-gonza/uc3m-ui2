@@ -131,7 +131,7 @@ function SongCard(songData) {
         <div class="thumbnail">
             <img class="theme-img" src="${imgPath}" alt="${title}">
             ${playable ? `
-            <img class="play-button" src="./icons/icons8-play-button-circled-48.png">
+            <img class="play-button" src="./icons/icons8-play-button-circled-48.png" alt="${title}-play-button">
             <audio controls>
                 <source src="${songPath}" type="audio/mpeg">
                 Your browser doest not support the audio tag
@@ -147,6 +147,7 @@ function SongCard(songData) {
 
     if (likeable !== undefined) {
         const likeButton = LikeButton(likeable.liked);
+        likeButton.alt = `${title}-like-button`;
         const likeSection = document.createElement("div")
         likeSection.classList.add("like-button-section");
         ret.appendChild(likeSection).appendChild(likeButton);
@@ -183,7 +184,7 @@ function ArtistCard(artistData) {
     ret.id = artist._id;
 
     ret.innerHTML = `
-        <img src=${findSomeArtistImg(artist)}>
+        <img src=${findSomeArtistImg(artist)} alt="${artist._id}-img">
         <div class="description"><h6>${artist.name}</h6></div>
     `;
     return addCommonProperties(ret, commonProperties);
@@ -237,6 +238,7 @@ const __Filled_Heart_Path = "./icons/icons8-heart-50(1).png";
 const __Cleared_Heart_Path =  "./icons/icons8-heart-50.png";
 /**
  * @param {boolean} liked
+ * @return {HTMLImageElement}
  */
 function LikeButton(liked) {
     const img = document.createElement("img");

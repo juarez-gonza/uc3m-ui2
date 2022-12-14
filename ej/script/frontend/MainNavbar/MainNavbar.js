@@ -27,7 +27,7 @@ function MainNavbarDefault(root) {
     const leftside = document.createElement("div");
     leftside.classList.add("home-section");
     leftside.innerHTML = `
-        <img alt="app image" src="./icons/icons8-video-playlist-40.png">
+        <img alt="app-image" src="./icons/icons8-video-playlist-40.png">
         <h2>SoundSound</h2>
     `;
     leftside.addEventListener("click", logOut);
@@ -50,6 +50,7 @@ function MainNavbarDefault(root) {
 
     const language = document.createElement("li");
     const languageImg = document.createElement("img");
+    languageImg.alt = "language-selection-img";
     languageImg.src = "./icons/icons8-uk-flag-64.png";
     languageImg.classList.add("lang-selection");
 
@@ -106,6 +107,7 @@ function MainNavbarProfile(root, user) {
     const language = document.createElement("li");
     const languageImg = document.createElement("img");
     languageImg.src = "./icons/icons8-uk-flag-64.png";
+    languageImg.alt = "language-selection-img";
     languageImg.classList.add("lang-selection");
 
     rightside.appendChild(userMenu).appendChild(userImg);

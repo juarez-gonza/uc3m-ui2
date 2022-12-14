@@ -14,9 +14,11 @@ function MusicPlayer(footer) {
     const play = document.createElement("img");
     play.classList.add("play-button");
     play.src = "./icons/icons8-play-button-circled-48.png";
+    play.alt = "controls-play-button";
 
     const pause = document.createElement("img");
     pause.src = "./icons/icons8-pause-squared-48.png";
+    pause.alt = "controls-pause-button";
     pause.classList.add("pause-button");
     appendChildren([play, pause], controls);
 
@@ -43,7 +45,7 @@ function MusicPlayer(footer) {
 function playingThemeImg(imgSrc, songName, artistName) {
     const ret = document.createElement("div");
     ret.innerHTML = `
-        <img src="${imgSrc}">
+        <img src="${imgSrc}" alt="playing-theme-img">
         <div>
             <span>${songName}</span>
             <span>${artistName}</span>
