@@ -14,7 +14,7 @@ function songsCardData(title, id, mensaje, songs, setCommonProperties=()=>__NoCa
         containerType: CardContainerType.SongCard,
         data: songs.map(s => ({
             song: s,
-            playable: true,
+            playable: __Store.state.loggedIn !== null,
             likeable: likeableByLoggedIn(s),
             commonProperties: setCommonProperties(s),
         }))
