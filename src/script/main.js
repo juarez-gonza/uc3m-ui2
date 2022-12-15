@@ -118,11 +118,12 @@ function initUsers(artists, songs, albums, userData) {
    });
 
    // que los usuarios se sigan mutuamente
-   for (let i = 0; i < 5; i++)
-      for (const u1 of users)
-         for (const u2 of users)
-            if (u1._id !== u2._id)
-               u1.followUser(u2._id)
+   for (const u1 of users)
+      for (const u2 of users)
+         if (u1._id !== u2._id) {
+            u1.followUser(u2._id);
+            u2.followUser(u1._id);
+         }
    return users;
 }
 
