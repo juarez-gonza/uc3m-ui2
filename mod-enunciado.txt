@@ -1,5 +1,0 @@
-Login google/fb no funcional
-Buscador no necesita buscar en la totalidad de canciones
-Solo hace falta una pagina completa de artista
-  - 5 canciones funcionales
-  - 10-15 canciones en total

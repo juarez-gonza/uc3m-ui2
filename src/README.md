@@ -26,3 +26,7 @@ Cantidad total de líneas de código: 5120
 Cantidad de líneas en archivos archivos .html: 77
 Cantidad de líneas de código en archivos .css: 1014
 Cantidad de líneas de código en archivos .js: 4029
+
+# Interfaces de Usuario. Tercera Entrega
+
+Cantidad total de líneas de código: 6287
